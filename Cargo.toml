@@ -8,3 +8,4 @@ name = "file_io"
 path = "src/file_io.rs"
 
 [dependencies]
+either = "1.9"
