@@ -156,12 +156,12 @@ mod tests {
     fn test_sync_non_existent_source() {
         let source = std::env::temp_dir().join("non_existent_src");
         let dest = std::env::temp_dir().join("test_dest");
-        
+
         fs::create_dir_all(&dest).unwrap();
-        
+
         let result = sync_directories(&source, &dest, false);
         assert!(result.is_err());
-        
+
         // Cleanup
         fs::remove_dir_all(dest).ok();
     }

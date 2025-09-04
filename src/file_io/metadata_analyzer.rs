@@ -85,14 +85,14 @@ mod tests {
         let temp_dir = std::env::temp_dir();
         let empty_dir = temp_dir.join("empty_dir_test");
         fs::create_dir_all(&empty_dir).unwrap();
-        
+
         let stats = analyze_directory(&empty_dir).unwrap();
         assert_eq!(stats.total_files, 0);
         assert_eq!(stats.total_dirs, 0);
         assert_eq!(stats.total_size, 0);
         assert!(stats.largest_file.is_none());
         assert!(stats.extensions.is_empty());
-        
+
         // Cleanup
         fs::remove_dir(empty_dir).ok();
     }
@@ -100,23 +100,23 @@ mod tests {
     #[test]
     fn test_nested_directories() {
         let temp_dir = std::env::temp_dir().join("nested_test");
-        
+
         // Create deeply nested structure
         fs::create_dir_all(temp_dir.join("a/b/c/d")).unwrap();
-        
+
         create_test_file(&temp_dir.join("root.txt"), b"root").unwrap();
         create_test_file(&temp_dir.join("a/level1.txt"), b"level1").unwrap();
         create_test_file(&temp_dir.join("a/b/level2.rs"), b"level2").unwrap();
         create_test_file(&temp_dir.join("a/b/c/level3.txt"), b"level3").unwrap();
         create_test_file(&temp_dir.join("a/b/c/d/level4.txt"), b"level4").unwrap();
-        
+
         let stats = analyze_directory(&temp_dir).unwrap();
-        
+
         assert_eq!(stats.total_files, 5);
         assert_eq!(stats.total_dirs, 4); // a, b, c, d
         assert_eq!(stats.extensions.get("txt"), Some(&4));
         assert_eq!(stats.extensions.get("rs"), Some(&1));
-        
+
         // Cleanup
         fs::remove_dir_all(temp_dir).ok();
     }

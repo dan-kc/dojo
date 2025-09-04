@@ -16,7 +16,10 @@
 //   2: RUST IS GREAT
 // Run tests with: cargo test --bin practice_text_processor
 
-pub fn process_text_file(input_path: &std::path::Path, output_path: &std::path::Path) -> std::io::Result<usize> {
+pub fn process_text_file(
+    input_path: &std::path::Path,
+    output_path: &std::path::Path,
+) -> std::io::Result<usize> {
     todo!("Implement text file processing with line numbers and uppercase transformation")
 }
 

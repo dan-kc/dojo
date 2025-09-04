@@ -1,4 +1,5 @@
 pub mod file_io;
+pub mod string_manipulation;
 
 pub fn add(left: u64, right: u64) -> u64 {
     left + right

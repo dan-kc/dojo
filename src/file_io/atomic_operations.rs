@@ -43,9 +43,8 @@ mod tests {
         create_test_file(&file_path, b"original content").unwrap();
 
         // Define transformation
-        let transform = |content: String| -> io::Result<String> {
-            Ok(content.to_uppercase() + " - MODIFIED")
-        };
+        let transform =
+            |content: String| -> io::Result<String> { Ok(content.to_uppercase() + " - MODIFIED") };
 
         // Perform safe replacement
         safe_file_replace(&file_path, transform).unwrap();
@@ -78,9 +77,8 @@ mod tests {
         // Create file with unicode content
         create_test_file(&file_path, "Hello 世界 🦀".as_bytes()).unwrap();
 
-        let transform = |content: String| -> io::Result<String> {
-            Ok(content.replace("Hello", "Goodbye"))
-        };
+        let transform =
+            |content: String| -> io::Result<String> { Ok(content.replace("Hello", "Goodbye")) };
 
         safe_file_replace(&file_path, transform).unwrap();
 
@@ -94,13 +92,11 @@ mod tests {
     #[test]
     fn test_safe_replace_non_existent_file() {
         let file_path = std::env::temp_dir().join("non_existent_file.txt");
-        
+
         // Make sure file doesn't exist
         fs::remove_file(&file_path).ok();
-        
-        let transform = |content: String| -> io::Result<String> {
-            Ok(content.to_uppercase())
-        };
+
+        let transform = |content: String| -> io::Result<String> { Ok(content.to_uppercase()) };
 
         let result = safe_file_replace(&file_path, transform);
         assert!(result.is_err());
@@ -118,7 +114,7 @@ mod tests {
             if content.contains("test") {
                 Err(io::Error::new(
                     io::ErrorKind::PermissionDenied,
-                    "Simulated permission error"
+                    "Simulated permission error",
                 ))
             } else {
                 Ok(content)

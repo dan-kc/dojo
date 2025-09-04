@@ -89,16 +89,11 @@ mod tests {
 "Smith, John","A person, with comma",100
 "Invalid",,200
 "Valid Product","Normal description",50"#;
-        
+
         create_test_file(&input_path, csv_content.as_bytes()).unwrap();
 
-        let (valid, invalid) = process_csv_with_validation(
-            &input_path,
-            &output_path,
-            &error_log_path,
-            3,
-        )
-        .unwrap();
+        let (valid, invalid) =
+            process_csv_with_validation(&input_path, &output_path, &error_log_path, 3).unwrap();
 
         // Should handle quoted fields properly
         assert_eq!(valid, 2); // "Smith, John" and "Valid Product"
@@ -120,13 +115,8 @@ mod tests {
         // Create empty CSV
         create_test_file(&input_path, b"").unwrap();
 
-        let (valid, invalid) = process_csv_with_validation(
-            &input_path,
-            &output_path,
-            &error_log_path,
-            3,
-        )
-        .unwrap();
+        let (valid, invalid) =
+            process_csv_with_validation(&input_path, &output_path, &error_log_path, 3).unwrap();
 
         assert_eq!(valid, 0);
         assert_eq!(invalid, 0);
@@ -147,13 +137,8 @@ mod tests {
         // CSV with only header
         create_test_file(&input_path, b"name,age,city").unwrap();
 
-        let (valid, invalid) = process_csv_with_validation(
-            &input_path,
-            &output_path,
-            &error_log_path,
-            3,
-        )
-        .unwrap();
+        let (valid, invalid) =
+            process_csv_with_validation(&input_path, &output_path, &error_log_path, 3).unwrap();
 
         assert_eq!(valid, 0);
         assert_eq!(invalid, 0);
@@ -179,13 +164,8 @@ mod tests {
         let csv_content = "name,age,city\nTooFew,1\nTooMany,2,3,4\n,,";
         create_test_file(&input_path, csv_content.as_bytes()).unwrap();
 
-        let (valid, invalid) = process_csv_with_validation(
-            &input_path,
-            &output_path,
-            &error_log_path,
-            3,
-        )
-        .unwrap();
+        let (valid, invalid) =
+            process_csv_with_validation(&input_path, &output_path, &error_log_path, 3).unwrap();
 
         assert_eq!(valid, 0);
         assert_eq!(invalid, 3);
