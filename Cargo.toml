@@ -1,0 +1,10 @@
+[package]
+name = "playground"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "file_io"
+path = "src/file_io.rs"
+
+[dependencies]
