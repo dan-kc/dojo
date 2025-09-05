@@ -6,17 +6,15 @@
 // - Practice generic constraints for arithmetic operations
 // - Handle edge cases with single elements and gaps
 //
-// Run with: cargo test --bin btree_consecutive_ranges
+// Run with: cargo test btree_consecutive_ranges
 
 /// Find all subranges in a BTreeSet where consecutive elements differ by exactly 1.
 /// Return the ranges as (start, end) pairs.
-fn find_consecutive_ranges<T>(
-    set: &std::collections::BTreeSet<T>,
-) -> Vec<(T, T)>
+fn find_consecutive_ranges<T>(set: &std::collections::BTreeSet<T>) -> Vec<(T, T)>
 where
     T: Ord + Clone + std::ops::Add<Output = T> + From<u8> + PartialEq,
 {
-    todo!("Implement consecutive range finding")
+    todo!()
 }
 
 #[cfg(test)]
@@ -26,9 +24,12 @@ mod tests {
 
     #[test]
     fn test_find_consecutive_ranges() {
-        let set: BTreeSet<i32> = [1, 2, 3, 5, 6, 10, 11, 12, 13, 20].iter().cloned().collect();
+        let set: BTreeSet<i32> = [1, 2, 3, 5, 6, 10, 11, 12, 13, 20]
+            .iter()
+            .cloned()
+            .collect();
         let ranges = find_consecutive_ranges(&set);
-        
+
         // Expected ranges: [1,3], [5,6], [10,13], and [20,20]
         assert_eq!(ranges.len(), 4);
         assert!(ranges.contains(&(1, 3)));
