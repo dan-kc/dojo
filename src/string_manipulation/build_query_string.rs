@@ -1,15 +1,13 @@
-// String Building and Query Construction Practice
+// Build URL Query String Practice
 //
 // Learning Objectives:
 // - Build strings efficiently using various methods
 // - Understand memory implications of string operations
 // - Handle URL encoding and query parameter construction
 // - Practice with iterator patterns and string formatting
-// - Implement builder pattern for complex string construction
+// - Work with HashMap and sorting
 //
-// Run tests with: cargo test --lib string_manipulation::string_builder
-
-use std::collections::HashMap;
+// cargo test --lib string_manipulation::build_query_string
 
 /// Builds a URL query string from a HashMap of parameters.
 ///
@@ -23,7 +21,7 @@ use std::collections::HashMap;
 /// 7. Return the query string without the leading '?'
 ///
 /// URL encoding rules:
-/// - Spaces become '%20' (or '+' in form encoding, but use '%20' for this exercise)
+/// - Spaces become '%20'
 /// - '&' becomes '%26'
 /// - '=' becomes '%3D'
 /// - Special characters should be percent-encoded
@@ -43,8 +41,8 @@ use std::collections::HashMap;
 /// let query = build_query_string(&params);
 /// assert_eq!(query, "age=30&name=John%20Doe");
 /// ```
-pub fn build_query_string(params: &HashMap<String, Option<String>>) -> String {
-    todo!()
+pub fn build_query_string(params: &std::collections::HashMap<String, Option<String>>) -> String {
+    todo!("Implement URL query string building with encoding and sorting")
 }
 
 /// Helper function to URL-encode a string
@@ -52,12 +50,27 @@ pub fn build_query_string(params: &HashMap<String, Option<String>>) -> String {
 /// This function should properly encode special characters according to URL encoding rules.
 /// For learning purposes, implement this without using external crates.
 fn url_encode(input: &str) -> String {
-    todo!()
+    let mut result = String::with_capacity(input.len() * 3);
+    for ch in input.chars() {
+        match ch {
+            'A'..='Z' | 'a'..='z' | '0'..='9' | '-' | '_' | '.' | '~' => {
+                result.push(ch);
+            }
+            ' ' => result.push_str("%20"),
+            _ => {
+                for byte in ch.to_string().bytes() {
+                    result.push_str(&format!("%{:02X}", byte));
+                }
+            }
+        }
+    }
+    result
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::collections::HashMap;
 
     #[test]
     fn test_basic_query_string() {

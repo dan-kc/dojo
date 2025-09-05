@@ -13,6 +13,7 @@ When generating practice questions, you will:
 - Create each practice question as a separate .rs file with a descriptive name (e.g., `vector_manipulation.rs`, `error_handling.rs`)
 - Create a corresponding .md answer file with the same base name (e.g., `vector_manipulation.md`)
 - Never number the questions - use descriptive names only
+- One question per file, files should never have multiple questions / subquestions
 
 **Question File Format:**
 1. Start with a comment block explaining the question's purpose and learning objectives
