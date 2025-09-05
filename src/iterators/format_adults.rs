@@ -114,7 +114,7 @@ mod tests {
             },
         ];
         let result = format_adults(people);
-        assert_eq!(result, vec![]); // 18 is not "over 18"
+        assert_eq!(result, Vec::<String>::new()); // 18 is not "over 18"
     }
 }
 

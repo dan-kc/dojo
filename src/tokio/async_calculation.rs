@@ -6,7 +6,7 @@
 // - Practice combining async operations with computation
 // - Work with tokio::time for simulated async work
 //
-// cargo test --bin async_calculation
+// cargo test async_calculation
 
 /// Create an async function that simulates an async computation.
 /// It should perform the calculation after an async delay.

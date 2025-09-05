@@ -33,7 +33,7 @@ mod tests {
     fn test_top_k_frequent_words_empty() {
         let text = "";
         let result = top_k_frequent_words(text, 3);
-        assert_eq!(result, vec![]);
+        assert_eq!(result, Vec::<String>::new());
     }
 
     #[test]

@@ -71,16 +71,17 @@ mod tests {
         assert_eq!(holder.get_prefix(5), "");
     }
 
-    #[test]
-    fn test_text_holder_lifetime_scope() {
-        let holder = {
-            let text = String::from("temporary");
-            TextHolder::new(&text)
-        }; // text goes out of scope here
-        // This test verifies the struct compiles correctly with lifetime annotations
-        // In actual usage, the above would cause a compilation error
-        assert_eq!(holder.get_text().len(), 9);
-    }
+    // #[test]
+    // fn test_text_holder_lifetime_scope() {
+    //     // This test demonstrates what would NOT compile due to lifetime errors
+    //     let holder = {
+    //         let text = String::from("temporary");
+    //         TextHolder::new(&text)
+    //     }; // text goes out of scope here
+    //     // This test verifies the struct compiles correctly with lifetime annotations
+    //     // In actual usage, the above would cause a compilation error
+    //     assert_eq!(holder.get_text().len(), 9);
+    // }
 }
 
 fn main() {

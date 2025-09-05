@@ -65,7 +65,7 @@ mod tests {
     #[tokio::test]
     async fn test_async_transformation() {
         let items = vec![-3, -1, 0, 1, 3];
-        let processor = |x| async move {
+        let processor = |x: i32| async move {
             sleep(Duration::from_millis(1)).await;
             x.abs() + 10
         };

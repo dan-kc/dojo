@@ -26,7 +26,8 @@ mod tests {
     async fn test_successful_completion() {
         let result = cancellable_task(30, None).await;
         assert!(result.is_ok());
-        assert!(result.unwrap().contains("completed") || !result.unwrap().is_empty());
+        let result_value = result.unwrap();
+        assert!(result_value.contains("completed") || !result_value.is_empty());
     }
 
     #[tokio::test]

@@ -95,9 +95,9 @@ mod tests {
     #[test]
     fn test_string_concatenation() {
         let pool = ThreadPool::new(3);
-        let input = vec!["Hello", " ", "World", "!"];
+        let input = vec!["Hello".to_string(), " ".to_string(), "World".to_string(), "!".to_string()];
         
-        let result = parallel_reduce(&pool, input, "", |a, b| {
+        let result = parallel_reduce(&pool, input, "".to_string(), |a, b| {
             format!("{}{}", a, b)
         });
         
@@ -131,7 +131,7 @@ mod tests {
         
         // Test with subtraction (not associative - order matters)
         // Result may vary with parallel execution
-        let result2 = parallel_reduce(&pool, input, 0, |a, b| a - b);
+        let result2: i32 = parallel_reduce(&pool, input, 0, |a, b| a - b);
         // Just ensure it completes without panic
         assert!(result2.abs() <= 100);
     }

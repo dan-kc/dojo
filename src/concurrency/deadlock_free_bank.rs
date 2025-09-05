@@ -70,18 +70,18 @@ mod tests {
 
     #[test]
     fn test_no_deadlock_under_stress() {
-        let bank = DeadlockFreeBank::new(vec![1000; 10]);
+        let bank = Arc::new(DeadlockFreeBank::new(vec![1000; 10]));
         
         // Create many concurrent transfers that could cause deadlocks
         let mut handles = Vec::new();
         
         for _ in 0..50 {
-            let bank_ref = &bank;
+            let bank_clone = bank.clone();
             let handle = thread::spawn(move || {
                 for i in 0..20 {
                     let from = i % 10;
                     let to = (i + 1) % 10;
-                    bank_ref.transfer(from, to, 10);
+                    bank_clone.transfer(from, to, 10);
                 }
             });
             handles.push(handle);
