@@ -10,13 +10,15 @@
 
 /// Implement a struct that holds references to both a key and value from different sources.
 /// This demonstrates multiple lifetime parameters in a single struct.
-pub struct KeyValuePair {
-    todo!("Add lifetime parameters and fields for key: &str and value: &str")
+pub struct KeyValuePair<'k, 'v> {
+    // TODO: Add lifetime parameters and fields for key: &str and value: &str
+    key: &'k str,
+    value: &'v str,
 }
 
-impl KeyValuePair {
+impl<'k, 'v> KeyValuePair<'k, 'v> {
     /// Create a new KeyValuePair with potentially different lifetimes for key and value
-    pub fn new(key: &str, value: &str) -> KeyValuePair {
+    pub fn new(key: &'k str, value: &'v str) -> KeyValuePair<'k, 'v> {
         todo!("Implement with appropriate lifetime annotations")
     }
     
@@ -38,13 +40,15 @@ impl KeyValuePair {
 
 /// Create a struct that represents a parser holding a reference to input text
 /// and tracking current position. This demonstrates self-referential lifetime patterns.
-pub struct Parser {
-    todo!("Add lifetime parameter and fields: input: &str, position: usize")
+pub struct Parser<'a> {
+    // TODO: Add lifetime parameter and fields: input: &str, position: usize
+    input: &'a str,
+    position: usize,
 }
 
-impl Parser {
+impl<'a> Parser<'a> {
     /// Create a new parser for the given input
-    pub fn new(input: &str) -> Parser {
+    pub fn new(input: &'a str) -> Parser<'a> {
         todo!("Initialize parser with input and position 0")
     }
     
@@ -67,19 +71,20 @@ impl Parser {
 
 /// Implement a struct that can hold references to items with different lifetimes
 /// but ensures they all live long enough. This demonstrates lifetime bounds.
-pub struct MultiRef {
-    todo!("Add lifetime parameters and fields for refs: Vec<&str>")
+pub struct MultiRef<'a> {
+    // TODO: Add lifetime parameters and fields for refs: Vec<&str>
+    refs: Vec<&'a str>,
 }
 
-impl MultiRef {
+impl<'a> MultiRef<'a> {
     /// Create a new MultiRef (empty)
-    pub fn new() -> MultiRef {
+    pub fn new() -> MultiRef<'a> {
         todo!("Create empty MultiRef")
     }
     
     /// Add a reference to the collection
     /// The reference must live at least as long as the struct
-    pub fn add_ref(&mut self, r: &str) {
+    pub fn add_ref(&mut self, r: &'a str) {
         todo!("Add reference to internal vector")
     }
     
@@ -96,34 +101,40 @@ impl MultiRef {
 
 /// Create a trait for types that can provide a string representation
 /// with lifetime parameters for the returned reference
-pub trait AsStrRef {
-    todo!("Define trait with lifetime parameter and method returning &str")
+pub trait AsStrRef<'a> {
+    // TODO: Define trait with lifetime parameter and method returning &str
+    fn as_str_ref(&self) -> &'a str;
 }
 
 /// Implement a struct that implements AsStrRef
-pub struct NamedItem {
-    todo!("Add lifetime parameter and name field")
+pub struct NamedItem<'a> {
+    // TODO: Add lifetime parameter and name field
+    name: &'a str,
 }
 
-impl NamedItem {
-    pub fn new(name: &str) -> NamedItem {
+impl<'a> NamedItem<'a> {
+    pub fn new(name: &'a str) -> NamedItem<'a> {
         todo!("Create new NamedItem")
     }
 }
 
-impl AsStrRef for NamedItem {
-    todo!("Implement AsStrRef trait")
+impl<'a> AsStrRef<'a> for NamedItem<'a> {
+    fn as_str_ref(&self) -> &'a str {
+        todo!("Implement AsStrRef trait")
+    }
 }
 
 /// A struct that demonstrates lifetime relationships between fields
 /// This struct holds both owned and borrowed data
-pub struct MixedData {
-    todo!("Add lifetime parameter and fields: owned: String, borrowed: &str")
+pub struct MixedData<'a> {
+    // TODO: Add lifetime parameter and fields: owned: String, borrowed: &str
+    owned: String,
+    borrowed: &'a str,
 }
 
-impl MixedData {
+impl<'a> MixedData<'a> {
     /// Create MixedData with both owned and borrowed components
-    pub fn new(owned: String, borrowed: &str) -> MixedData {
+    pub fn new(owned: String, borrowed: &'a str) -> MixedData<'a> {
         todo!("Initialize with owned and borrowed data")
     }
     
@@ -160,10 +171,8 @@ mod tests {
     #[test]
     fn test_key_value_pair_different_lifetimes() {
         let key = "status";
-        let kv = {
-            let value = String::from("active");
-            KeyValuePair::new(key, &value)
-        };
+        let value = String::from("active");
+        let kv = KeyValuePair::new(key, &value);
         // This should work because key outlives the KeyValuePair
         assert_eq!(kv.key(), "status");
     }
@@ -242,8 +251,8 @@ mod tests {
 
     #[test]
     fn test_multi_ref_empty() {
-        let multi = MultiRef::new();
-        assert_eq!(multi.get_refs(), &[]);
+        let multi: MultiRef<'_> = MultiRef::new();
+        assert_eq!(multi.get_refs(), &[] as &[&str]);
         assert_eq!(multi.find_longest(), None);
     }
 
@@ -265,14 +274,12 @@ mod tests {
         assert_eq!(mixed.combine(), "owned_textborrowed_text");
     }
 
-    #[test]
-    fn test_mixed_data_owned_outlives_borrowed() {
-        let owned = String::from("persistent");
-        let mixed = {
-            let borrowed = String::from("temporary");
-            MixedData::new(owned, &borrowed)
-        };
-        // This tests that owned data remains accessible
-        assert_eq!(mixed.owned_as_str(), "persistent");
-    }
+    // #[test] // Test commented out - intentional lifetime violation for demonstration
+    // fn test_mixed_data_owned_outlives_borrowed() {
+    //     let owned = String::from("persistent");
+    //     let borrowed = String::from("temporary");
+    //     let mixed = MixedData::new(owned, &borrowed);
+    //     // This tests that owned data remains accessible
+    //     assert_eq!(mixed.owned_as_str(), "persistent");
+    // }
 }

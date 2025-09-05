@@ -14,7 +14,8 @@ use std::rc::Rc;
 /// Implement a simple counter using RefCell for interior mutability.
 /// The counter should be shareable and mutable even through immutable references.
 pub struct Counter {
-    todo!("Add field: count: RefCell<usize>")
+    // TODO: Add field: count: RefCell<usize>
+    count: RefCell<usize>,
 }
 
 impl Counter {
@@ -48,7 +49,8 @@ impl Counter {
 /// Multiple owners can modify the same list.
 #[derive(Debug)]
 pub struct SharedList<T> {
-    todo!("Add field: data: Rc<RefCell<Vec<T>>>")
+    // TODO: Add field: data: Rc<RefCell<Vec<T>>>
+    data: Rc<RefCell<Vec<T>>>,
 }
 
 impl<T> SharedList<T> {
@@ -110,7 +112,8 @@ impl<T> SharedList<T> {
 
 /// Implement a cache with interior mutability that can be used through immutable references.
 pub struct MutableCache<K, V> {
-    todo!("Add field: cache: RefCell<std::collections::HashMap<K, V>>")
+    // TODO: Add field: cache: RefCell<std::collections::HashMap<K, V>>
+    cache: RefCell<std::collections::HashMap<K, V>>,
 }
 
 impl<K, V> MutableCache<K, V>
@@ -154,7 +157,8 @@ where
 
 /// Demonstrate Cell<T> for Copy types - a simpler alternative to RefCell<T>
 pub struct CellCounter {
-    todo!("Add field: count: Cell<i32>")
+    // TODO: Add field: count: Cell<i32>
+    count: Cell<i32>,
 }
 
 impl CellCounter {
@@ -186,7 +190,8 @@ impl CellCounter {
 
 /// Create a mock object that tracks method calls using interior mutability.
 pub struct MockService {
-    todo!("Add field: call_log: RefCell<Vec<String>>")
+    // TODO: Add field: call_log: RefCell<Vec<String>>
+    call_log: RefCell<Vec<String>>,
 }
 
 impl MockService {

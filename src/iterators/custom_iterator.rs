@@ -11,7 +11,10 @@
 /// A custom iterator that generates the Fibonacci sequence up to a maximum value.
 /// It should stop when the next value would exceed the maximum.
 pub struct FibonacciIterator {
-    todo!("Define fields needed to track Fibonacci state")
+    // TODO: Define fields needed to track Fibonacci state
+    current: u64,
+    next: u64,
+    max_value: u64,
 }
 
 impl FibonacciIterator {
@@ -32,7 +35,10 @@ impl std::iter::Iterator for FibonacciIterator {
 /// A custom iterator that yields every nth element from an underlying iterator.
 /// For example, EveryNth::new(vec![1,2,3,4,5,6].into_iter(), 2) yields [1, 3, 5]
 pub struct EveryNth<I> {
-    todo!("Define fields to track the underlying iterator and step size")
+    // TODO: Define fields to track the underlying iterator and step size
+    iter: I,
+    step: usize,
+    current_position: usize,
 }
 
 impl<I> EveryNth<I>
@@ -60,7 +66,10 @@ where
 /// A custom iterator that generates a sequence of numbers with a specified step size.
 /// Unlike the standard Range, this allows floating-point steps.
 pub struct FloatRange {
-    todo!("Define fields for current value, end value, and step size")
+    // TODO: Define fields for current value, end value, and step size
+    current: f64,
+    end: f64,
+    step: f64,
 }
 
 impl FloatRange {
@@ -82,7 +91,9 @@ impl std::iter::Iterator for FloatRange {
 /// A custom iterator that repeats elements from a source iterator infinitely.
 /// When the source iterator is exhausted, it restarts from the beginning.
 pub struct CycleOwned<T> {
-    todo!("Define fields to store the original data and current position")
+    // TODO: Define fields to store the original data and current position
+    items: Vec<T>,
+    position: usize,
 }
 
 impl<T> CycleOwned<T>

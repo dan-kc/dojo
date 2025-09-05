@@ -16,7 +16,8 @@ use std::sync::{Arc, Mutex};
 /// Implement a thread-safe shared cache using Arc<Mutex<T>>.
 /// Multiple threads can safely read and write to the same cache.
 pub struct ThreadSafeCache<K, V> {
-    todo!("Add field: data: Arc<Mutex<HashMap<K, V>>>")
+    // TODO: Add field: data: Arc<Mutex<HashMap<K, V>>>
+    data: Arc<Mutex<HashMap<K, V>>>,
 }
 
 impl<K, V> ThreadSafeCache<K, V>
@@ -66,7 +67,10 @@ where
 /// Create a complex tree structure with parent-child relationships using multiple smart pointers.
 /// Parents hold strong references to children, children hold weak references to parents.
 pub struct TreeNodeComplex<T> {
-    todo!("Add fields: value: T, children: RefCell<Vec<Rc<TreeNodeComplex<T>>>>, parent: RefCell<Option<Weak<TreeNodeComplex<T>>>>")
+    // TODO: Add fields: value: T, children: RefCell<Vec<Rc<TreeNodeComplex<T>>>>, parent: RefCell<Option<Weak<TreeNodeComplex<T>>>>
+    value: T,
+    children: RefCell<Vec<Rc<TreeNodeComplex<T>>>>,
+    parent: RefCell<Option<Weak<TreeNodeComplex<T>>>>,
 }
 
 impl<T> TreeNodeComplex<T> {
@@ -121,7 +125,8 @@ impl<T> TreeNodeComplex<T> {
 /// Implement a publish-subscribe system using smart pointers.
 /// Publishers can notify multiple subscribers, subscribers can be dropped independently.
 pub struct Publisher<T> {
-    todo!("Add field: subscribers: RefCell<Vec<Weak<dyn Subscriber<T>>>>")
+    // TODO: Add field: subscribers: RefCell<Vec<Weak<dyn Subscriber<T>>>>
+    subscribers: RefCell<Vec<Weak<dyn Subscriber<T>>>>,
 }
 
 pub trait Subscriber<T> {
@@ -160,7 +165,9 @@ where
 
 /// Example subscriber implementation
 pub struct LoggingSubscriber {
-    todo!("Add field: name: String, logs: RefCell<Vec<String>>")
+    // TODO: Add field: name: String, logs: RefCell<Vec<String>>
+    name: String,
+    logs: RefCell<Vec<String>>,
 }
 
 impl LoggingSubscriber {
@@ -181,7 +188,9 @@ impl Subscriber<String> for LoggingSubscriber {
 
 /// Create a memory pool using smart pointers for efficient allocation/deallocation.
 pub struct MemoryPool<T> {
-    todo!("Add fields: available: RefCell<Vec<Box<T>>>, allocated: RefCell<Vec<Weak<RefCell<T>>>>")
+    // TODO: Add fields: available: RefCell<Vec<Box<T>>>, allocated: RefCell<Vec<Weak<RefCell<T>>>>
+    available: RefCell<Vec<Box<T>>>,
+    allocated: RefCell<Vec<Weak<RefCell<T>>>>,
 }
 
 impl<T> MemoryPool<T>
@@ -211,11 +220,15 @@ where
 
 /// Demonstrate a complex data structure: a graph with nodes that can reference each other.
 pub struct Graph<T> {
-    todo!("Add field: nodes: RefCell<HashMap<usize, Rc<GraphNode<T>>>>")
+    // TODO: Add field: nodes: RefCell<HashMap<usize, Rc<GraphNode<T>>>>
+    nodes: RefCell<HashMap<usize, Rc<GraphNode<T>>>>,
 }
 
 pub struct GraphNode<T> {
-    todo!("Add fields: id: usize, value: T, edges: RefCell<Vec<Weak<GraphNode<T>>>>")
+    // TODO: Add fields: id: usize, value: T, edges: RefCell<Vec<Weak<GraphNode<T>>>>
+    id: usize,
+    value: T,
+    edges: RefCell<Vec<Weak<GraphNode<T>>>>,
 }
 
 impl<T> Graph<T> {
@@ -344,7 +357,7 @@ mod tests {
         
         let found = root.find_node(&3);
         assert!(found.is_some());
-        assert_eq!(*found.unwrap().value, 3);
+        assert_eq!(found.unwrap().value, 3);
         
         let not_found = root.find_node(&999);
         assert!(not_found.is_none());

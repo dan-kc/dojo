@@ -6,7 +6,7 @@
 // iterator patterns, memory-efficient operations, and error handling.
 
 pub mod pattern_matcher;
-pub mod string_builder;
+// pub mod string_builder; // File missing - commented out to fix compilation
 pub mod string_formatter;
 pub mod text_parser;
 pub mod unicode_processor;
@@ -14,7 +14,7 @@ pub mod word_counter;
 
 // Re-export the main functions for convenience
 pub use pattern_matcher::extract_urls;
-pub use string_builder::build_query_string;
+// pub use string_builder::build_query_string; // File missing - commented out to fix compilation
 pub use string_formatter::format_person_data;
 pub use text_parser::parse_key_value_pairs;
 pub use unicode_processor::normalize_text;

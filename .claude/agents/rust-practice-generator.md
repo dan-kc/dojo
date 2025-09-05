@@ -40,5 +40,6 @@ For each .md file, provide:
 - Include helpful test names that describe what's being tested
 - Provide clear, educational value in each question
 - Balance challenge level appropriately for skill building
+- Ensure that cargo check can run successfully. If you need to comment out part of the question to enable this then do so.
 
 Always ask for clarification if the user wants questions focused on specific Rust concepts, difficulty levels, or particular areas of the standard library.
