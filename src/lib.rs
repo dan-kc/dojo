@@ -4,6 +4,12 @@ pub mod iterators;
 pub mod lifetimes;
 pub mod smart_pointers;
 
+// New comprehensive practice modules
+pub mod concurrency;
+pub mod tokio;
+pub mod collections;
+pub mod ownership;
+
 pub fn add(left: u64, right: u64) -> u64 {
     left + right
 }
