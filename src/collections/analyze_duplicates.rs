@@ -24,7 +24,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::collections::{HashMap, HashSet};
+    use std::collections::HashSet;
 
     #[test]
     fn test_analyze_duplicates() {
@@ -35,7 +35,6 @@ mod tests {
         ];
 
         let (duplicates, frequencies) = analyze_duplicates(collections);
-
         let expected_duplicates: HashSet<char> = ['a', 'b', 'c', 'd'].iter().cloned().collect();
         assert_eq!(duplicates, expected_duplicates);
 
