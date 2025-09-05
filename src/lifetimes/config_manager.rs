@@ -9,29 +9,33 @@
 
 /// Implement a configuration manager that holds references to static configuration data
 /// and can also hold references to runtime data with different lifetimes.
-pub struct ConfigManager {
-    todo!("Add fields: static_config: &'static str, runtime_config: Option<&str>")
+pub struct ConfigManager<'a> {
+    static_config: &'static str,
+    runtime_config: Option<&'a str>,
 }
 
-impl ConfigManager {
+impl<'a> ConfigManager<'a> {
     /// Create a new ConfigManager with static configuration
-    pub fn new(static_config: &'static str) -> ConfigManager {
-        todo!("Initialize with static config and None for runtime config")
+    pub fn new(static_config: &'static str) -> ConfigManager<'a> {
+        ConfigManager {
+            static_config,
+            runtime_config: None,
+        }
     }
     
     /// Add runtime configuration that may have a shorter lifetime
-    pub fn add_runtime_config(&mut self, runtime_config: &str) {
-        todo!("Set the runtime_config field")
+    pub fn add_runtime_config(&mut self, runtime_config: &'a str) {
+        self.runtime_config = Some(runtime_config);
     }
     
     /// Get the effective configuration (runtime overrides static if present)
     pub fn get_effective_config(&self) -> &str {
-        todo!("Return runtime config if present, otherwise static config")
+        self.runtime_config.unwrap_or(self.static_config)
     }
     
     /// Get only the static configuration
     pub fn get_static_config(&self) -> &'static str {
-        todo!("Return static config")
+        self.static_config
     }
 }
 

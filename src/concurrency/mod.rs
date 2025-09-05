@@ -32,3 +32,18 @@ pub mod thread_pool_implementation;
 pub mod parallel_map;
 pub mod parallel_reduce;
 pub mod parallel_prime_sieve;
+
+// Deadlock prevention patterns
+pub mod dining_philosophers;
+pub mod deadlock_free_bank;
+pub mod timeout_resource_manager;
+pub mod hierarchical_locking;
+
+// Send and Sync trait patterns
+pub mod thread_safe_counter;
+pub mod send_wrapper;
+pub mod non_send_container;
+pub mod thread_local_storage;
+pub mod custom_shared_ptr;
+pub mod send_not_sync;
+pub mod send_to_thread_utils;

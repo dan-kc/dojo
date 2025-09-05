@@ -1,5 +1,13 @@
 // Lifetime practice modules
-// pub mod lifetime_basics; // File missing - commented out to fix compilation
+
+// Basic lifetime operations
+pub mod longer_string;
+pub mod split_first_word;
+pub mod find_longest_string;
+pub mod repeat_longer_owned;
+pub mod after_char;
+
+// Advanced lifetime patterns
+pub mod text_holder;
+pub mod config_manager;
 pub mod lifetime_structs;
-// pub mod lifetime_generics; // File missing - commented out to fix compilation
-// pub mod lifetime_advanced; // File missing - commented out to fix compilation

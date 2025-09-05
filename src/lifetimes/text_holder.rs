@@ -9,24 +9,28 @@
 
 /// Fix this struct definition and its method to properly handle lifetimes.
 /// The struct should hold a reference to a string slice.
-pub struct TextHolder {
-    todo!("Add lifetime parameter and field")
+pub struct TextHolder<'a> {
+    text: &'a str,
 }
 
-impl TextHolder {
+impl<'a> TextHolder<'a> {
     /// Create a new TextHolder with the given text reference
-    pub fn new(text: &str) -> TextHolder {
-        todo!("Implement constructor with proper lifetime handling")
+    pub fn new(text: &'a str) -> TextHolder<'a> {
+        TextHolder { text }
     }
     
     /// Return the held text
     pub fn get_text(&self) -> &str {
-        todo!("Return the stored text reference")
+        self.text
     }
     
     /// Return the first n characters of the held text
     pub fn get_prefix(&self, n: usize) -> &str {
-        todo!("Return prefix with correct lifetime relationship")
+        if n >= self.text.len() {
+            self.text
+        } else {
+            &self.text[..n]
+        }
     }
 }
 

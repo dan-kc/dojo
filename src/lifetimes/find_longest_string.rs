@@ -10,8 +10,8 @@
 /// Implement a function that takes a vector of string slices and returns
 /// the one with the maximum length. Return None if the vector is empty.
 /// Consider the lifetime relationship between input and output.
-pub fn find_longest_string(strings: &[&str]) -> Option<&str> {
-    todo!("Handle lifetimes when returning reference from collection")
+pub fn find_longest_string<'a>(strings: &'a [&'a str]) -> Option<&'a str> {
+    strings.iter().max_by_key(|s| s.len()).copied()
 }
 
 #[cfg(test)]
