@@ -9,6 +9,7 @@ pub mod concurrency;
 pub mod tokio;
 pub mod collections;
 pub mod ownership;
+pub mod axum;
 
 pub fn add(left: u64, right: u64) -> u64 {
     left + right
