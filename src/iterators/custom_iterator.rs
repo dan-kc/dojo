@@ -194,7 +194,7 @@ mod tests {
     #[test]
     fn test_float_range_empty() {
         let range: Vec<f64> = FloatRange::new(5.0, 3.0, 1.0).collect();
-        assert_eq!(range, vec![]);
+        assert_eq!(range, Vec::<f64>::new());
     }
 
     #[test]

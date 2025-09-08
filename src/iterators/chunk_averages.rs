@@ -43,14 +43,14 @@ mod tests {
     fn test_chunk_averages_empty() {
         let numbers = [];
         let result = chunk_averages(&numbers, 3);
-        assert_eq!(result, vec![]);
+        assert_eq!(result, Vec::<f64>::new());
     }
 
     #[test]
     fn test_chunk_averages_chunk_size_zero() {
         let numbers = [1.0, 2.0, 3.0];
         let result = chunk_averages(&numbers, 0);
-        assert_eq!(result, vec![]); // chunks(0) returns empty iterator
+        assert_eq!(result, Vec::<f64>::new()); // chunks(0) returns empty iterator
     }
 }
 

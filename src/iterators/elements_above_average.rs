@@ -37,14 +37,14 @@ mod tests {
             vec![5, 5],    // avg = 5.0, no elements above
         ];
         let result = elements_above_average(&data);
-        assert_eq!(result, vec![]);
+        assert_eq!(result, Vec::<i32>::new());
     }
 
     #[test]
     fn test_elements_above_average_empty_data() {
         let data: Vec<Vec<i32>> = vec![];
         let result = elements_above_average(&data);
-        assert_eq!(result, vec![]);
+        assert_eq!(result, Vec::<i32>::new());
     }
 
     #[test]
@@ -65,7 +65,7 @@ mod tests {
             vec![42], // Single element, avg = 42.0, nothing above
         ];
         let result = elements_above_average(&data);
-        assert_eq!(result, vec![]);
+        assert_eq!(result, Vec::<i32>::new());
     }
 }
 

@@ -29,7 +29,7 @@ mod tests {
     fn test_sliding_window_sums_insufficient_elements() {
         let numbers = vec![1, 2];
         let result = sliding_window_sums(numbers);
-        assert_eq!(result, vec![]);
+        assert_eq!(result, Vec::<i32>::new());
     }
 
     #[test]
@@ -50,7 +50,7 @@ mod tests {
     fn test_sliding_window_sums_empty() {
         let numbers = vec![];
         let result = sliding_window_sums(numbers);
-        assert_eq!(result, vec![]);
+        assert_eq!(result, Vec::<i32>::new());
     }
 
     #[test]

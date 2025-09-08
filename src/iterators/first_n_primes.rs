@@ -47,7 +47,7 @@ mod tests {
     #[test]
     fn test_first_n_primes_zero() {
         let primes = first_n_primes(0);
-        assert_eq!(primes, vec![]);
+        assert_eq!(primes, Vec::<u32>::new());
     }
 
     #[test]

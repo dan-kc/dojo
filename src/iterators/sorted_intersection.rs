@@ -31,7 +31,7 @@ mod tests {
         let first = vec![1, 2, 3];
         let second = vec![4, 5, 6];
         let result = sorted_intersection(first, second);
-        assert_eq!(result, vec![]);
+        assert_eq!(result, Vec::<i32>::new());
     }
 
     #[test]
@@ -47,7 +47,7 @@ mod tests {
         let first = vec![];
         let second = vec![1, 2, 3];
         let result = sorted_intersection(first, second);
-        assert_eq!(result, vec![]);
+        assert_eq!(result, Vec::<i32>::new());
     }
 
     #[test]
@@ -55,7 +55,7 @@ mod tests {
         let first = vec![1, 2, 3];
         let second = vec![];
         let result = sorted_intersection(first, second);
-        assert_eq!(result, vec![]);
+        assert_eq!(result, Vec::<i32>::new());
     }
 
     #[test]
