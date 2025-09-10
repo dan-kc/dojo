@@ -6,7 +6,7 @@
 // - Practice consuming multiple collections
 // - Understand ordered merging strategies
 //
-// Run with: cargo test --bin btree_merge_maps
+// Run with: cargo test btree_merge_maps
 
 /// Merge multiple sorted BTreeMaps, combining values for duplicate keys.
 /// Use a combining function to handle value conflicts.
@@ -19,7 +19,7 @@ where
     V: Clone,
     F: Fn(V, V) -> V,
 {
-    todo!("Implement merging of sorted BTreeMaps")
+    todo!()
 }
 
 #[cfg(test)]
@@ -32,22 +32,22 @@ mod tests {
         let mut map1 = BTreeMap::new();
         map1.insert("a", 1);
         map1.insert("c", 3);
-        
+
         let mut map2 = BTreeMap::new();
         map2.insert("b", 2);
         map2.insert("c", 5); // Conflict with map1
-        
+
         let mut map3 = BTreeMap::new();
         map3.insert("d", 4);
         map3.insert("c", 7); // Another conflict
-        
+
         let merged = merge_sorted_btreemaps(vec![map1, map2, map3], |v1, v2| v1 + v2);
-        
+
         assert_eq!(merged.get("a"), Some(&1));
         assert_eq!(merged.get("b"), Some(&2));
         assert_eq!(merged.get("c"), Some(&15)); // 3 + 5 + 7
         assert_eq!(merged.get("d"), Some(&4));
-        
+
         // Verify ordering is maintained
         let keys: Vec<_> = merged.keys().collect();
         assert_eq!(keys, vec![&"a", &"b", &"c", &"d"]);
