@@ -13,15 +13,18 @@ where
     F: Fn(V, V) -> V,
 {
     let mut result = std::collections::BTreeMap::new();
-    
+
     for map in maps {
         for (key, value) in map {
-            result.entry(key)
-                .and_modify(|existing| *existing = combine_fn(existing.clone(), value.clone()))
+            result
+                .entry(key)
+                .and_modify(|existing: &mut V| {
+                    *existing = combine_fn(existing.clone(), value.clone())
+                })
                 .or_insert(value);
         }
     }
-    
+
     result
 }
 ```
