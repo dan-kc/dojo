@@ -6,18 +6,19 @@
 // - Handle edge cases for min/max elements
 // - Practice ordered navigation in BTree collections
 //
-// Run with: cargo test --bin btree_predecessor_successor
+// Run with: cargo test btree_predecessor_successor
 
 /// Implement efficient predecessor/successor queries in BTreeSet.
 /// Find the largest element < target and smallest element > target.
+#[allow(dead_code)]
 fn find_predecessor_successor<T>(
-    set: &std::collections::BTreeSet<T>,
-    target: &T,
+    #[allow(unused_variables)] set: &std::collections::BTreeSet<T>,
+    #[allow(unused_variables)] target: &T,
 ) -> (Option<T>, Option<T>)
 where
     T: Ord + Clone,
 {
-    todo!("Implement predecessor/successor finding")
+    todo!()
 }
 
 #[cfg(test)]
@@ -28,22 +29,22 @@ mod tests {
     #[test]
     fn test_find_predecessor_successor() {
         let set: BTreeSet<i32> = [1, 3, 5, 7, 9, 11].iter().cloned().collect();
-        
+
         // Target in set
         let (pred, succ) = find_predecessor_successor(&set, &5);
         assert_eq!(pred, Some(3));
         assert_eq!(succ, Some(7));
-        
+
         // Target not in set
         let (pred, succ) = find_predecessor_successor(&set, &6);
         assert_eq!(pred, Some(5));
         assert_eq!(succ, Some(7));
-        
+
         // Target smaller than all elements
         let (pred, succ) = find_predecessor_successor(&set, &0);
         assert_eq!(pred, None);
         assert_eq!(succ, Some(1));
-        
+
         // Target larger than all elements
         let (pred, succ) = find_predecessor_successor(&set, &20);
         assert_eq!(pred, Some(11));

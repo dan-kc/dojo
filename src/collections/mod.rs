@@ -61,7 +61,6 @@ pub mod btree_merge_maps;
 pub mod btree_set_operations;
 pub mod btree_consecutive_ranges;
 pub mod btree_timeline;
-pub mod btree_performance_comparison;
 pub mod btree_custom_ordering;
 pub mod btree_predecessor_successor;
 pub mod btree_simple_index;
