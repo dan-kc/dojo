@@ -209,28 +209,6 @@ mod tests {
     }
 
     #[test]
-    fn test_config_builder() {
-        let config = ConfigBuilder::new()
-            .name("test-config".to_string())
-            .timeout(5000)
-            .retries(3)
-            .build()
-            .unwrap();
-        
-        assert_eq!(config, Config {
-            name: "test-config".to_string(),
-            timeout: 5000,
-            retries: 3,
-        });
-        
-        // Test builder failure
-        let result = ConfigBuilder::new()
-            .timeout(1000)
-            .build();
-        assert!(result.is_err());
-    }
-
-    #[test]
     fn test_process_multiple_owned() {
         let data = (
             "prefix".to_string(),

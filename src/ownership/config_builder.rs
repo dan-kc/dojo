@@ -6,7 +6,7 @@
 // - Handle validation and error conditions in build process
 // - Work with Option types and pattern matching
 //
-// Run with: cargo test --bin config_builder
+// Run with: cargo test config_builder
 
 /// Implement a builder pattern that transfers ownership through method chaining.
 struct ConfigBuilder {
@@ -17,25 +17,25 @@ struct ConfigBuilder {
 
 impl ConfigBuilder {
     fn new() -> Self {
-        todo!("Implement new")
+        todo!()
     }
 
     /// Each method should take self by value and return Self
     fn name(self, name: String) -> Self {
-        todo!("Implement name")
+        todo!()
     }
 
     fn timeout(self, timeout: u64) -> Self {
-        todo!("Implement timeout")
+        todo!()
     }
 
     fn retries(self, retries: u32) -> Self {
-        todo!("Implement retries")
+        todo!()
     }
 
     /// Consume the builder and produce the final config
     fn build(self) -> Result<Config, &'static str> {
-        todo!("Implement build")
+        todo!()
     }
 }
 
@@ -58,27 +58,26 @@ mod tests {
             .retries(3)
             .build()
             .unwrap();
-        
-        assert_eq!(config, Config {
-            name: "test-config".to_string(),
-            timeout: 5000,
-            retries: 3,
-        });
+
+        assert_eq!(
+            config,
+            Config {
+                name: "test-config".to_string(),
+                timeout: 5000,
+                retries: 3,
+            }
+        );
     }
 
     #[test]
     fn test_builder_failure() {
-        let result = ConfigBuilder::new()
-            .timeout(1000)
-            .build();
+        let result = ConfigBuilder::new().timeout(1000).build();
         assert!(result.is_err());
     }
 
     #[test]
     fn test_partial_config() {
-        let result = ConfigBuilder::new()
-            .name("partial".to_string())
-            .build();
+        let result = ConfigBuilder::new().name("partial".to_string()).build();
         assert!(result.is_err());
     }
 
@@ -90,14 +89,14 @@ mod tests {
             .timeout(3000)
             .build()
             .unwrap();
-            
+
         let config2 = ConfigBuilder::new()
             .timeout(3000)
             .name("test".to_string())
             .retries(2)
             .build()
             .unwrap();
-            
+
         assert_eq!(config1, config2);
     }
 
@@ -110,7 +109,7 @@ mod tests {
             .retries(1)
             .build()
             .unwrap();
-            
+
         assert_eq!(config.name, "second");
     }
 }
