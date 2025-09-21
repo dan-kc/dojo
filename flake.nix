@@ -21,6 +21,15 @@
         pkgs = import nixpkgs {
           inherit system overlays;
         };
+        ra = pkgs.writeShellScriptBin "ra" ''
+          # checks if RA_MULTIPLEX_PORT is set if not then error
+          if [ -z ''${RA_MULTIPLEX_PORT} ]; then
+            echo "Error: RA_MULTIPLEX_PORT is not set. Please export it before running." >&2
+            exit 1
+          fi
+          echo "Successfully running"
+          XDG_CONFIG_HOME=/home/daniel/projects/playground ra-multiplex server &> /tmp/ra-multiplex.log & disown
+        '';
       in
       {
         devShells.default = pkgs.mkShell {
@@ -32,18 +41,16 @@
               "rustfmt"
             ])
             rust-analyzer
-            # rust-analyzer-nightly # If you prefer a nightly version
-            nil # Nix Language Server for Nix files
-            nixfmt-rfc-style # Nix code formatter
-            taplo # TOML formatter (for Cargo.toml)
-            # Add any other development tools here
-            # For example: git, editorconfig-checker
+            nil
+            nixfmt-rfc-style
+            taplo
+            ra-multiplex
+            ra
           ];
 
-          # Optional: Set environment variables for the dev shell
-          # shellHook = ''
-          #   export RUST_LOG=debug
-          # '';
+          shellHook = ''
+            export RA_MULTIPLEX_PORT=27638
+          '';
         };
       }
     );
