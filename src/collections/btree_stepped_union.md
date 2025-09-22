@@ -12,18 +12,18 @@ where
     if sets.is_empty() {
         return vec![];
     }
-    
+
     let mut results = Vec::new();
     let mut current_union = std::collections::BTreeSet::new();
-    
+
     for set in sets {
         // Add current set to the running union
         current_union = current_union.union(&set).cloned().collect();
-        
+
         // Save the intermediate result
         results.push(current_union.clone());
     }
-    
+
     results
 }
 ```
@@ -52,3 +52,4 @@ This solution builds union incrementally with intermediate results:
 - Clone for saving intermediate states
 - Vector collection of progressive results
 - Iterator consumption with collect()
+
