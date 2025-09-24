@@ -12,29 +12,29 @@ impl CardDeck {
         let mut cards = std::collections::VecDeque::with_capacity(52);
         let suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
         let ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
-        
+
         for suit in &suits {
             for rank in &ranks {
                 cards.push_back(format!("{} of {}", rank, suit));
             }
         }
-        
+
         Self { cards }
     }
 
     pub fn shuffle(&mut self) {
         use std::collections::VecDeque;
-        
+
         // Convert to Vec for efficient random access during shuffle
         let mut vec: Vec<String> = self.cards.drain(..).collect();
-        
+
         // Fisher-Yates shuffle
         let len = vec.len();
         for i in (1..len).rev() {
             let j = (rand::random::<usize>() % (i + 1)) as usize;
             vec.swap(i, j);
         }
-        
+
         // Convert back to VecDeque
         self.cards = VecDeque::from(vec);
     }
@@ -89,3 +89,4 @@ This solution implements a card deck using VecDeque for efficient operations:
 - insert method for arbitrary position insertion
 - drain() for efficient collection conversion
 - Random number generation for shuffling
+
