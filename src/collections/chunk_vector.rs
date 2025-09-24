@@ -13,7 +13,7 @@ pub fn chunk_vector<T>(vec: Vec<T>, chunk_size: usize) -> Vec<Vec<T>>
 where
     T: Clone,
 {
-    todo!("Implement vector chunking")
+    todo!()
 }
 
 #[cfg(test)]
@@ -25,11 +25,11 @@ mod tests {
         let vec = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
         let chunks = chunk_vector(vec, 3);
         assert_eq!(chunks, vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]]);
-        
+
         let vec = vec![1, 2, 3, 4, 5];
         let chunks = chunk_vector(vec, 3);
         assert_eq!(chunks, vec![vec![1, 2, 3], vec![4, 5]]);
-        
+
         let vec = vec![1];
         let chunks = chunk_vector(vec, 3);
         assert_eq!(chunks, vec![vec![1]]);
