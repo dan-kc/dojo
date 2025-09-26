@@ -21,14 +21,31 @@
         pkgs = import nixpkgs {
           inherit system overlays;
         };
+
+        ra-multiplex-port = "27610"; # CHANGE
+        ra-config = ''
+          instance_timeout = false 
+          gc_interval = 10
+          listen = ["127.0.0.1", ${ra-multiplex-port}]
+          connect = ["127.0.0.1", ${ra-multiplex-port}]
+          log_filters = "info"
+          pass_environment = []
+        '';
         ra = pkgs.writeShellScriptBin "ra" ''
-          # checks if RA_MULTIPLEX_PORT is set if not then error
-          if [ -z ''${RA_MULTIPLEX_PORT} ]; then
-            echo "Error: RA_MULTIPLEX_PORT is not set. Please export it before running." >&2
-            exit 1
-          fi
-          echo "Successfully running"
-          XDG_CONFIG_HOME=/home/daniel/projects/playground ra-multiplex server &> /tmp/ra-multiplex.log & disown
+          RA_MULTIPLEX_DIR="/tmp/ra-${ra-multiplex-port}"
+          CONFIG_DIR="$RA_MULTIPLEX_DIR/ra-multiplex"  
+          CONFIG_FILE="$CONFIG_DIR/config.toml"
+          LOG_DIR="/tmp/ra-multiplex"
+          LOG_FILE="$LOG_DIR/$RA_MULTIPLEX_PORT.log"
+
+          mkdir -p "$LOG_DIR"
+          mkdir -p "$CONFIG_DIR"
+          cat > "$CONFIG_FILE" <<EOF
+          ${ra-config}
+          EOF
+
+          XDG_CONFIG_HOME=$RA_MULTIPLEX_DIR ra-multiplex server &> "$LOG_FILE" & disown
+          echo "Listening"
         '';
       in
       {
@@ -49,7 +66,7 @@
           ];
 
           shellHook = ''
-            export RA_MULTIPLEX_PORT=27638
+            export RA_MULTIPLEX_PORT="${ra-multiplex-port}"
           '';
         };
       }

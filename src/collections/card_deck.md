@@ -7,6 +7,8 @@ pub struct CardDeck {
     cards: std::collections::VecDeque<String>,
 }
 
+use rand::seq::SliceRandom;
+use std::collections;
 impl CardDeck {
     pub fn new() -> Self {
         let mut cards = std::collections::VecDeque::with_capacity(52);
