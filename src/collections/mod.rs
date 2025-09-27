@@ -75,7 +75,6 @@ pub mod k_way_merge;
 pub mod task_scheduler;
 pub mod median_tracker;
 pub mod simple_lru_cache;
-pub mod circular_buffer;
 pub mod card_deck;
 pub mod work_stealing_deque;
 pub mod collection_performance_comparison;
