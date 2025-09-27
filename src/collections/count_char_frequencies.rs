@@ -1,29 +1,20 @@
-// Character Frequency Counting Practice
-//
-// Learning Objectives:
-// - Master HashMap Entry API usage
-// - Use or_insert and and_modify methods efficiently
-// - Practice character iteration and counting
-// - Work with HashMap creation and manipulation
-//
-// cargo test --bin count_char_frequencies
+// cargo test count_char_frequencies
 
 /// Use the Entry API to count character frequencies in a string.
 /// Implement efficient counting using or_insert and and_modify.
 fn count_char_frequencies(text: &str) -> std::collections::HashMap<char, usize> {
-    todo!("Implement character frequency counting using Entry API")
+    todo!()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::collections::HashMap;
 
     #[test]
     fn test_count_char_frequencies() {
         let text = "hello world";
         let freq = count_char_frequencies(text);
-        
+
         assert_eq!(freq.get(&'l'), Some(&3));
         assert_eq!(freq.get(&'o'), Some(&2));
         assert_eq!(freq.get(&'h'), Some(&1));
@@ -108,12 +99,12 @@ mod tests {
     fn test_long_string() {
         let text = "the quick brown fox jumps over the lazy dog";
         let freq = count_char_frequencies(text);
-        
+
         // Check some expected frequencies
         assert_eq!(freq.get(&'e'), Some(&3)); // 'e' appears 3 times
         assert_eq!(freq.get(&'o'), Some(&4)); // 'o' appears 4 times
         assert_eq!(freq.get(&' '), Some(&8)); // 8 spaces
-        
+
         // Verify total character count
         let total: usize = freq.values().sum();
         assert_eq!(total, text.len());
@@ -126,3 +117,4 @@ mod tests {
         assert_eq!(freq.get(&'z'), Some(&5));
     }
 }
+

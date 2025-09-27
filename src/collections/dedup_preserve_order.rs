@@ -1,19 +1,12 @@
-// Order-Preserving Deduplication Practice
-//
-// Learning objectives:
-// - Using HashSet for efficient deduplication
-// - Preserving order during deduplication
-// - Working with Vec retain operations
-//
 // Run with: cargo test dedup_preserve_order
 
 /// Implement an efficient deduplication that preserves order of first occurrence.
 /// Use Vec operations to achieve O(n) complexity where possible.
 pub fn dedup_preserve_order<T>(vec: Vec<T>) -> Vec<T>
 where
-    T: Clone + PartialEq + std::hash::Hash,
+    T: Clone + PartialEq + Eq + std::hash::Hash,
 {
-    todo!("Implement order-preserving deduplication")
+    todo!()
 }
 
 #[cfg(test)]
@@ -25,11 +18,11 @@ mod tests {
         let vec = vec![1, 2, 2, 3, 1, 4, 3, 5];
         let result = dedup_preserve_order(vec);
         assert_eq!(result, vec![1, 2, 3, 4, 5]);
-        
+
         let vec = vec![1, 1, 1];
         let result = dedup_preserve_order(vec);
         assert_eq!(result, vec![1]);
-        
+
         let empty: Vec<i32> = vec![];
         let result = dedup_preserve_order(empty);
         assert!(result.is_empty());
@@ -37,9 +30,18 @@ mod tests {
 
     #[test]
     fn test_dedup_strings() {
-        let vec = vec!["a".to_string(), "b".to_string(), "a".to_string(), "c".to_string(), "b".to_string()];
+        let vec = vec![
+            "a".to_string(),
+            "b".to_string(),
+            "a".to_string(),
+            "c".to_string(),
+            "b".to_string(),
+        ];
         let result = dedup_preserve_order(vec);
-        assert_eq!(result, vec!["a".to_string(), "b".to_string(), "c".to_string()]);
+        assert_eq!(
+            result,
+            vec!["a".to_string(), "b".to_string(), "c".to_string()]
+        );
     }
 
     #[test]

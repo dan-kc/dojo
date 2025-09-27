@@ -5,7 +5,7 @@
 ```rust
 pub fn dedup_preserve_order<T>(vec: Vec<T>) -> Vec<T>
 where
-    T: Clone + PartialEq + std::hash::Hash,
+    T: Clone + PartialEq + Eq + std::hash::Hash,
 {
     let mut seen = std::collections::HashSet::new();
     let mut result = Vec::new();

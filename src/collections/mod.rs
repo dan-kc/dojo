@@ -26,8 +26,6 @@ pub mod count_char_frequencies;
 pub mod merge_hashmaps;
 pub mod transform_hashmap;
 pub mod limited_cache;
-pub mod compound_key_operations;
-pub mod hashmap_char_frequencies;
 pub mod hashmap_limited_cache;
 pub mod hashmap_merge;
 pub mod hashmap_transform;
