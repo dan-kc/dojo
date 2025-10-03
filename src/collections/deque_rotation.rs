@@ -1,17 +1,18 @@
-// VecDeque Rotation Practice
-//
-// Learning Objectives:
-// - Use VecDeque to implement efficient rotation of elements
-// - Understand deque operations for moving elements between ends
-// - Practice with positive and negative rotation handling
-// - Learn efficient algorithms using double-ended queue operations
-//
-// Run with: cargo test --bin deque_rotation
+// Run with: cargo test deque_rotation
 
 /// Use VecDeque to implement efficient rotation of elements.
 /// Rotate left by n positions (negative n rotates right).
-pub fn rotate_deque<T>(mut deque: std::collections::VecDeque<T>, n: isize) -> std::collections::VecDeque<T> {
-    todo!("Implement efficient deque rotation")
+pub fn rotate_deque<T>(
+    mut deque: std::collections::VecDeque<T>,
+    n: isize,
+) -> std::collections::VecDeque<T> {
+    if n < 0 {
+        deque.rotate_right(n.abs() as usize);
+        return deque;
+    }
+
+    deque.rotate_left(n as usize);
+    deque
 }
 
 #[cfg(test)]
@@ -23,21 +24,21 @@ mod tests {
     fn test_rotate_deque() {
         let mut deque = VecDeque::new();
         deque.extend([1, 2, 3, 4, 5]);
-        
+
         // Rotate left by 2
         let rotated = rotate_deque(deque.clone(), 2);
         let expected: VecDeque<_> = [3, 4, 5, 1, 2].iter().cloned().collect();
         assert_eq!(rotated, expected);
-        
+
         // Rotate right by 2 (negative)
         let rotated = rotate_deque(deque.clone(), -2);
         let expected: VecDeque<_> = [4, 5, 1, 2, 3].iter().cloned().collect();
         assert_eq!(rotated, expected);
-        
+
         // No rotation
         let rotated = rotate_deque(deque.clone(), 0);
         assert_eq!(rotated, deque);
-        
+
         // Rotation by full length
         let rotated = rotate_deque(deque.clone(), 5);
         assert_eq!(rotated, deque);
@@ -49,10 +50,11 @@ mod tests {
         let empty_deque: VecDeque<i32> = VecDeque::new();
         let rotated = rotate_deque(empty_deque.clone(), 5);
         assert_eq!(rotated, empty_deque);
-        
+
         // Test single element deque
         let single_deque: VecDeque<_> = [42].iter().cloned().collect();
         let rotated = rotate_deque(single_deque.clone(), 1);
         assert_eq!(rotated, single_deque);
     }
 }
+
