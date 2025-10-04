@@ -1,14 +1,8 @@
-// HashSet Duplicate Analysis Practice
-//
-// Learning objectives:
-// - Combine HashSet and HashMap for duplicate detection
-// - Track element frequencies across multiple collections
-// - Use sets for efficient duplicate identification
-//
 // Run with: cargo test analyze_duplicates
 
 /// Implement set-based duplicate detection with detailed reporting.
 /// Return both the duplicates and their frequencies across inputs.
+#[allow(unused_variables)]
 pub fn analyze_duplicates<T>(
     collections: Vec<Vec<T>>,
 ) -> (
