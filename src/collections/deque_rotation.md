@@ -3,28 +3,24 @@
 ## Implementation
 
 ```rust
-pub fn rotate_deque<T>(mut deque: std::collections::VecDeque<T>, n: isize) -> std::collections::VecDeque<T> {
-    if deque.is_empty() || n == 0 {
+pub fn rotate_deque<T>(
+    mut deque: std::collections::VecDeque<T>,
+    n: isize,
+) -> std::collections::VecDeque<T> {
+    if deque.len() == 0 {
         return deque;
-    }
-    
-    let len = deque.len() as isize;
-    
-    // Normalize rotation to be within bounds
-    let effective_rotation = n % len;
-    let effective_rotation = if effective_rotation < 0 {
-        effective_rotation + len
-    } else {
-        effective_rotation
     };
-    
-    // Perform rotation by moving elements from back to front
-    for _ in 0..effective_rotation {
-        if let Some(item) = deque.pop_back() {
-            deque.push_front(item);
-        }
-    }
-    
+    // -7
+    // [1,2,3,4,5]
+    let n = n % deque.len() as isize;
+
+    let left_rotation = if n < 0 {
+        n + deque.len() as isize
+    } else {
+        n as isize
+    } as usize;
+
+    deque.rotate_left(left_rotation);
     deque
 }
 ```

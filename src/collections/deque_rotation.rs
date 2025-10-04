@@ -31,6 +31,16 @@ mod tests {
         let expected: VecDeque<_> = [4, 5, 1, 2, 3].iter().cloned().collect();
         assert_eq!(rotated, expected);
 
+        // Rotate left by 7
+        let rotated = rotate_deque(deque.clone(), 7);
+        let expected: VecDeque<_> = [3, 4, 5, 1, 2].iter().cloned().collect();
+        assert_eq!(rotated, expected);
+
+        // Rotate right by 7 (negative)
+        let rotated = rotate_deque(deque.clone(), -7);
+        let expected: VecDeque<_> = [4, 5, 1, 2, 3].iter().cloned().collect();
+        assert_eq!(rotated, expected);
+
         // No rotation
         let rotated = rotate_deque(deque.clone(), 0);
         assert_eq!(rotated, deque);
