@@ -9,37 +9,15 @@ pub fn difference_chain<T>(
 where
     T: Clone + std::hash::Hash + Eq,
 {
-    if sets.len() < 2 {
-        return Vec::new();
-    }
-    
-    let mut result = Vec::new();
-    
-    for i in 0..sets.len() - 1 {
-        let difference: std::collections::HashSet<T> = 
-            sets[i].difference(&sets[i + 1]).cloned().collect();
-        result.push(difference);
-    }
-    
-    result
-}
-```
+    let mut res = vec![];
+    for sets in sets.windows(2) {
+        let new_set: collections::HashSet<T> = sets[0].difference(&sets[1]).cloned().collect();
 
-## Alternative Implementation (Using Windows)
-
-```rust
-pub fn difference_chain<T>(
-    sets: Vec<std::collections::HashSet<T>>,
-) -> Vec<std::collections::HashSet<T>>
-where
-    T: Clone + std::hash::Hash + Eq,
-{
-    sets.windows(2)
-        .map(|pair| {
-            pair[0].difference(&pair[1]).cloned().collect()
-        })
-        .collect()
+        res.push(new_set);
+    }
+    res
 }
+
 ```
 
 ## Explanation
@@ -78,31 +56,3 @@ This solution computes consecutive set differences:
 - **Space**: O(|result|) for storing difference sets
 - **Memory**: Creates new HashSets rather than modifying originals
 
-## Enhanced Implementation
-
-```rust
-pub fn difference_chain_with_stats<T>(
-    sets: Vec<std::collections::HashSet<T>>,
-) -> Vec<(std::collections::HashSet<T>, usize, usize)>
-where
-    T: Clone + std::hash::Hash + Eq,
-{
-    sets.windows(2)
-        .map(|pair| {
-            let diff: std::collections::HashSet<T> = 
-                pair[0].difference(&pair[1]).cloned().collect();
-            let original_size = pair[0].len();
-            let difference_size = diff.len();
-            (diff, original_size, difference_size)
-        })
-        .collect()
-}
-```
-
-## Rust Concepts Demonstrated
-
-- HashSet difference operations
-- Iterator windows for sliding operations  
-- Functional programming with map and collect
-- Generic functions with trait bounds
-- Collection transformation patterns
