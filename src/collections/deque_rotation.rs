@@ -2,17 +2,13 @@
 
 /// Use VecDeque to implement efficient rotation of elements.
 /// Rotate left by n positions (negative n rotates right).
+#[allow(unused_variables)]
+#[allow(unused_mut)]
 pub fn rotate_deque<T>(
     mut deque: std::collections::VecDeque<T>,
     n: isize,
 ) -> std::collections::VecDeque<T> {
-    if n < 0 {
-        deque.rotate_right(n.abs() as usize);
-        return deque;
-    }
-
-    deque.rotate_left(n as usize);
-    deque
+    todo!()
 }
 
 #[cfg(test)]
@@ -57,4 +53,3 @@ mod tests {
         assert_eq!(rotated, single_deque);
     }
 }
-
