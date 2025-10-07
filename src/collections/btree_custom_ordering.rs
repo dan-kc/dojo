@@ -1,20 +1,13 @@
-// BTree Custom Ordering Practice
-//
-// Learning Objectives:
-// - Implement custom ordering for BTreeSet elements
-// - Use wrapper types with custom Ord implementations
-// - Practice length-first then lexicographic ordering
-// - Understand how custom ordering affects BTreeSet behavior
-//
-// Run with: cargo test btree_custom_ordering
+// cargo test btree_custom_ordering
 
 /// Implement a custom ordering for BTreeSet using a wrapper type.
 /// Sort strings by length first, then lexicographically.
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(dead_code)]
 struct LengthFirstString(String);
 
 impl Ord for LengthFirstString {
-    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+    fn cmp(&self, #[allow(unused_variables)] other: &Self) -> std::cmp::Ordering {
         todo!()
     }
 }
