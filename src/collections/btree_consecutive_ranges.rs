@@ -1,15 +1,8 @@
-// BTree Consecutive Ranges Practice
-//
-// Learning Objectives:
-// - Find consecutive number ranges in ordered BTreeSet
-// - Use ordered iteration to detect consecutive sequences
-// - Practice generic constraints for arithmetic operations
-// - Handle edge cases with single elements and gaps
-//
-// Run with: cargo test btree_consecutive_ranges
+// cargo test btree_consecutive_ranges
 
 /// Find all subranges in a BTreeSet where consecutive elements differ by exactly 1.
 /// Return the ranges as (start, end) pairs.
+#[allow(unused_variables, dead_code)]
 fn find_consecutive_ranges<T>(set: &std::collections::BTreeSet<T>) -> Vec<(T, T)>
 where
     T: Ord + Clone + std::ops::Add<Output = T> + From<u8> + PartialEq,
@@ -24,10 +17,7 @@ mod tests {
 
     #[test]
     fn test_find_consecutive_ranges() {
-        let set: BTreeSet<i32> = [1, 2, 3, 5, 6, 10, 11, 12, 13, 20]
-            .iter()
-            .cloned()
-            .collect();
+        let set: BTreeSet<i32> = [1, 2, 3, 5, 6, 10, 11, 12, 13, 20].into_iter().collect();
         let ranges = find_consecutive_ranges(&set);
 
         // Expected ranges: [1,3], [5,6], [10,13], and [20,20]
@@ -41,7 +31,7 @@ mod tests {
     #[test]
     fn test_edge_cases() {
         // Test consecutive ranges with single elements
-        let single_set: BTreeSet<i32> = [5].iter().cloned().collect();
+        let single_set: BTreeSet<i32> = [5].into_iter().collect();
         let single_ranges = find_consecutive_ranges(&single_set);
         assert_eq!(single_ranges, vec![(5, 5)]);
     }
