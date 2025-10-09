@@ -8,19 +8,10 @@ pub fn find_mutual_friends(
     person1: &str,
     person2: &str,
 ) -> std::collections::HashSet<String> {
-    // Get friend lists for both people
-    let friends1 = match friendships.get(person1) {
-        Some(friends) => friends,
-        None => return std::collections::HashSet::new(),
+    if let (Some(friends), Some(friends_2)) = (friendships.get(person1), friendships.get(person2)) {
+        return friends.intersection(&friends_2).cloned().collect();
     };
-    
-    let friends2 = match friendships.get(person2) {
-        Some(friends) => friends,
-        None => return std::collections::HashSet::new(),
-    };
-    
-    // Find intersection of friend sets
-    friends1.intersection(friends2).cloned().collect()
+    std::collections::HashSet::new()
 }
 ```
 
