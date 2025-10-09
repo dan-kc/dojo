@@ -1,15 +1,8 @@
-// BTree Map Merging Practice
-//
-// Learning Objectives:
-// - Merge multiple sorted BTreeMaps efficiently
-// - Use combining functions to handle value conflicts
-// - Practice consuming multiple collections
-// - Understand ordered merging strategies
-//
-// Run with: cargo test btree_merge_maps
+// cargo test btree_merge_maps
 
 /// Merge multiple sorted BTreeMaps, combining values for duplicate keys.
 /// Use a combining function to handle value conflicts.
+#[allow(unused_variables)]
 fn merge_sorted_btreemaps<K, V, F>(
     maps: Vec<std::collections::BTreeMap<K, V>>,
     combine_fn: F,
