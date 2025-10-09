@@ -1,12 +1,3 @@
-// Common Collections APIs practice questions module
-// Topics covered:
-// - Vec operations (push, pop, extend, drain, etc.)
-// - HashMap operations (insert, get, entry API)
-// - HashSet operations (intersection, union, difference)
-// - BTreeMap and BTreeSet for sorted collections
-// - VecDeque for double-ended queues
-// - Binary heap for priority queues
-
 // Vec operation patterns  
 pub mod merge_sorted_vectors;
 pub mod chunk_vector;
@@ -53,7 +44,6 @@ pub mod btree_split_map;
 pub mod btree_k_extremes;
 pub mod sliding_window_tracker;
 pub mod btree_merge_maps;
-pub mod btree_set_operations;
 pub mod btree_consecutive_ranges;
 pub mod btree_timeline;
 pub mod btree_custom_ordering;
