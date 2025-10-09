@@ -8,14 +8,13 @@ where
     K: std::hash::Hash + Eq,
     F: Fn(&T) -> K,
 {
-    let mut groups = std::collections::HashMap::new();
-    
+    let mut res = std::collections::HashMap::new();
     for item in items {
         let key = key_fn(&item);
-        groups.entry(key).or_insert_with(Vec::new).push(item);
+        res.entry(key).or_insert(Vec::new()).push(item);
     }
-    
-    groups
+
+    return res;
 }
 ```
 

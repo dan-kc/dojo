@@ -1,11 +1,3 @@
-// Builder Pattern with Ownership Practice
-//
-// Learning Objectives:
-// - Implement builder pattern that transfers ownership through method chaining
-// - Practice consuming self in builder methods
-// - Handle validation and error conditions in build process
-// - Work with Option types and pattern matching
-//
 // Run with: cargo test config_builder
 
 /// Implement a builder pattern that transfers ownership through method chaining.
