@@ -1,21 +1,15 @@
-// HashSet Unique Elements Finder Practice
-//
-// Learning objectives:
-// - Find elements that appear in exactly one set
-// - Use HashMap to track element occurrences
-// - Combine HashSet membership testing with frequency counting
-//
-// Run with: cargo test find_unique_elements
+// cargo test find_unique_elements
 
 /// Find elements that are unique to each set (appear in exactly one set).
 /// Return a HashMap mapping each unique element to the set index it came from.
+#[allow(unused_variables)]
 pub fn find_unique_elements<T>(
     sets: Vec<std::collections::HashSet<T>>,
 ) -> std::collections::HashMap<T, usize>
 where
     T: Clone + std::hash::Hash + Eq,
 {
-    todo!("Implement finding elements unique to each set")
+    todo!()
 }
 
 #[cfg(test)]
@@ -28,9 +22,9 @@ mod tests {
         let set1: HashSet<char> = ['a', 'b', 'c'].iter().cloned().collect();
         let set2: HashSet<char> = ['b', 'c', 'd'].iter().cloned().collect();
         let set3: HashSet<char> = ['c', 'd', 'e'].iter().cloned().collect();
-        
+
         let result = find_unique_elements(vec![set1, set2, set3]);
-        
+
         assert_eq!(result.get(&'a'), Some(&0)); // 'a' is unique to set 0
         assert_eq!(result.get(&'e'), Some(&2)); // 'e' is unique to set 2
         assert_eq!(result.get(&'b'), None); // 'b' appears in sets 0 and 1
@@ -43,9 +37,9 @@ mod tests {
         let set1: HashSet<i32> = [1, 2].iter().cloned().collect();
         let set2: HashSet<i32> = [3, 4].iter().cloned().collect();
         let set3: HashSet<i32> = [5, 6].iter().cloned().collect();
-        
+
         let result = find_unique_elements(vec![set1, set2, set3]);
-        
+
         // All elements should be unique since there's no overlap
         assert_eq!(result.len(), 6);
         assert_eq!(result.get(&1), Some(&0));
@@ -61,9 +55,9 @@ mod tests {
         let set1: HashSet<i32> = [1, 2, 3].iter().cloned().collect();
         let set2: HashSet<i32> = [1, 2, 3].iter().cloned().collect();
         let set3: HashSet<i32> = [1, 2, 3].iter().cloned().collect();
-        
+
         let result = find_unique_elements(vec![set1, set2, set3]);
-        
+
         // No elements should be unique since all appear in all sets
         assert!(result.is_empty());
     }
@@ -78,7 +72,7 @@ mod tests {
     fn test_find_unique_elements_single_set() {
         let set1: HashSet<&str> = ["hello", "world"].iter().cloned().collect();
         let result = find_unique_elements(vec![set1]);
-        
+
         // All elements should be unique in a single set
         assert_eq!(result.len(), 2);
         assert_eq!(result.get(&"hello"), Some(&0));
