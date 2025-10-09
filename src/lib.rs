@@ -8,5 +8,4 @@ pub mod string_manipulation;
 pub mod axum;
 pub mod collections;
 pub mod concurrency;
-pub mod ownership;
 pub mod tokio;
