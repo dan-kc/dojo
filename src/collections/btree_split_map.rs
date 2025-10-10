@@ -1,12 +1,4 @@
-// BTree Map Splitting Practice
-//
-// Learning Objectives:
-// - Practice consuming and splitting BTreeMaps
-// - Use split_off method for efficient map partitioning
-// - Understand ownership transfer in BTree operations
-// - Master key-based map partitioning
-//
-// Run with: cargo test btree_split_map
+// cargo test btree_split_map
 
 /// Split a BTreeMap at a given key, returning two maps: one with keys < split_key,
 /// one with keys >= split_key. Original map should be consumed.

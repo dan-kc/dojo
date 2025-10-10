@@ -7,33 +7,6 @@ pub fn intersect_all_sets<T>(sets: Vec<std::collections::HashSet<T>>) -> std::co
 where
     T: Clone + std::hash::Hash + Eq,
 {
-    if sets.is_empty() {
-        return std::collections::HashSet::new();
-    }
-    
-    let mut iter = sets.into_iter();
-    let mut result = iter.next().unwrap();
-    
-    for set in iter {
-        result = result.intersection(&set).cloned().collect();
-        
-        // Early termination if intersection becomes empty
-        if result.is_empty() {
-            break;
-        }
-    }
-    
-    result
-}
-```
-
-## Alternative Implementation (More Functional)
-
-```rust
-pub fn intersect_all_sets<T>(sets: Vec<std::collections::HashSet<T>>) -> std::collections::HashSet<T>
-where
-    T: Clone + std::hash::Hash + Eq,
-{
     sets.into_iter()
         .reduce(|acc, set| {
             acc.intersection(&set).cloned().collect()
@@ -71,3 +44,4 @@ This solution finds elements common to all input sets:
 - Early termination optimization patterns
 - Generic functions with trait bounds
 - Functional programming techniques in Rust
+

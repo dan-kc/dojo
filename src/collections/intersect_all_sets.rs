@@ -1,19 +1,15 @@
-// HashSet Intersection Operations Practice
-//
-// Learning objectives:
-// - Using HashSet intersection operations
-// - Finding common elements across multiple sets
-// - Handling edge cases with empty inputs
-//
-// Run with: cargo test intersect_all_sets
+// cargo test intersect_all_sets
 
 /// Find elements that appear in all input sets (intersection of all sets).
 /// Handle empty input gracefully.
-pub fn intersect_all_sets<T>(sets: Vec<std::collections::HashSet<T>>) -> std::collections::HashSet<T>
+#[allow(unused_variables)]
+pub fn intersect_all_sets<T>(
+    sets: Vec<std::collections::HashSet<T>>,
+) -> std::collections::HashSet<T>
 where
     T: Clone + std::hash::Hash + Eq,
 {
-    todo!("Implement intersection of multiple sets")
+    todo!()
 }
 
 #[cfg(test)]
@@ -26,18 +22,18 @@ mod tests {
         let set1: HashSet<i32> = [1, 2, 3, 4].iter().cloned().collect();
         let set2: HashSet<i32> = [2, 3, 4, 5].iter().cloned().collect();
         let set3: HashSet<i32> = [3, 4, 5, 6].iter().cloned().collect();
-        
+
         let result = intersect_all_sets(vec![set1, set2, set3]);
         let expected: HashSet<i32> = [3, 4].iter().cloned().collect();
-        
+
         assert_eq!(result, expected);
-        
+
         // Test with no common elements
         let set1: HashSet<i32> = [1, 2].iter().cloned().collect();
         let set2: HashSet<i32> = [3, 4].iter().cloned().collect();
         let result = intersect_all_sets(vec![set1, set2]);
         assert!(result.is_empty());
-        
+
         // Test with empty input
         let result: HashSet<i32> = intersect_all_sets(vec![]);
         assert!(result.is_empty());
