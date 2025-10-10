@@ -1,14 +1,5 @@
-// BTree Stepped Union Practice
-//
-// Learning Objectives:
-// - Implement iterative union operations with intermediate results
-// - Practice building union incrementally across multiple sets
-// - Use BTreeSet union operations while tracking progress
-// - Return intermediate steps of set operations
-//
-// Run with: cargo test btree_stepped_union
+// cargo test btree_stepped_union
 
-/// Implement set operations that maintain order and return intermediate steps.
 /// Return each step of the union operation as it builds the result.
 #[allow(dead_code)]
 fn stepped_union<T>(
