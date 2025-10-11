@@ -42,33 +42,26 @@ impl Timeline {
     }
 
     fn remove_events_before(&mut self, timestamp: u64) {
-        let x: Vec<u64> = self
-            .events
-            .range(..timestamp)
-            .map(|(k, _)| return k.clone())
-            .collect();
-
-        for k in x {
-            self.events.remove(&k);
-        }
+        self.events.retain(|k, _| *k > timestamp)
     }
 
     fn get_overlapping_events(&self, timestamp: u64, duration: u32) -> Vec<(u64, &Event)> {
         let mut res = vec![];
-        let end_range = duration as u64 + timestamp;
-
-        for (event_start_time, events) in self.events.iter() {
-            for event in events {
-                let event_end_time = event_start_time + event.duration as u64;
-                if event_end_time < timestamp || *event_start_time > end_range {
+        let start = timestamp;
+        let end = timestamp + duration as u64;
+        for (curr_start, event) in &self.events {
+            if *curr_start > end {
+                continue;
+            }
+            for v in event {
+                let curr_end = v.duration as u64 + *curr_start;
+                if curr_end < start {
                     continue;
                 }
-
-                res.push((*event_start_time, event))
+                res.push((*curr_start, v))
             }
         }
-
-        return res;
+        res
     }
 }
 
