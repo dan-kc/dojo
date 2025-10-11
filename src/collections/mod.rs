@@ -55,7 +55,6 @@ pub mod btree_stepped_union;
 pub mod palindrome_checker;
 pub mod deque_rotation;
 pub mod sliding_window_maximum;
-pub mod k_way_merge;
 pub mod task_scheduler;
 pub mod median_tracker;
 pub mod simple_lru_cache;
