@@ -1,47 +1,47 @@
-// BTree Timeline Practice
-//
-// Learning Objectives:
-// - Use BTreeMap for time-based event scheduling
-// - Implement range queries for time periods
-// - Practice event overlap detection algorithms
-// - Handle multiple events at same timestamp
-//
-// Run with: cargo test btree_timeline
+// cargo test btree_timeline
 
 /// Implement a timeline data structure using BTreeMap for event scheduling.
 /// Events have timestamps and can be queried by time ranges.
 #[derive(Debug, Clone, PartialEq)]
+#[allow(dead_code)]
 struct Event {
     id: u32,
     description: String,
     duration: u32, // in minutes
 }
 
+#[allow(dead_code)]
 struct Timeline {
     events: std::collections::BTreeMap<u64, Vec<Event>>, // timestamp -> events
 }
 
+#[allow(dead_code)]
 impl Timeline {
     fn new() -> Self {
         todo!()
     }
 
+    #[allow(unused_variables)]
     fn add_event(&mut self, timestamp: u64, event: Event) {
         todo!()
     }
 
+    #[allow(unused_variables)]
     fn get_events_in_range(&self, start: u64, end: u64) -> Vec<(u64, &Event)> {
         todo!()
     }
 
+    #[allow(unused_variables)]
     fn get_next_event(&self, after: u64) -> Option<(u64, &Event)> {
         todo!()
     }
 
+    #[allow(unused_variables)]
     fn remove_events_before(&mut self, timestamp: u64) {
         todo!()
     }
 
+    #[allow(unused_variables)]
     fn get_overlapping_events(&self, timestamp: u64, duration: u32) -> Vec<(u64, &Event)> {
         todo!()
     }
