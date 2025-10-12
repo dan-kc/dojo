@@ -1,14 +1,8 @@
-// Vector Chunking Practice
-//
-// Learning objectives:
-// - Using Vec chunks and iteration
-// - Handling remainders in chunking operations
-// - Working with Vec slicing and cloning
-//
-// Run with: cargo test chunk_vector
+// cargo test chunk_vector
 
 /// Split a vector into chunks of specified size, handling remainder chunk.
 /// Return a Vec of Vecs, where the last chunk may be smaller.
+#[allow(unused_variables, dead_code)]
 pub fn chunk_vector<T>(vec: Vec<T>, chunk_size: usize) -> Vec<Vec<T>>
 where
     T: Clone,
