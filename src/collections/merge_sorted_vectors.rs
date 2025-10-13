@@ -1,3 +1,4 @@
+// cargo test merge_sorted_vectors
 /// Implement a function that efficiently merges multiple sorted vectors
 /// into a single sorted vector
 #[allow(unused_variables, dead_code)]
