@@ -35,7 +35,6 @@ pub mod power_set;
 pub mod jaccard_similarity;
 pub mod set_tracker;
 pub mod find_mutual_friends;
-pub mod hashset_dedup_preserve_order;
 pub mod difference_chain;
 
 // BTree operation patterns

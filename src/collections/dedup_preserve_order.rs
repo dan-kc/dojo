@@ -1,7 +1,8 @@
-// Run with: cargo test dedup_preserve_order
+// cargo test dedup_preserve_order
 
 /// Implement an efficient deduplication that preserves order of first occurrence.
 /// Use Vec operations to achieve O(n) complexity where possible.
+#[allow(unused_variables)]
 pub fn dedup_preserve_order<T>(vec: Vec<T>) -> Vec<T>
 where
     T: Clone + PartialEq + Eq + std::hash::Hash,
