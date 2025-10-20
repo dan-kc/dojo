@@ -1,12 +1,4 @@
-// BTree Predecessor/Successor Practice
-//
-// Learning Objectives:
-// - Implement efficient predecessor/successor queries in BTreeSet
-// - Use range methods to find adjacent elements
-// - Handle edge cases for min/max elements
-// - Practice ordered navigation in BTree collections
-//
-// Run with: cargo test btree_predecessor_successor
+// cargo test btree_predecessor_successor
 
 /// Implement efficient predecessor/successor queries in BTreeSet.
 /// Find the largest element < target and smallest element > target.
