@@ -19,7 +19,6 @@ pub mod transform_hashmap;
 pub mod hashmap_transform;
 pub mod intersect_hashmaps;
 pub mod memoizer;
-pub mod performance_comparison;
 pub mod word_index;
 
 // HashSet operation patterns
