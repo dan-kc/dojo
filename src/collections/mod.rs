@@ -26,7 +26,6 @@ pub mod union_all_sets;
 pub mod intersect_all_sets;
 pub mod find_unique_elements;
 pub mod partition_set;
-pub mod person_set_operations;
 pub mod spell_check;
 pub mod find_connected_components;
 pub mod analyze_duplicates;
