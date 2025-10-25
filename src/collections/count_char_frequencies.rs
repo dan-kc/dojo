@@ -1,7 +1,7 @@
 // cargo test count_char_frequencies
 
-/// Use the Entry API to count character frequencies in a string.
-/// Implement efficient counting using or_insert and and_modify.
+/// Count character frequencies in a string.
+#[allow(unused_variables, dead_code)]
 fn count_char_frequencies(text: &str) -> std::collections::HashMap<char, usize> {
     todo!()
 }
@@ -117,4 +117,3 @@ mod tests {
         assert_eq!(freq.get(&'z'), Some(&5));
     }
 }
-
