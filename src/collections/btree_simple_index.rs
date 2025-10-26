@@ -1,40 +1,39 @@
-// BTree Simple Database Index Practice
-//
-// Learning Objectives:
-// - Use BTreeMap to implement database-like indexing
-// - Support exact matches, range queries, and prefix searches
-// - Practice nested BTree collections (BTreeMap<String, BTreeSet<u32>>)
-// - Handle insertion, deletion, and query operations efficiently
-//
-// Run with: cargo test btree_simple_index
+// cargo test btree_simple_index
 
 /// Use BTreeMap to implement a simple database index.
 /// Support range queries, prefix searches, and ordered iteration.
+#[allow(dead_code)]
 struct SimpleIndex {
     index: std::collections::BTreeMap<String, std::collections::BTreeSet<u32>>, // key -> row_ids
 }
 
+#[allow(dead_code)]
 impl SimpleIndex {
     fn new() -> Self {
         todo!()
     }
 
+    #[allow(unused_variables)]
     fn insert(&mut self, key: String, row_id: u32) {
         todo!()
     }
 
+    #[allow(unused_variables)]
     fn find_exact(&self, key: &str) -> Vec<u32> {
         todo!()
     }
 
+    #[allow(unused_variables)]
     fn find_range(&self, start: &str, end: &str) -> Vec<u32> {
         todo!()
     }
 
+    #[allow(unused_variables)]
     fn find_prefix(&self, prefix: &str) -> Vec<u32> {
         todo!()
     }
 
+    #[allow(unused_variables)]
     fn remove(&mut self, key: &str, row_id: u32) {
         todo!()
     }
