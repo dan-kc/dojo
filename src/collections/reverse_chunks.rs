@@ -1,16 +1,10 @@
-// Chunked Reversal Practice
-//
-// Learning objectives:
-// - Working with Vec chunks_mut() for in-place operations
-// - Implementing custom chunking and reversal logic
-// - Understanding Vec memory layout and slicing
-//
-// Run with: cargo test reverse_chunks
+// cargo test reverse_chunks
 
 /// Implement in-place vector reversal in chunks.
 /// Reverse every chunk of specified size within the vector.
+#[allow(unused_variables, unused_mut)]
 pub fn reverse_chunks<T>(mut vec: Vec<T>, chunk_size: usize) -> Vec<T> {
-    todo!("Implement chunked reversal")
+    todo!()
 }
 
 #[cfg(test)]
@@ -22,11 +16,11 @@ mod tests {
         let vec = vec![1, 2, 3, 4, 5, 6, 7, 8];
         let result = reverse_chunks(vec, 3);
         assert_eq!(result, vec![3, 2, 1, 6, 5, 4, 8, 7]); // [3,2,1] [6,5,4] [8,7]
-        
+
         let vec = vec![1, 2, 3, 4];
         let result = reverse_chunks(vec, 2);
         assert_eq!(result, vec![2, 1, 4, 3]);
-        
+
         let vec = vec![1];
         let result = reverse_chunks(vec, 3);
         assert_eq!(result, vec![1]);
@@ -57,3 +51,4 @@ mod tests {
         assert_eq!(result, vec!['b', 'a', 'd', 'c', 'f', 'e']);
     }
 }
+
