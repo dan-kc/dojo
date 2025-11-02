@@ -2,7 +2,6 @@
 
 /// Implement set-based algorithm for finding common friends in a social network.
 /// Given friendship connections, find mutual friends between two people.
-#[allow(unused_variables)]
 pub fn find_mutual_friends(
     friendships: &std::collections::HashMap<String, std::collections::HashSet<String>>,
     person1: &str,
