@@ -2,23 +2,23 @@
 
 /// Implement a median tracker using two heaps (BinaryHeap).
 /// Efficiently maintain running median as elements are added.
-#[allow(dead_code)]
 pub struct MedianTracker {
-    lower_half: std::collections::BinaryHeap<i32>,
     upper_half: std::collections::BinaryHeap<std::cmp::Reverse<i32>>, // Larger or equal
+    lower_half: std::collections::BinaryHeap<i32>,
 }
 
 impl MedianTracker {
     pub fn new() -> Self {
-        todo!()
+        Self {
+            upper_half: std::collections::BinaryHeap::new(),
+            lower_half: std::collections::BinaryHeap::new(),
+        }
     }
 
-    #[allow(unused_variables)]
     pub fn add(&mut self, value: i32) {
         todo!()
     }
 
-    #[allow(unused_variables)]
     pub fn get_median(&self) -> Option<f64> {
         todo!()
     }
