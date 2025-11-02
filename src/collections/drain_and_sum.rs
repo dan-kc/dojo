@@ -1,5 +1,5 @@
 // cargo test drain_and_sum
-/// Use drain to efficiently remove and process elements matching a pattern.
+/// Efficiently remove and process elements matching a pattern.
 /// Return the sum of removed elements and modify the original vector.
 pub fn drain_and_sum(
     #[allow(unused_variables, unused_mut)] mut vec: Vec<i32>,
@@ -17,7 +17,6 @@ mod tests {
         let vec = vec![1, 5, 2, 8, 3, 7, 4];
         let (remaining, sum) = drain_and_sum(vec, 5);
 
-        // Should remove elements >= 5 and sum them
         assert_eq!(remaining, vec![1, 2, 3, 4]);
         assert_eq!(sum, 5 + 8 + 7); // 20
     }
