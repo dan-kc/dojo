@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_variables, unused_mut, unused_imports, unused_doc_comments)]
 pub mod file_io;
 pub mod iterators;
 pub mod lifetimes;

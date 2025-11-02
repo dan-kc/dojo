@@ -1,16 +1,10 @@
-// Vector Rotation Practice
-//
-// Learning objectives:
-// - Using Vec rotate_left() and rotate_right() methods
-// - Handling positive/negative rotation values
-// - Understanding modular arithmetic for rotations
-//
-// Run with: cargo test rotate_vector
+// cargo test rotate_vector
 
 /// Rotate vector elements efficiently using Vec operations.
 /// Positive n rotates right, negative n rotates left.
+#[allow(unused_variables, unused_mut)]
 pub fn rotate_vector<T>(mut vec: Vec<T>, n: isize) -> Vec<T> {
-    todo!("Implement vector rotation")
+    todo!()
 }
 
 #[cfg(test)]
@@ -22,13 +16,13 @@ mod tests {
         let vec = vec![1, 2, 3, 4, 5];
         let result = rotate_vector(vec.clone(), 2);
         assert_eq!(result, vec![4, 5, 1, 2, 3]);
-        
+
         let result = rotate_vector(vec.clone(), -2);
         assert_eq!(result, vec![3, 4, 5, 1, 2]);
-        
+
         let result = rotate_vector(vec.clone(), 0);
         assert_eq!(result, vec);
-        
+
         let result = rotate_vector(vec.clone(), 5); // Full rotation
         assert_eq!(result, vec);
     }
@@ -56,8 +50,8 @@ mod tests {
         let vec = vec!['a', 'b', 'c', 'd', 'e'];
         let result = rotate_vector(vec.clone(), -3);
         assert_eq!(result, vec!['d', 'e', 'a', 'b', 'c']);
-        
-        let result = rotate_vector(vec.clone(), -7); // -7 % 5 = -2
+
+        let result = rotate_vector(vec.clone(), -8); // -8 % 5 = -3
         assert_eq!(result, vec!['d', 'e', 'a', 'b', 'c']);
     }
 }
