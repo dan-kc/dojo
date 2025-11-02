@@ -1,12 +1,4 @@
-// BTree Range Query Practice
-//
-// Learning Objectives:
-// - Use BTreeMap range methods for efficient range queries
-// - Practice inclusive range queries with key-value pairs
-// - Understand ordered iteration in BTree collections
-// - Master range() method and its variants
-//
-// Run with: cargo test btree_range_query
+// cargo test btree_range_query
 
 /// Implement range queries on a BTreeMap to find all entries within a key range.
 /// Return both keys and values within the specified range (inclusive).

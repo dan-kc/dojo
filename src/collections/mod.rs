@@ -29,7 +29,6 @@ pub mod partition_set;
 pub mod spell_check;
 pub mod find_connected_components;
 pub mod analyze_duplicates;
-pub mod power_set;
 pub mod jaccard_similarity;
 pub mod set_tracker;
 pub mod find_mutual_friends;
