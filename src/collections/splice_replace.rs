@@ -1,11 +1,4 @@
-// Splice Replace Practice
-//
-// Learning objectives:
-// - Using Vec splice() method for range replacement
-// - Understanding splice ownership and iterators
-// - Working with range-based operations on Vec
-//
-// Run with: cargo test splice_replace
+// cargo test splice_replace
 
 /// Use Vec::splice to replace a range of elements with new elements.
 /// Implement efficient range replacement that returns replaced elements.
@@ -18,7 +11,7 @@ pub fn splice_replace<T>(
 where
     T: Clone,
 {
-    todo!("Implement splice replacement")
+    todo!()
 }
 
 #[cfg(test)]
@@ -30,10 +23,10 @@ mod tests {
         let vec = vec![1, 2, 3, 4, 5];
         let replacement = vec![10, 20, 30];
         let (modified, replaced) = splice_replace(vec, 1, 4, replacement);
-        
+
         assert_eq!(modified, vec![1, 10, 20, 30, 5]);
         assert_eq!(replaced, vec![2, 3, 4]);
-        
+
         // Test replacing at end
         let vec = vec![1, 2, 3];
         let replacement = vec![10];
@@ -68,11 +61,24 @@ mod tests {
 
     #[test]
     fn test_splice_replace_strings() {
-        let vec = vec!["a".to_string(), "b".to_string(), "c".to_string(), "d".to_string()];
+        let vec = vec![
+            "a".to_string(),
+            "b".to_string(),
+            "c".to_string(),
+            "d".to_string(),
+        ];
         let replacement = vec!["x".to_string(), "y".to_string()];
         let (modified, replaced) = splice_replace(vec, 1, 3, replacement);
-        
-        assert_eq!(modified, vec!["a".to_string(), "x".to_string(), "y".to_string(), "d".to_string()]);
+
+        assert_eq!(
+            modified,
+            vec![
+                "a".to_string(),
+                "x".to_string(),
+                "y".to_string(),
+                "d".to_string()
+            ]
+        );
         assert_eq!(replaced, vec!["b".to_string(), "c".to_string()]);
     }
 }
