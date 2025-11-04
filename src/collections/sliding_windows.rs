@@ -1,10 +1,3 @@
-// Sliding Window Practice
-//
-// Learning objectives:
-// - Using Vec windows() method
-// - Working with sliding window algorithms
-// - Handling edge cases in window operations
-//
 // Run with: cargo test sliding_windows
 
 /// Implement sliding window operations on a vector.
@@ -13,7 +6,7 @@ pub fn sliding_windows<T>(vec: Vec<T>, window_size: usize) -> Vec<Vec<T>>
 where
     T: Clone,
 {
-    todo!("Implement sliding windows")
+    todo!()
 }
 
 #[cfg(test)]
@@ -25,11 +18,11 @@ mod tests {
         let vec = vec![1, 2, 3, 4, 5];
         let windows = sliding_windows(vec, 3);
         assert_eq!(windows, vec![vec![1, 2, 3], vec![2, 3, 4], vec![3, 4, 5]]);
-        
+
         let vec = vec![1, 2];
         let windows = sliding_windows(vec, 3);
         assert!(windows.is_empty()); // Not enough elements
-        
+
         let vec = vec![1, 2, 3];
         let windows = sliding_windows(vec, 1);
         assert_eq!(windows, vec![vec![1], vec![2], vec![3]]);
@@ -55,12 +48,20 @@ mod tests {
 
     #[test]
     fn test_sliding_windows_strings() {
-        let vec = vec!["a".to_string(), "b".to_string(), "c".to_string(), "d".to_string()];
+        let vec = vec![
+            "a".to_string(),
+            "b".to_string(),
+            "c".to_string(),
+            "d".to_string(),
+        ];
         let windows = sliding_windows(vec, 2);
-        assert_eq!(windows, vec![
-            vec!["a".to_string(), "b".to_string()],
-            vec!["b".to_string(), "c".to_string()],
-            vec!["c".to_string(), "d".to_string()]
-        ]);
+        assert_eq!(
+            windows,
+            vec![
+                vec!["a".to_string(), "b".to_string()],
+                vec!["b".to_string(), "c".to_string()],
+                vec!["c".to_string(), "d".to_string()]
+            ]
+        );
     }
 }
