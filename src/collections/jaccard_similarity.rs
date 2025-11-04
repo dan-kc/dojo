@@ -9,13 +9,7 @@ pub fn jaccard_similarity<T>(
 where
     T: std::hash::Hash + Eq,
 {
-    if set_a.is_empty() && set_b.is_empty() {
-        return 1.0;
-    }
-    if set_a.is_empty() || set_b.is_empty() {
-        return 0.0;
-    }
-    set_a.intersection(set_b).count() as f64 / set_b.union(set_a).count() as f64
+    todo!()
 }
 
 #[cfg(test)]
