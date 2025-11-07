@@ -15,7 +15,6 @@ pub mod zip_vectors;
 // HashMap operation patterns
 pub mod count_char_frequencies;
 pub mod merge_hashmaps;
-pub mod transform_hashmap;
 pub mod hashmap_transform;
 pub mod intersect_hashmaps;
 pub mod memoizer;
