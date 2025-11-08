@@ -71,4 +71,3 @@ mod tests {
         assert!(consumed.contains(&2)); // The item we enqueued earlier
     }
 }
-

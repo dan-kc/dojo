@@ -29,7 +29,7 @@ mod tests {
             sleep(Duration::from_millis(10)).await;
             x * 2
         };
-        
+
         let result = async_closure_usage(items, processor).await;
         assert_eq!(result, vec![2, 4, 6]);
     }
@@ -45,7 +45,7 @@ mod tests {
                 x * 3
             }
         };
-        
+
         let result = async_closure_usage(items, processor).await;
         assert_eq!(result, vec![15, 5, 45]); // 5*3, 10/2, 15*3
     }
@@ -57,7 +57,7 @@ mod tests {
             sleep(Duration::from_millis(10)).await;
             x + 1
         };
-        
+
         let result = async_closure_usage(items, processor).await;
         assert!(result.is_empty());
     }
@@ -69,7 +69,7 @@ mod tests {
             sleep(Duration::from_millis(1)).await;
             x.abs() + 10
         };
-        
+
         let result = async_closure_usage(items, processor).await;
         assert_eq!(result, vec![13, 11, 10, 11, 13]);
     }
@@ -77,17 +77,17 @@ mod tests {
     #[tokio::test]
     async fn test_timing_behavior() {
         use std::time::Instant;
-        
+
         let items = vec![1, 2, 3, 4];
         let processor = |x| async move {
             sleep(Duration::from_millis(25)).await;
             x * x
         };
-        
+
         let start = Instant::now();
         let result = async_closure_usage(items, processor).await;
         let elapsed = start.elapsed();
-        
+
         assert_eq!(result, vec![1, 4, 9, 16]);
         // Should take at least 100ms for 4 items with 25ms each
         assert!(elapsed >= Duration::from_millis(90));
@@ -103,7 +103,7 @@ mod tests {
             // Convert to "number" but return as i32 length
             format!("number_{}", x).len() as i32
         };
-        
+
         let result = async_closure_usage(items, processor).await;
         assert_eq!(result, vec![8, 8, 8]); // "number_1", "number_2", "number_3" all have 8 chars
     }
@@ -112,13 +112,13 @@ mod tests {
     async fn test_closure_with_capture() {
         let multiplier = 5;
         let offset = 10;
-        
+
         let items = vec![1, 2, 3];
         let processor = move |x| async move {
             sleep(Duration::from_millis(5)).await;
             x * multiplier + offset
         };
-        
+
         let result = async_closure_usage(items, processor).await;
         assert_eq!(result, vec![15, 20, 25]); // (1*5+10), (2*5+10), (3*5+10)
     }
@@ -130,7 +130,7 @@ mod tests {
             sleep(Duration::from_millis(10)).await;
             x - 2
         };
-        
+
         let result = async_closure_usage(items, processor).await;
         assert_eq!(result, vec![40]);
     }
@@ -140,10 +140,15 @@ mod tests {
         let items = vec![0, 0, 0];
         let processor = |x| async move {
             sleep(Duration::from_millis(1)).await;
-            if x == 0 { 100 } else { x }
+            if x == 0 {
+                100
+            } else {
+                x
+            }
         };
-        
+
         let result = async_closure_usage(items, processor).await;
         assert_eq!(result, vec![100, 100, 100]);
     }
 }
+
