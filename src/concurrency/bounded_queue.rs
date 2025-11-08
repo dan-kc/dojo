@@ -1,11 +1,4 @@
-// Bounded Queue with Blocking Operations Practice
-//
-// Learning Objectives:
-// - Implement thread-safe bounded data structures
-// - Handle blocking operations with condition variables
-// - Manage capacity constraints in concurrent contexts
-//
-// cargo test --bin bounded_queue
+// cargo test bounded_queue
 
 /// Create a thread-safe message queue with bounded capacity.
 /// Multiple producers can enqueue messages, and multiple consumers can dequeue.
@@ -44,15 +37,15 @@ mod tests {
     #[test]
     fn test_bounded_queue() {
         let queue = Arc::new(BoundedQueue::new(3));
-        
+
         // Test basic enqueue/dequeue
         queue.enqueue(1);
         queue.enqueue(2);
         assert_eq!(queue.len(), 2);
-        
+
         assert_eq!(queue.dequeue(), 1);
         assert_eq!(queue.len(), 1);
-        
+
         // Test concurrent producers and consumers
         let queue_clone = queue.clone();
         let producer = thread::spawn(move || {
@@ -60,7 +53,7 @@ mod tests {
                 queue_clone.enqueue(i);
             }
         });
-        
+
         let queue_clone2 = queue.clone();
         let consumer = thread::spawn(move || {
             let mut results = Vec::new();
@@ -69,12 +62,13 @@ mod tests {
             }
             results
         });
-        
+
         producer.join().unwrap();
         let consumed = consumer.join().unwrap();
-        
+
         // Should have consumed the remaining items
         assert_eq!(consumed.len(), 3);
         assert!(consumed.contains(&2)); // The item we enqueued earlier
     }
 }
+
