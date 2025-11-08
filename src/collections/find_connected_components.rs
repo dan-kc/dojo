@@ -25,8 +25,10 @@ mod tests {
         ];
 
         let components = find_connected_components(edges);
+        dbg!(&components);
         assert_eq!(components.len(), 3);
-
+        //  left: 1
+        // right: 3
         // Check that all nodes are covered
         let all_nodes: HashSet<i32> = components
             .iter()

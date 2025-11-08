@@ -9,7 +9,6 @@ pub mod reverse_chunks;
 pub mod rotate_vector;
 pub mod sliding_windows;
 pub mod splice_replace;
-pub mod vec_tracker;
 pub mod zip_vectors;
 
 // HashMap operation patterns
@@ -21,7 +20,6 @@ pub mod memoizer;
 pub mod word_index;
 
 // HashSet operation patterns
-pub mod union_all_sets;
 pub mod intersect_all_sets;
 pub mod find_unique_elements;
 pub mod partition_set;
@@ -53,4 +51,3 @@ pub mod task_scheduler;
 pub mod median_tracker;
 pub mod simple_lru_cache;
 pub mod card_deck;
-pub mod work_stealing_deque;

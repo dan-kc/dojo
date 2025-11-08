@@ -1,16 +1,11 @@
-// Word Index Practice
-//
-// Learning objectives:
-// - Building inverted indexes with HashMap
-// - Using HashSet for position tracking
-// - Text processing and tokenization
-//
-// Run with: cargo test word_index
+// cargo test word_index
 
 /// Use HashMap to implement a simple word index for text search.
 /// Map words to sets of positions where they appear.
-pub fn build_word_index(text: &str) -> std::collections::HashMap<String, std::collections::HashSet<usize>> {
-    todo!("Implement word position indexing")
+pub fn build_word_index(
+    text: &str,
+) -> std::collections::HashMap<String, std::collections::HashSet<usize>> {
+    todo!()
 }
 
 #[cfg(test)]
@@ -21,16 +16,16 @@ mod tests {
     fn test_build_word_index() {
         let text = "the quick brown fox jumps over the lazy dog";
         let index = build_word_index(text);
-        
+
         let the_positions = index.get("the").unwrap();
         assert!(the_positions.contains(&0)); // First "the"
         assert!(the_positions.contains(&6)); // Second "the"
         assert_eq!(the_positions.len(), 2);
-        
+
         let fox_positions = index.get("fox").unwrap();
         assert!(fox_positions.contains(&3));
         assert_eq!(fox_positions.len(), 1);
-        
+
         assert_eq!(index.get("nonexistent"), None);
     }
 
@@ -38,7 +33,7 @@ mod tests {
     fn test_build_word_index_single_word() {
         let text = "hello";
         let index = build_word_index(text);
-        
+
         assert_eq!(index.len(), 1);
         let hello_positions = index.get("hello").unwrap();
         assert!(hello_positions.contains(&0));
@@ -49,7 +44,7 @@ mod tests {
     fn test_build_word_index_repeated_words() {
         let text = "test test test";
         let index = build_word_index(text);
-        
+
         assert_eq!(index.len(), 1);
         let test_positions = index.get("test").unwrap();
         assert!(test_positions.contains(&0));
@@ -76,10 +71,11 @@ mod tests {
     fn test_build_word_index_case_sensitivity() {
         let text = "Hello hello HELLO";
         let index = build_word_index(text);
-        
+
         // Should treat different cases as different words (or normalize - implementation choice)
         // This test assumes case-sensitive indexing
-        if index.contains_key("hello") && index.contains_key("Hello") && index.contains_key("HELLO") {
+        if index.contains_key("hello") && index.contains_key("Hello") && index.contains_key("HELLO")
+        {
             // Case-sensitive implementation
             assert_eq!(index.len(), 3);
         } else if index.contains_key("hello") && index.len() == 1 {
