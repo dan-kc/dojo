@@ -12,7 +12,6 @@ pub mod first_n_primes;
 pub mod top_k_frequent_words;
 pub mod dot_product;
 pub mod elements_above_average;
-pub mod zip_vectors;
 pub mod enumerate_long_words;
 pub mod format_adults;
 pub mod sliding_window_sums;

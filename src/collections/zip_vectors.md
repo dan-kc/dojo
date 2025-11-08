@@ -31,6 +31,22 @@ pub fn zip_vectors<T>(vec1: Vec<T>, vec2: Vec<T>) -> Vec<T> {
     result
 }
 ```
+or
+
+```rust
+pub fn zip_vectors<T>(vec1: Vec<T>, vec2: Vec<T>) -> Vec<T> {
+    let mut iter_2 = vec2.into_iter();
+    let mut res = vec![];
+    for (idx, el) in vec1.into_iter().enumerate() {
+        res.push(el);
+        if let Some(next) = iter_2.next() {
+            res.push(next);
+        }
+    }
+    res.extend(iter_2);
+    res
+}
+```
 
 ## Explanation
 
