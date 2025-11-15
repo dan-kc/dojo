@@ -1,12 +1,4 @@
-// Card Deck Practice
-//
-// Learning Objectives:
-// - Use VecDeque to implement a deck of cards with efficient shuffling
-// - Support dealing from both ends and inserting at arbitrary positions
-// - Practice with double-ended operations for card game mechanics
-// - Implement shuffling algorithms using deque operations
-//
-// Run with: cargo test card_deck
+// cargo test card_deck
 
 /// Use VecDeque to implement a deck of cards with efficient shuffling.
 /// Support dealing from both ends and inserting at arbitrary positions.

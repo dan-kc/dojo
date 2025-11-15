@@ -33,7 +33,9 @@ impl CardDeck {
         // Fisher-Yates shuffle
         let len = vec.len();
         for i in (1..len).rev() {
-            let j = (rand::random::<usize>() % (i + 1)) as usize;
+            use rand::Rng;
+            let mut rng = rand::rng();
+            let j = rng.random_range(0..=i);
             vec.swap(i, j);
         }
 
