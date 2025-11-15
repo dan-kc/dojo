@@ -1,11 +1,4 @@
-// Broadcast System with Channel Relay Practice
-//
-// Learning Objectives:
-// - Implement broadcast patterns with single-consumer channels
-// - Create relay systems for message distribution
-// - Work with multiple receivers pattern
-//
-// cargo test --bin broadcast_system
+// cargo test broadcast_system
 
 /// Create a broadcast system where one sender sends messages to multiple
 /// receivers. Since mpsc doesn't support multiple consumers directly,
