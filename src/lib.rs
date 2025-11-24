@@ -1,4 +1,11 @@
-#![allow(dead_code, unused_variables, unused_mut, unused_imports, unused_doc_comments)]
+#![allow(
+    dead_code,
+    unused_variables,
+    unused_mut,
+    unused_imports,
+    unused_doc_comments
+)]
+#![feature(mpmc_channel)]
 pub mod file_io;
 pub mod iterators;
 pub mod lifetimes;
