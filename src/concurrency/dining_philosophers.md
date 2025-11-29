@@ -12,54 +12,42 @@ pub struct DiningPhilosophers {
 
 impl DiningPhilosophers {
     pub fn new(count: usize) -> Self {
-        let forks = (0..count).map(|_| Arc::new(Mutex::new(()))).collect();
-        Self { forks }
+        Self {
+            forks: (0..count).map(|_| Arc::new(Mutex::new(()))).collect(),
+        }
     }
 
+    /// A philosopher attempts to eat by acquiring two adjacent forks.
+    /// Implement this without deadlocks using lock ordering.
     pub fn philosopher_eat(&self, philosopher_id: usize) -> bool {
-        let count = self.forks.len();
-        let left_fork = philosopher_id;
-        let right_fork = (philosopher_id + 1) % count;
-        
-        // Prevent deadlock by ordering lock acquisition consistently
-        // Always acquire lower-numbered fork first
-        let (first_fork, second_fork) = if left_fork < right_fork {
-            (left_fork, right_fork)
+        if self.forks.len() < 2 {
+            return false;
+        }
+
+        let (first_idx, second_idx) = if philosopher_id == self.forks.len() - 1 {
+            (0, self.forks.len() - 1)
         } else {
-            (right_fork, left_fork)
+            (philosopher_id, philosopher_id + 1)
         };
-        
-        // Try to acquire both forks with consistent ordering
-        let _first_lock = match self.forks[first_fork].try_lock() {
-            Ok(lock) => lock,
-            Err(_) => return false, // Fork not available
-        };
-        
-        let _second_lock = match self.forks[second_fork].try_lock() {
-            Ok(lock) => lock,
-            Err(_) => return false, // Fork not available
-        };
-        
-        // Both forks acquired - philosopher can eat
-        // Simulate eating time
-        thread::sleep(std::time::Duration::from_millis(1));
-        
-        true
+
+        if let (Ok(first_guard), Ok(second_guard)) =
+            (self.forks[first_idx].lock(), self.forks[second_idx].lock())
+        {
+            std::thread::sleep(std::time::Duration::from_millis(10));
+            return true;
+        }
+
+        return false;
     }
 
-    pub fn run_simulation(&self) -> Vec<bool> {
-        let count = self.forks.len();
-        let handles: Vec<_> = (0..count)
-            .map(|i| {
-                let philosophers_ref = self;
-                thread::spawn(move || philosophers_ref.philosopher_eat(i))
-            })
-            .collect();
-        
-        handles
-            .into_iter()
-            .map(|handle| handle.join().unwrap())
-            .collect()
+    /// Run simulation with all philosophers trying to eat simultaneously.
+    pub fn run_simulation(self: Arc<Self>) -> Vec<bool> {
+        let res = (0..self.forks.len()).map(|idx| {
+            let dp = self.clone();
+            std::thread::spawn(move || dp.philosopher_eat(idx))
+        });
+
+        res.map(|handle| handle.join().unwrap()).collect()
     }
 }
 ```
