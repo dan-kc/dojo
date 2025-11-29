@@ -1,15 +1,8 @@
-// Non-Send Container Practice
-//
-// Learning Objectives:
-// - Handle non-Send data safely across threads
-// - Use Mutex to make containers Send even with non-Send contents
-// - Understand the difference between container and content Send properties
-//
-// Run with: cargo test --bin non_send_container
+// Run with: cargo test non_send_container
 
+use std::rc::Rc;
 use std::sync::{Arc, Mutex};
 use std::thread;
-use std::rc::Rc;
 
 /// A struct that contains non-Send data but can still be used safely
 /// across threads through careful encapsulation
@@ -56,11 +49,12 @@ mod tests {
     fn test_compile_time_safety() {
         // These should compile (Send + Sync types)
         let _: Arc<NonSendContainer> = Arc::new(NonSendContainer::new());
-        
+
         // These demonstrate the compiler preventing unsafe sharing
         // Uncommenting these would cause compilation errors:
-        
+
         // let rc = Rc::new(5);  // Rc is not Send
         // thread::spawn(move || println!("{}", rc)); // Would fail to compile
     }
 }
+
