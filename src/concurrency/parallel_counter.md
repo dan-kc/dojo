@@ -5,13 +5,16 @@ fn parallel_counter(num_threads: usize, sleep_ms: u64) -> u32 {
     let handles: Vec<_> = (0..num_threads)
         .map(|_| {
             std::thread::spawn(move || {
-                std::thread::sleep(std::time::Duration::from_millis(sleep_ms));
+                let _ = std::time::Duration::from_millis(sleep_ms);
                 1u32
             })
         })
         .collect();
-    
-    handles.into_iter().map(|handle| handle.join().unwrap()).sum()
+
+    handles
+        .into_iter()
+        .map(|handle| handle.join().unwrap())
+        .fold(0, |acc, e| acc + e)
 }
 ```
 

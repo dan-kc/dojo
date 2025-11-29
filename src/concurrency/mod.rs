@@ -41,7 +41,6 @@ pub mod hierarchical_locking;
 // Send and Sync trait patterns
 pub mod thread_safe_counter;
 pub mod send_wrapper;
-pub mod non_send_container;
 pub mod thread_local_storage;
 pub mod send_not_sync;
 pub mod send_to_thread_utils;
