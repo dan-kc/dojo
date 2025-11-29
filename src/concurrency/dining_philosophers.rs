@@ -1,11 +1,4 @@
-// Dining Philosophers Deadlock Prevention Practice
-//
-// Learning Objectives:
-// - Understand dining philosophers deadlock scenario
-// - Practice lock ordering strategies to prevent circular waiting
-// - Work with Arc and Mutex for shared state
-//
-// Run with: cargo test --bin dining_philosophers
+// Run with: cargo test dining_philosophers
 
 use std::sync::{Arc, Mutex};
 use std::thread;
