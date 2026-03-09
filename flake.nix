@@ -7,11 +7,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
+
   outputs =
     {
       nixpkgs,
-      flake-utils,
       fenix,
+      flake-utils,
       ...
     }:
     flake-utils.lib.eachDefaultSystem (
@@ -22,53 +23,59 @@
           inherit system overlays;
         };
 
-        ra-multiplex-port = "27610";
-        ra-config = ''
-          instance_timeout = false 
-          gc_interval = 10
-          listen = ["127.0.0.1", ${ra-multiplex-port}]
-          connect = ["127.0.0.1", ${ra-multiplex-port}]
-          log_filters = "info"
-          pass_environment = []
-        '';
-        ra = pkgs.writeShellScriptBin "ra" ''
-          RA_MULTIPLEX_DIR="/tmp/ra-${ra-multiplex-port}"
-          CONFIG_DIR="$RA_MULTIPLEX_DIR/ra-multiplex"  
-          CONFIG_FILE="$CONFIG_DIR/config.toml"
-          LOG_DIR="/tmp/ra-multiplex"
-          LOG_FILE="$LOG_DIR/$RA_MULTIPLEX_PORT.log"
+        scripts = import ./scripts.nix { inherit pkgs; };
 
-          mkdir -p "$LOG_DIR"
-          mkdir -p "$CONFIG_DIR"
-          cat > "$CONFIG_FILE" <<EOF
-          ${ra-config}
-          EOF
-
-          XDG_CONFIG_HOME=$RA_MULTIPLEX_DIR ra-multiplex server &> "$LOG_FILE" & disown
-          echo "Listening"
-        '';
+        pname = "my-project";
+        version = "0.1.0";
+        toolchain = fenix.packages.${system}.minimal.toolchain;
+        rustPlatform = pkgs.makeRustPlatform {
+          cargo = toolchain;
+          rustc = toolchain;
+        };
+        package = rustPlatform.buildRustPackage {
+          inherit pname;
+          inherit version;
+          src = ./.;
+          cargoLock.lockFile = ./Cargo.lock;
+        };
       in
       {
-        devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            (fenix.packages.${system}.complete.withComponents [
-              "cargo"
-              "clippy"
-              "rustc"
-              "rustfmt"
-            ])
-            rust-analyzer
-            nil
-            nixfmt-rfc-style
-            taplo
-            ra-multiplex
-            ra
-          ];
-
-          shellHook = ''
-            export RA_MULTIPLEX_PORT="${ra-multiplex-port}"
-          '';
-        };
+        devShells.default =
+          with pkgs;
+          mkShell {
+            buildInputs = [
+              (fenix.packages.${system}.complete.withComponents [
+                "cargo"
+                "clippy"
+                "rust-src"
+                "rustc"
+                "rustfmt"
+                "rust-analyzer"
+              ])
+              nil
+              nixfmt-rfc-style
+              lspmux
+            ]
+            ++ scripts;
+            shellHook = ''
+              start() {
+                command start
+                if [ -f "$(git rev-parse --show-toplevel)/.lspmux.port" ]; then
+                  export LSPMUX_PORT=$(cat "$(git rev-parse --show-toplevel)/.lspmux.port")
+                fi
+              }
+              stop() {
+                command stop
+                unset LSPMUX_PORT
+              }
+              ROOT="$(git rev-parse --show-toplevel)"
+              if [ -f "$ROOT/.lspmux.port" ] && [ -f "$ROOT/.lspmux.pid" ] && kill -0 $(cat "$ROOT/.lspmux.pid") 2>/dev/null; then
+                export LSPMUX_PORT=$(cat "$ROOT/.lspmux.port")
+              fi
+              status
+            '';
+          };
+        packages.default = package;
       }
     );
 }

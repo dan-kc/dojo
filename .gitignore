@@ -1,3 +1,10 @@
-.direnv/
-.git
-/target
+# Added by flake-gen
+.direnv
+
+target/
+
+logs/
+*.log
+
+.lspmux.pid
+.lspmux.port
