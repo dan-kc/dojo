@@ -51,4 +51,3 @@ mod tests {
         assert_eq!(result, vec!['b', 'a', 'd', 'c', 'f', 'e']);
     }
 }
-
