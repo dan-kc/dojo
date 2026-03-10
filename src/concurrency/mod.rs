@@ -31,7 +31,6 @@ pub mod parallel_sum;
 pub mod thread_pool_implementation;
 pub mod parallel_map;
 pub mod parallel_reduce;
-pub mod parallel_prime_sieve;
 
 // Deadlock prevention patterns
 pub mod dining_philosophers;
