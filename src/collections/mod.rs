@@ -8,7 +8,6 @@ pub mod partition_vector;
 pub mod reverse_chunks;
 pub mod rotate_vector;
 pub mod sliding_windows;
-pub mod splice_replace;
 pub mod zip_vectors;
 
 // HashMap operation patterns

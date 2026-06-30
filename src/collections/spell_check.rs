@@ -1,6 +1,6 @@
 // cargo test spell_check
 
-/// Implement a simple spell checker using HashSet for dictionary lookup.
+/// Implement a simple spell checker.
 /// Return words that are not in the dictionary.
 pub fn spell_check(
     text: &str,
