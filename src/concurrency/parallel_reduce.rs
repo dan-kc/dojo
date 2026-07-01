@@ -18,7 +18,7 @@ where
     T: Send + Clone + 'static,
     F: Fn(T, T) -> T + Send + Sync + Copy + 'static,
 {
-    todo!("Implement parallel_reduce using thread pool")
+    todo!()
 }
 
 #[cfg(test)]
@@ -145,4 +145,3 @@ mod tests {
         assert_eq!(or_result, true);
     }
 }
-
