@@ -24,20 +24,6 @@
         };
 
         scripts = import ./scripts.nix { inherit pkgs; };
-
-        pname = "my-project";
-        version = "0.1.0";
-        toolchain = fenix.packages.${system}.minimal.toolchain;
-        rustPlatform = pkgs.makeRustPlatform {
-          cargo = toolchain;
-          rustc = toolchain;
-        };
-        package = rustPlatform.buildRustPackage {
-          inherit pname;
-          inherit version;
-          src = ./.;
-          cargoLock.lockFile = ./Cargo.lock;
-        };
       in
       {
         devShells.default =
@@ -75,7 +61,6 @@
               status
             '';
           };
-        packages.default = package;
       }
     );
 }

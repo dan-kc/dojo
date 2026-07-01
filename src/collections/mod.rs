@@ -45,7 +45,6 @@ pub mod btree_stepped_union;
 // Specialized collection patterns
 pub mod palindrome_checker;
 pub mod deque_rotation;
-pub mod sliding_window_maximum;
 pub mod task_scheduler;
 pub mod median_tracker;
 pub mod simple_lru_cache;

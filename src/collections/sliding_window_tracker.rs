@@ -1,4 +1,4 @@
-// Run with: cargo test sliding_window_tracker
+// cargo test sliding_window_tracker
 
 /// Implement a sliding window minimum/maximum tracker using BTreeMap.
 /// Efficiently maintain min/max in a sliding window of size k.
@@ -30,7 +30,7 @@ impl SlidingWindowTracker {
     }
 
     fn window_size(&self) -> usize {
-        self.current_window.len()
+        todo!()
     }
 }
 
