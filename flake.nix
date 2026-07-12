@@ -6,6 +6,11 @@
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ra-mux = {
+      url = "github:dan-kc/ra-mux";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
   outputs =
@@ -13,6 +18,7 @@
       nixpkgs,
       fenix,
       flake-utils,
+      ra-mux,
       ...
     }:
     flake-utils.lib.eachDefaultSystem (
@@ -23,41 +29,43 @@
           inherit system overlays;
         };
 
+        rustToolchain = fenix.packages.${system}.complete.withComponents [
+          "cargo"
+          "clippy"
+          "rust-src"
+          "rustc"
+          "rustfmt"
+          "rust-analyzer"
+        ];
+        rustPlatform = pkgs.makeRustPlatform {
+          cargo = rustToolchain;
+          rustc = rustToolchain;
+        };
         scripts = import ./scripts.nix { inherit pkgs; };
       in
       {
+        packages.default = rustPlatform.buildRustPackage {
+          pname = "dojo";
+          version = "0.1.0";
+          src = ./.;
+          doCheck = false;
+
+          cargoLock = {
+            lockFile = ./Cargo.lock;
+          };
+        };
+
         devShells.default =
           with pkgs;
           mkShell {
             buildInputs = [
-              (fenix.packages.${system}.complete.withComponents [
-                "cargo"
-                "clippy"
-                "rust-src"
-                "rustc"
-                "rustfmt"
-                "rust-analyzer"
-              ])
+              rustToolchain
               nil
-              nixfmt-rfc-style
-              lspmux
+              nixfmt
+              ra-mux.packages.${system}.default
             ]
             ++ scripts;
             shellHook = ''
-              start() {
-                command start
-                if [ -f "$(git rev-parse --show-toplevel)/.lspmux.port" ]; then
-                  export LSPMUX_PORT=$(cat "$(git rev-parse --show-toplevel)/.lspmux.port")
-                fi
-              }
-              stop() {
-                command stop
-                unset LSPMUX_PORT
-              }
-              ROOT="$(git rev-parse --show-toplevel)"
-              if [ -f "$ROOT/.lspmux.port" ] && [ -f "$ROOT/.lspmux.pid" ] && kill -0 $(cat "$ROOT/.lspmux.pid") 2>/dev/null; then
-                export LSPMUX_PORT=$(cat "$ROOT/.lspmux.port")
-              fi
               status
             '';
           };

@@ -55,11 +55,35 @@
         "type": "github"
       }
     },
+    "ra-mux": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783856144,
+        "narHash": "sha256-5Pv/0j3cmq2hbMzQYOjcun7qbZjs95YVHSVZ16dY9K0=",
+        "owner": "dan-kc",
+        "repo": "ra-mux",
+        "rev": "c6a159cb80e0d91882acebfbcc2f499badf6324e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dan-kc",
+        "repo": "ra-mux",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "fenix": "fenix",
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "ra-mux": "ra-mux"
       }
     },
     "rust-analyzer-src": {
