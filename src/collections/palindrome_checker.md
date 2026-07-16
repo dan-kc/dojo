@@ -3,28 +3,16 @@
 ## Implementation
 
 ```rust
-pub fn is_palindrome_deque(s: &str) -> bool {
-    // Convert string to lowercase and filter out non-alphabetic characters
-    let chars: std::collections::VecDeque<char> = s
-        .to_lowercase()
-        .chars()
-        .filter(|c| c.is_alphabetic())
-        .collect();
-    
-    let mut deque = chars;
-    
-    // Compare characters from both ends
-    while deque.len() > 1 {
-        let front = deque.pop_front();
-        let back = deque.pop_back();
-        
-        match (front, back) {
-            (Some(f), Some(b)) if f != b => return false,
-            _ => continue,
+pub fn is_palindrome(s: &str) -> bool {
+    let mut iter = s.chars().filter(|c| c.is_ascii_alphanumeric());
+    while let (Some(front), Some(back)) = (iter.next(), iter.next_back()) {
+        if front.ne(&back) {
+            return false;
         }
     }
-    
-    true
+
+    return true;
+}
 }
 ```
 
