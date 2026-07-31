@@ -1,11 +1,4 @@
-// Parallel Vector Processing Practice
-//
-// Learning Objectives:
-// - Split work across multiple threads
-// - Handle data partitioning for parallel processing
-// - Maintain order in parallel computations
-//
-// cargo test --bin parallel_vector_processing
+// cargo test parallel_vector_processing
 
 /// Spawn threads that process different parts of a vector in parallel.
 /// Each thread processes a slice of the input vector by doubling each element.
