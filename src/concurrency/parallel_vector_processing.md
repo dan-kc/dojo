@@ -5,10 +5,10 @@ fn parallel_vector_processing(input: Vec<i32>, num_threads: usize) -> Vec<i32> {
     if input.is_empty() || num_threads == 0 {
         return Vec::new();
     }
-    
+
     let len = input.len();
     let chunk_size = (len + num_threads - 1) / num_threads;
-    
+
     let handles: Vec<_> = input
         .chunks(chunk_size)
         .map(|chunk| {
@@ -18,11 +18,39 @@ fn parallel_vector_processing(input: Vec<i32>, num_threads: usize) -> Vec<i32> {
             })
         })
         .collect();
-    
+
     handles
         .into_iter()
         .flat_map(|handle| handle.join().unwrap())
         .collect()
+}
+```
+
+## Without allocation
+
+```rust
+fn parallel_vector_processing(mut input: Vec<i32>, num_threads: usize) -> Vec<i32> {
+    if input.is_empty() || num_threads == 0 {
+        return vec![];
+    };
+
+    let chunk_size = if input.len() <= num_threads {
+        input.len()
+    } else {
+        input.len().div_ceil(num_threads)
+    };
+
+    std::thread::scope(|scope| {
+        for chunk in input.chunks_mut(chunk_size) {
+            scope.spawn(move || {
+                for el in chunk.iter_mut() {
+                    *el = *el * 2;
+                }
+            });
+        }
+    });
+
+    input
 }
 ```
 

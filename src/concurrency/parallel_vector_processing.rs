@@ -4,7 +4,7 @@
 /// Each thread processes a slice of the input vector by doubling each element.
 /// Return a new vector with all processed elements in the correct order.
 fn parallel_vector_processing(input: Vec<i32>, num_threads: usize) -> Vec<i32> {
-    todo!("Implement parallel vector processing")
+    todo!()
 }
 
 #[cfg(test)]
