@@ -8,7 +8,6 @@
 // - Send and Sync traits
 
 // Basic threading patterns
-pub mod parallel_counter;
 pub mod threaded_factorial;
 pub mod parallel_vector_processing;
 pub mod thread_identification;
