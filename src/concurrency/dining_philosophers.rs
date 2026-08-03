@@ -15,7 +15,6 @@ impl DiningPhilosophers {
     }
 
     /// A philosopher attempts to eat by acquiring two adjacent forks.
-    /// Implement this without deadlocks using lock ordering.
     pub fn philosopher_eat(&self, philosopher_id: usize) -> bool {
         todo!()
     }
