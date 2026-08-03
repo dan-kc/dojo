@@ -45,3 +45,32 @@ This solution demonstrates the classic producer-consumer pattern using Rust's mu
 4. **Blocking Receive**: `recv()` blocks until a message is available or all senders are dropped
 
 This pattern is essential for work distribution where multiple sources produce data consumed by a single processor. The channel acts as a thread-safe queue, handling synchronization automatically.
+
+OR
+
+```rust
+fn producer_consumer_pattern(producers: Vec<(i32, i32)>) -> Vec<i32> {
+    let (tx, rx) = std::sync::mpmc::channel();
+
+    let mut total = 0;
+    for p in producers {
+        let tx = tx.clone();
+        total += p.1 - p.0 + 1;
+        std::thread::spawn(move || {
+            for num in p.0..=p.1 {
+                tx.send(num).unwrap();
+            }
+        });
+    }
+
+    drop(tx);
+
+    let mut res = Vec::with_capacity(total as usize);
+
+    res.extend(rx);
+    res.sort();
+    res
+}
+```
+This solution avoids the handles because we don't actually need the threads to finish, we just need
+all txs to drop. Also this solution pre-allocates for the final vec.
