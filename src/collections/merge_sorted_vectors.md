@@ -4,28 +4,32 @@
 
 ```rust
 fn merge_sorted_vectors(vectors: Vec<Vec<i32>>) -> Vec<i32> {
-    // Initialize our heap with the first el in each vec
-    let mut heap = std::collections::BinaryHeap::new();
-    let mut iters: Vec<std::vec::IntoIter<i32>> =
-        vectors.into_iter().map(|vec| vec.into_iter()).collect();
+    use std::cmp::Reverse;
 
-    for (idx, vector) in iters.iter_mut().enumerate() {
-        if let Some(val) = vector.next() {
-            heap.push(std::cmp::Reverse((val, idx)));
+    let total_len = vectors.iter().fold(0, |acc, e| acc + e.len());
+    let mut res = Vec::with_capacity(total_len);
+
+    let mut min_heap = std::collections::BinaryHeap::new();
+    let mut iters_enum: Vec<_> = vectors.into_iter().map(|v| v.into_iter()).collect();
+
+    // Initialise heap
+    for (idx, iter) in iters_enum.iter_mut().enumerate() {
+        if let Some(next) = iter.next() {
+            min_heap.push((Reverse(next), idx))
         }
     }
 
-    // Loop through all elements
-    let mut res = vec![];
-    while !heap.is_empty() {
-        let std::cmp::Reverse((val, vec_idx)) = heap.pop().unwrap();
-        res.push(val);
-
-        // add to heap from the vec we just took from
-        let vecs = &mut iters;
-        if let Some(next) = vecs.get_mut(vec_idx).unwrap().next() {
-            heap.push(std::cmp::Reverse((next, vec_idx)))
-        }
+    while !min_heap.is_empty() {
+        // pop
+        let (rev_val, idx) = min_heap.pop().unwrap();
+        //
+        // Add to res
+        res.push(rev_val.0);
+        //
+        // replace with new el if exists
+        if let Some(next) = iters_enum[idx].next() {
+            min_heap.push((Reverse(next), idx))
+        };
     }
     res
 }
