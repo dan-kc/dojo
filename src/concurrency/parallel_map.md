@@ -73,6 +73,49 @@ where
 }
 ```
 
+```rust
+// Alternative non-channel implementation
+pub fn parallel_map<T, F, R>(pool: &ThreadPool, items: Vec<T>, func: F) -> Vec<R>
+where
+    T: Send + 'static,
+    F: Fn(T) -> R + Send + Sync + 'static,
+    R: Send + 'static,
+{
+    use std::sync::{Arc, Mutex};
+    let thread_count = pool.worker_count.min(items.len());
+    let queue = Arc::new(Mutex::new(items.into_iter()));
+    let func = Arc::new(func);
+
+    let handles: Vec<_> = (0..thread_count)
+        .map(|_| {
+            let queue = Arc::clone(&queue);
+            let func = Arc::clone(&func);
+            std::thread::spawn(move || {
+                let mut local_res = vec![]; // cap estimate?
+                loop {
+                    let next = {
+                        let mut guard = queue.lock().unwrap();
+                        let Some(next) = guard.next() else { break };
+                        next
+                    };
+                    local_res.push(func(next))
+                }
+                local_res
+            })
+        })
+        .collect();
+
+    let mut res = vec![];
+    for handle in handles {
+        let processed = handle.join().unwrap();
+        res.extend(processed)
+    }
+
+    res
+}
+
+```
+
 ## Explanation
 
 The parallel map implementation distributes work across multiple threads using a shared work queue pattern:
