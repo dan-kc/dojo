@@ -2,7 +2,6 @@
 pub mod merge_sorted_vectors;
 pub mod chunk_vector;
 pub mod dedup_preserve_order;
-pub mod drain_and_sum;
 pub mod group_by;
 pub mod partition_vector;
 pub mod reverse_chunks;
