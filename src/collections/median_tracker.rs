@@ -1,14 +1,14 @@
 // cargo test median_tracker
 
-/// Implement a median tracker.
+/// Implement a median tracker for i32.
 /// Efficiently maintain running median as elements are added.
-pub struct MedianTracker {
-    // TODO
+pub struct MedianTracker{
+    //TODO
 }
 
 impl MedianTracker {
     pub fn new() -> Self {
-        todo!()
+
     }
 
     pub fn add(&mut self, value: i32) {
