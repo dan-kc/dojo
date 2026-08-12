@@ -1,18 +1,14 @@
 // cargo test median_tracker
 
-/// Implement a median tracker using two heaps (BinaryHeap).
+/// Implement a median tracker.
 /// Efficiently maintain running median as elements are added.
 pub struct MedianTracker {
-    upper_half: std::collections::BinaryHeap<std::cmp::Reverse<i32>>, // Larger or equal
-    lower_half: std::collections::BinaryHeap<i32>,
+    // TODO
 }
 
 impl MedianTracker {
     pub fn new() -> Self {
-        Self {
-            upper_half: std::collections::BinaryHeap::new(),
-            lower_half: std::collections::BinaryHeap::new(),
-        }
+        todo!()
     }
 
     pub fn add(&mut self, value: i32) {
