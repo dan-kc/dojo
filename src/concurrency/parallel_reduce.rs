@@ -7,6 +7,7 @@ pub struct ThreadPool {
 
 impl ThreadPool {
     pub fn new(size: usize) -> Self {
+        assert!(size > 0, "thread pool size must be greater than zero");
         Self { worker_count: size }
     }
 }
@@ -16,9 +17,37 @@ impl ThreadPool {
 pub fn parallel_reduce<T, F>(pool: &ThreadPool, items: Vec<T>, identity: T, reduce_fn: F) -> T
 where
     T: Send + Clone + 'static,
-    F: Fn(T, T) -> T + Send + Sync + Copy + 'static,
+    F: Fn(T, T) -> T + Send + Copy + 'static,
 {
-    todo!()
+    if items.is_empty() {
+        return identity;
+    }
+
+    if items.len() == 1 {
+        return items.into_iter().next().expect("items contains one value");
+    }
+
+    let worker_count = pool.worker_count.min(items.len());
+    let chunk_size = items.len().div_ceil(worker_count);
+
+    let handles: Vec<_> = items
+        .chunks(chunk_size)
+        .map(|chunk| {
+            let chunk = chunk.to_vec();
+            std::thread::spawn(move || {
+                chunk
+                    .into_iter()
+                    .reduce(reduce_fn)
+                    .expect("chunks are non-empty")
+            })
+        })
+        .collect();
+
+    handles
+        .into_iter()
+        .map(|handle| handle.join().expect("parallel reduction worker panicked"))
+        .reduce(reduce_fn)
+        .unwrap_or(identity)
 }
 
 #[cfg(test)]
@@ -91,11 +120,7 @@ mod tests {
 
         let result = parallel_reduce(&pool, input, "".to_string(), |a, b| format!("{}{}", a, b));
 
-        // Note: parallel reduction might not preserve exact order
-        // but should contain all elements
-        assert!(result.contains("Hello"));
-        assert!(result.contains("World"));
-        assert!(result.contains("!"));
+        assert_eq!(result, "Hello World!");
     }
 
     #[test]
@@ -143,5 +168,25 @@ mod tests {
         let some_true = vec![false, false, true, false];
         let or_result = parallel_reduce(&pool, some_true, false, |a, b| a || b);
         assert_eq!(or_result, true);
+    }
+
+    #[test]
+    #[should_panic(expected = "thread pool size must be greater than zero")]
+    fn test_zero_workers_panics() {
+        let _ = ThreadPool::new(0);
+    }
+
+    #[test]
+    #[should_panic(expected = "parallel reduction worker panicked")]
+    fn test_worker_panic_is_propagated() {
+        let pool = ThreadPool::new(2);
+        let input = vec![1, 2, 3, 4];
+
+        parallel_reduce(&pool, input, 0, |a, b| {
+            if b == 2 {
+                panic!("reducer failed");
+            }
+            a + b
+        });
     }
 }
