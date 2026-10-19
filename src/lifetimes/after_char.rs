@@ -1,18 +1,13 @@
-// After Char
-//
-// Learning objectives:
-// - Lifetime elision in practice
-// - String searching and slicing
-// - Working with character positions
-//
-// cargo test --bin after_char
+// cargo test --lib lifetimes::after_char::
+
+//! Return the borrowed suffix after the first occurrence of c, excluding c. If absent return the original string. Work for multibyte UTF-8 characters without allocation.
 
 /// Implement a function that demonstrates lifetime elision.
 /// This function should take a string slice and return a reference to
 /// the part of the string after the first occurrence of a character.
 /// Return the original string if the character is not found.
 pub fn after_char(s: &str, c: char) -> &str {
-    todo!("Implement using lifetime elision rules")
+    todo!()
 }
 
 #[cfg(test)]
@@ -60,8 +55,4 @@ mod tests {
         let text = "hello世world";
         assert_eq!(after_char(text, '世'), "world");
     }
-}
-
-fn main() {
-    println!("Run tests with: cargo test --bin after_char");
 }

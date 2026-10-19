@@ -1,6 +1,6 @@
-# Merge Sorted Vectors
+# collections/merge_sorted_vectors
 
-## Solution
+Reference implementation. Read after attempting the exercise.
 
 ```rust
 fn merge_sorted_vectors(vectors: Vec<Vec<i32>>) -> Vec<i32> {
@@ -12,7 +12,6 @@ fn merge_sorted_vectors(vectors: Vec<Vec<i32>>) -> Vec<i32> {
     let mut min_heap = std::collections::BinaryHeap::new();
     let mut iters_enum: Vec<_> = vectors.into_iter().map(|v| v.into_iter()).collect();
 
-    // Initialise heap
     for (idx, iter) in iters_enum.iter_mut().enumerate() {
         if let Some(next) = iter.next() {
             min_heap.push((Reverse(next), idx))
@@ -20,31 +19,12 @@ fn merge_sorted_vectors(vectors: Vec<Vec<i32>>) -> Vec<i32> {
     }
 
     while !min_heap.is_empty() {
-        // pop
         let (rev_val, idx) = min_heap.pop().unwrap();
-        //
-        // Add to res
         res.push(rev_val.0);
-        //
-        // replace with new el if exists
         if let Some(next) = iters_enum[idx].next() {
             min_heap.push((Reverse(next), idx))
         };
     }
     res
-}
-```
-
-## Alternative Slower Implementation
-
-```rust
-fn merge_sorted_vectors(vectors: Vec<Vec<i32>>) -> Vec<i32> {
-    let mut result: Vec<i32> = vectors
-        .into_iter()
-        .flat_map(|v| v.into_iter())
-        .collect();
-
-    result.sort();
-    result
 }
 ```

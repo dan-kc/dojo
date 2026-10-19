@@ -1,48 +1,30 @@
-// Mock Service Practice
-//
-// Learning objectives:
-// - Using interior mutability for test mocks
-// - RefCell for tracking method calls
-// - Interior mutability patterns in testing
-//
-// Run with: cargo test mock_service
+// cargo test --lib smart_pointers::mock_service::
 
-use std::cell::RefCell;
+//! Track calls through shared references. Each call appends exactly method(args) to the log and returns exactly ok: method.
+//! was_called matches the complete method name, never a substring of another method or its arguments.
+//! get_call_log returns an independent snapshot; reset clears calls. Method names contain no parentheses.
 
-/// Create a mock object that tracks method calls using interior mutability.
 pub struct MockService {
-    call_log: RefCell<Vec<String>>,
+    calls: std::cell::RefCell<Vec<(String, String)>>,
 }
-
 impl MockService {
-    /// Create a new mock service
     pub fn new() -> Self {
-        todo!("Initialize with empty call log")
+        todo!()
     }
-    
-    /// Simulate a method call, logging it internally
-    pub fn call_method(&self, method_name: &str, args: &str) -> String {
-        todo!("Log the method call and return a mock response")
+    pub fn call_method(&self, method: &str, args: &str) -> String {
+        todo!()
     }
-    
-    /// Get the number of method calls made
     pub fn call_count(&self) -> usize {
-        todo!("Return length of call log")
+        todo!()
     }
-    
-    /// Get all method calls made (for verification in tests)
     pub fn get_call_log(&self) -> Vec<String> {
-        todo!("Clone and return the call log")
+        todo!()
     }
-    
-    /// Clear the call log
     pub fn reset(&self) {
-        todo!("Clear the call log")
+        todo!()
     }
-    
-    /// Check if a specific method was called
-    pub fn was_called(&self, method_name: &str) -> bool {
-        todo!("Check if any call log entry contains the method name")
+    pub fn was_called(&self, method: &str) -> bool {
+        todo!()
     }
 }
 
@@ -54,10 +36,10 @@ mod tests {
     fn test_mock_service_basic() {
         let mock = MockService::new();
         assert_eq!(mock.call_count(), 0);
-        
+
         let response1 = mock.call_method("login", "user=alice");
         let response2 = mock.call_method("get_data", "id=123");
-        
+
         assert_eq!(mock.call_count(), 2);
         assert!(mock.was_called("login"));
         assert!(mock.was_called("get_data"));
@@ -67,10 +49,10 @@ mod tests {
     #[test]
     fn test_mock_service_call_log() {
         let mock = MockService::new();
-        
+
         mock.call_method("method1", "arg1");
         mock.call_method("method2", "arg2");
-        
+
         let log = mock.get_call_log();
         assert_eq!(log.len(), 2);
         assert!(log[0].contains("method1"));
@@ -80,12 +62,26 @@ mod tests {
     #[test]
     fn test_mock_service_reset() {
         let mock = MockService::new();
-        
+
         mock.call_method("test", "args");
         assert_eq!(mock.call_count(), 1);
-        
+
         mock.reset();
         assert_eq!(mock.call_count(), 0);
         assert!(!mock.was_called("test"));
+    }
+}
+#[cfg(test)]
+mod exact_tests {
+    use super::*;
+    #[test]
+    fn exact_matching_and_snapshot() {
+        let m = MockService::new();
+        assert_eq!(m.call_method("login_extra", "login"), "ok: login_extra");
+        assert!(!m.was_called("login"));
+        assert_eq!(m.get_call_log(), ["login_extra(login)"]);
+        let log = m.get_call_log();
+        m.reset();
+        assert_eq!(log.len(), 1);
     }
 }

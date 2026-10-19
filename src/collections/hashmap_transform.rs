@@ -1,4 +1,6 @@
-// cargo test hashmap_transform
+// cargo test --lib collections::hashmap_transform::
+
+//! Transform every key and value once. Combine values for transformed-key collisions. The caller supplies an associative and commutative combiner because HashMap iteration order is unspecified. Empty input returns an empty map.
 
 /// Transform HashMap keys and values using provided functions.
 /// Handle potential key collisions by combining values.

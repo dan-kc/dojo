@@ -1,184 +1,60 @@
-// Exercise: CSV File Processing with Error Recovery
-// Task: Read a CSV file, validate each row, process valid rows, and log errors.
-// Write valid processed rows to output file and invalid rows to an error log.
-//
-// Hints:
-// - Split by comma, but handle quoted fields properly
-// - Validate that each row has the expected number of columns
-// - Use BufReader/BufWriter for efficiency
-// - Return counts of (valid_rows, invalid_rows)
-//
-// Example:
-// Input: "name,age,city\nAlice,30,NYC\nBob,invalid,LA\nCarol,25,SF"
-// Output: "NAME,AGE,CITY\nALICE,30,NYC\nCAROL,25,SF"
-// Error log: "Line 3: Invalid age value: 'invalid'"
-// Run tests with: cargo test --bin practice_csv_validator
+// cargo test --lib file_io::csv_validator::
+
+//! Validate a UTF-8 CSV file with exactly the header name,age,city. Use the csv package to handle
+//! quoted commas and multiline fields. Each data record must have exactly three nonblank fields;
+//! trim fields, and require age to parse as u8 and be at most 130. Write valid records with uppercase
+//! name/city and canonical decimal age, preceded by NAME,AGE,CITY. For each invalid record, write
+//! exactly "Record N: invalid data" followed by a newline, where the header is logical record 1.
+//! Return (valid, invalid) data counts. An empty file or wrong header is InvalidData. CSV decoding
+//! and filesystem errors propagate. Paths are distinct. Process records incrementally.
 
 pub fn process_csv_with_validation(
     input_path: &std::path::Path,
     output_path: &std::path::Path,
     error_log_path: &std::path::Path,
-    expected_columns: usize,
 ) -> std::io::Result<(usize, usize)> {
-    todo!("Implement CSV processing with validation and error logging")
+    todo!()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::fs;
-    use std::fs::File;
-    use std::io::{self, BufRead, BufReader, BufWriter, Write};
-    use std::path::Path;
-
-    fn create_test_file(path: &Path, content: &[u8]) -> io::Result<()> {
-        let mut file = File::create(path)?;
-        file.write_all(content)?;
-        Ok(())
-    }
-
     #[test]
-    fn test_process_csv_with_validation() {
-        let temp_dir = std::env::temp_dir();
-        let input_path = temp_dir.join("test_input.csv");
-        let output_path = temp_dir.join("test_output.csv");
-        let error_log_path = temp_dir.join("test_errors.log");
-
-        // Create test CSV with some invalid rows
-        let csv_content = "name,age,city\nAlice,30,NYC\nBob,invalid,LA\nCarol,25,SF\nDave,40\nEve,35,Boston,Extra";
-        create_test_file(&input_path, csv_content.as_bytes()).unwrap();
-
-        // Process CSV with validation
-        let (valid, invalid) = process_csv_with_validation(
-            &input_path,
-            &output_path,
-            &error_log_path,
-            3, // Expected 3 columns
-        )
-        .unwrap();
-
-        assert_eq!(valid, 3); // Alice, Carol, Eve (header not counted)
-        assert_eq!(invalid, 2); // Bob (invalid age), Dave (missing column)
-
-        // Verify output CSV
-        let output = fs::read_to_string(&output_path).unwrap();
-        assert!(output.contains("ALICE,30,NYC"));
-        assert!(output.contains("CAROL,25,SF"));
-        assert!(!output.contains("BOB")); // Invalid row excluded
-
-        // Verify error log exists and contains error info
-        let errors = fs::read_to_string(&error_log_path).unwrap();
-        assert!(errors.contains("Line 3")); // Bob's line
-        assert!(errors.contains("Line 5")); // Dave's line
-
-        // Cleanup
-        fs::remove_file(input_path).ok();
-        fs::remove_file(output_path).ok();
-        fs::remove_file(error_log_path).ok();
+    fn quoted_records_and_schema() {
+        let d = tempfile::tempdir().unwrap();
+        let a = d.path().join("in");
+        let b = d.path().join("out");
+        let e = d.path().join("errors");
+        std::fs::write(&a,"name,age,city\n\"Smith, Jane\",030,\"New\nYork\"\nBob,no,LA\nCarol,131,SF\nDave,40\nEve,35,Boston,Extra\n ,12,X\n雪,0,東京\n").unwrap();
+        assert_eq!(process_csv_with_validation(&a, &b, &e).unwrap(), (2, 5));
+        assert_eq!(std::fs::read_to_string(&e).unwrap(),"Record 3: invalid data\nRecord 4: invalid data\nRecord 5: invalid data\nRecord 6: invalid data\nRecord 7: invalid data\n");
+        let mut r = csv::Reader::from_path(&b).unwrap();
+        assert_eq!(
+            r.headers().unwrap().iter().collect::<Vec<_>>(),
+            ["NAME", "AGE", "CITY"]
+        );
+        let records: Vec<_> = r.records().map(Result::unwrap).collect();
+        assert_eq!(
+            records[0].iter().collect::<Vec<_>>(),
+            ["SMITH, JANE", "30", "NEW\nYORK"]
+        );
+        assert_eq!(records[1].iter().collect::<Vec<_>>(), ["雪", "0", "東京"]);
     }
-
     #[test]
-    fn test_csv_with_quoted_fields() {
-        let temp_dir = std::env::temp_dir();
-        let input_path = temp_dir.join("quoted.csv");
-        let output_path = temp_dir.join("quoted_out.csv");
-        let error_log_path = temp_dir.join("quoted_err.log");
-
-        // CSV with quoted fields containing commas
-        let csv_content = r#"name,description,price
-"Smith, John","A person, with comma",100
-"Invalid",,200
-"Valid Product","Normal description",50"#;
-
-        create_test_file(&input_path, csv_content.as_bytes()).unwrap();
-
-        let (valid, invalid) =
-            process_csv_with_validation(&input_path, &output_path, &error_log_path, 3).unwrap();
-
-        // Should handle quoted fields properly
-        assert_eq!(valid, 2); // "Smith, John" and "Valid Product"
-        assert_eq!(invalid, 1); // "Invalid" has empty description field
-
-        // Cleanup
-        fs::remove_file(input_path).ok();
-        fs::remove_file(output_path).ok();
-        fs::remove_file(error_log_path).ok();
-    }
-
-    #[test]
-    fn test_empty_csv() {
-        let temp_dir = std::env::temp_dir();
-        let input_path = temp_dir.join("empty.csv");
-        let output_path = temp_dir.join("empty_out.csv");
-        let error_log_path = temp_dir.join("empty_err.log");
-
-        // Create empty CSV
-        create_test_file(&input_path, b"").unwrap();
-
-        let (valid, invalid) =
-            process_csv_with_validation(&input_path, &output_path, &error_log_path, 3).unwrap();
-
-        assert_eq!(valid, 0);
-        assert_eq!(invalid, 0);
-
-        // Cleanup
-        fs::remove_file(input_path).ok();
-        fs::remove_file(output_path).ok();
-        fs::remove_file(error_log_path).ok();
-    }
-
-    #[test]
-    fn test_csv_header_only() {
-        let temp_dir = std::env::temp_dir();
-        let input_path = temp_dir.join("header_only.csv");
-        let output_path = temp_dir.join("header_out.csv");
-        let error_log_path = temp_dir.join("header_err.log");
-
-        // CSV with only header
-        create_test_file(&input_path, b"name,age,city").unwrap();
-
-        let (valid, invalid) =
-            process_csv_with_validation(&input_path, &output_path, &error_log_path, 3).unwrap();
-
-        assert_eq!(valid, 0);
-        assert_eq!(invalid, 0);
-
-        // Output should contain transformed header
-        let output = fs::read_to_string(&output_path).unwrap();
-        assert!(output.contains("NAME,AGE,CITY"));
-
-        // Cleanup
-        fs::remove_file(input_path).ok();
-        fs::remove_file(output_path).ok();
-        fs::remove_file(error_log_path).ok();
-    }
-
-    #[test]
-    fn test_csv_all_invalid() {
-        let temp_dir = std::env::temp_dir();
-        let input_path = temp_dir.join("all_invalid.csv");
-        let output_path = temp_dir.join("all_invalid_out.csv");
-        let error_log_path = temp_dir.join("all_invalid_err.log");
-
-        // CSV with all invalid rows
-        let csv_content = "name,age,city\nTooFew,1\nTooMany,2,3,4\n,,";
-        create_test_file(&input_path, csv_content.as_bytes()).unwrap();
-
-        let (valid, invalid) =
-            process_csv_with_validation(&input_path, &output_path, &error_log_path, 3).unwrap();
-
-        assert_eq!(valid, 0);
-        assert_eq!(invalid, 3);
-
-        // Error log should have all errors
-        let errors = fs::read_to_string(&error_log_path).unwrap();
-        assert!(errors.contains("Line 2"));
-        assert!(errors.contains("Line 3"));
-        assert!(errors.contains("Line 4"));
-
-        // Cleanup
-        fs::remove_file(input_path).ok();
-        fs::remove_file(output_path).ok();
-        fs::remove_file(error_log_path).ok();
+    fn empty_wrong_and_header_only() {
+        let d = tempfile::tempdir().unwrap();
+        let a = d.path().join("a");
+        let b = d.path().join("b");
+        let e = d.path().join("e");
+        for text in ["", "name,city,age\n"] {
+            std::fs::write(&a, text).unwrap();
+            assert_eq!(
+                process_csv_with_validation(&a, &b, &e).unwrap_err().kind(),
+                std::io::ErrorKind::InvalidData
+            );
+        }
+        std::fs::write(&a, "name,age,city\n").unwrap();
+        assert_eq!(process_csv_with_validation(&a, &b, &e).unwrap(), (0, 0));
+        assert_eq!(std::fs::read_to_string(b).unwrap(), "NAME,AGE,CITY\n");
     }
 }

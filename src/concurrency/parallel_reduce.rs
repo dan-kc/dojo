@@ -1,192 +1,48 @@
-// cargo test parallel_reduce
+// cargo test --lib concurrency::parallel_reduce::
 
-/// Basic ThreadPool stub for parallel_reduce implementation
-pub struct ThreadPool {
-    worker_count: usize,
-}
+//! Reduce owned items using at most workers threads and join every worker before returning.
+//! The caller provides an associative operation with a true two-sided identity. Preserve item order;
+//! commutativity is not required. Regrouping is allowed. Empty input returns identity.
+//! Borrowed closure captures and non-Clone items must work. Propagate worker panics after joining all workers.
 
-impl ThreadPool {
-    pub fn new(size: usize) -> Self {
-        assert!(size > 0, "thread pool size must be greater than zero");
-        Self { worker_count: size }
-    }
-}
-
-/// Implement parallel reduce operation.
-/// Apply the reduction function in parallel using a divide-and-conquer approach.
-pub fn parallel_reduce<T, F>(pool: &ThreadPool, items: Vec<T>, identity: T, reduce_fn: F) -> T
-where
-    T: Send + Clone + 'static,
-    F: Fn(T, T) -> T + Send + Copy + 'static,
-{
-    if items.is_empty() {
-        return identity;
-    }
-
-    if items.len() == 1 {
-        return items.into_iter().next().expect("items contains one value");
-    }
-
-    let worker_count = pool.worker_count.min(items.len());
-    let chunk_size = items.len().div_ceil(worker_count);
-
-    let handles: Vec<_> = items
-        .chunks(chunk_size)
-        .map(|chunk| {
-            let chunk = chunk.to_vec();
-            std::thread::spawn(move || {
-                chunk
-                    .into_iter()
-                    .reduce(reduce_fn)
-                    .expect("chunks are non-empty")
-            })
-        })
-        .collect();
-
-    handles
-        .into_iter()
-        .map(|handle| handle.join().expect("parallel reduction worker panicked"))
-        .reduce(reduce_fn)
-        .unwrap_or(identity)
+pub fn parallel_reduce<T: Send, F: Fn(T, T) -> T + Sync>(
+    items: Vec<T>,
+    workers: std::num::NonZeroUsize,
+    identity: T,
+    reduce: F,
+) -> T {
+    todo!()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
+    use std::num::NonZeroUsize;
     #[test]
-    fn test_parallel_reduce_sum() {
-        let pool = ThreadPool::new(4);
-        let input = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-        let sum = parallel_reduce(&pool, input.clone(), 0, |a, b| a + b);
-        assert_eq!(sum, 55); // 1+2+...+10 = 55
+    fn sum_and_empty() {
+        let w = NonZeroUsize::new(3).unwrap();
+        assert_eq!(parallel_reduce(vec![1, 2, 3, 4], w, 0, |a, b| a + b), 10);
+        assert_eq!(parallel_reduce(Vec::<i32>::new(), w, 0, |a, b| a + b), 0);
     }
-
     #[test]
-    fn test_parallel_reduce_product() {
-        let pool = ThreadPool::new(4);
-        let input = vec![1, 2, 3, 4];
-
-        let product = parallel_reduce(&pool, input, 1, |a, b| a * b);
-        assert_eq!(product, 24); // 1*2*3*4 = 24
+    fn noncommutative_nonclone_values() {
+        struct Text(String);
+        let out = parallel_reduce(
+            vec![Text("a".into()), Text("b".into()), Text("c".into())],
+            NonZeroUsize::new(2).unwrap(),
+            Text(String::new()),
+            |a, b| Text(a.0 + &b.0),
+        );
+        assert_eq!(out.0, "abc");
     }
-
     #[test]
-    fn test_parallel_reduce_max() {
-        let pool = ThreadPool::new(3);
-        let input = vec![5, 2, 9, 1, 8, 3];
-
-        let max = parallel_reduce(&pool, input, i32::MIN, |a, b| a.max(b));
-        assert_eq!(max, 9);
-    }
-
-    #[test]
-    fn test_parallel_reduce_min() {
-        let pool = ThreadPool::new(2);
-        let input = vec![5, 2, 9, 1, 8, 3];
-
-        let min = parallel_reduce(&pool, input, i32::MAX, |a, b| a.min(b));
-        assert_eq!(min, 1);
-    }
-
-    #[test]
-    fn test_empty_collection() {
-        let pool = ThreadPool::new(4);
-        let empty: Vec<i32> = vec![];
-
-        let result = parallel_reduce(&pool, empty, 42, |a, b| a + b);
-        assert_eq!(result, 42); // Should return identity value
-    }
-
-    #[test]
-    fn test_single_element() {
-        let pool = ThreadPool::new(2);
-        let input = vec![100];
-
-        let result = parallel_reduce(&pool, input, 0, |a, b| a + b);
-        assert_eq!(result, 100);
-    }
-
-    #[test]
-    fn test_string_concatenation() {
-        let pool = ThreadPool::new(3);
-        let input = vec![
-            "Hello".to_string(),
-            " ".to_string(),
-            "World".to_string(),
-            "!".to_string(),
-        ];
-
-        let result = parallel_reduce(&pool, input, "".to_string(), |a, b| format!("{}{}", a, b));
-
-        assert_eq!(result, "Hello World!");
-    }
-
-    #[test]
-    fn test_large_dataset() {
-        let pool = ThreadPool::new(8);
-        let input: Vec<i64> = (1..=1000).collect();
-
-        let sum = parallel_reduce(&pool, input.clone(), 0i64, |a, b| a + b);
-        let expected_sum = (1000 * 1001) / 2; // Sum formula: n(n+1)/2
-
-        assert_eq!(sum, expected_sum);
-    }
-
-    #[test]
-    fn test_associative_property() {
-        let pool = ThreadPool::new(4);
-        let input = vec![2, 3, 4, 5];
-
-        // Test with multiplication (associative)
-        let result1 = parallel_reduce(&pool, input.clone(), 1, |a, b| a * b);
-        let expected = 2 * 3 * 4 * 5;
-        assert_eq!(result1, expected);
-
-        // Test with subtraction (not associative - order matters)
-        // Result may vary with parallel execution
-        let result2: i32 = parallel_reduce(&pool, input, 0, |a, b| a - b);
-        // Just ensure it completes without panic
-        assert!(result2.abs() <= 100);
-    }
-
-    #[test]
-    fn test_boolean_operations() {
-        let pool = ThreadPool::new(2);
-
-        // Test AND operation
-        let all_true = vec![true, true, true, true];
-        let and_result = parallel_reduce(&pool, all_true, true, |a, b| a && b);
-        assert_eq!(and_result, true);
-
-        let mixed_bool = vec![true, false, true, true];
-        let and_result2 = parallel_reduce(&pool, mixed_bool, true, |a, b| a && b);
-        assert_eq!(and_result2, false);
-
-        // Test OR operation
-        let some_true = vec![false, false, true, false];
-        let or_result = parallel_reduce(&pool, some_true, false, |a, b| a || b);
-        assert_eq!(or_result, true);
-    }
-
-    #[test]
-    #[should_panic(expected = "thread pool size must be greater than zero")]
-    fn test_zero_workers_panics() {
-        let _ = ThreadPool::new(0);
-    }
-
-    #[test]
-    #[should_panic(expected = "parallel reduction worker panicked")]
-    fn test_worker_panic_is_propagated() {
-        let pool = ThreadPool::new(2);
-        let input = vec![1, 2, 3, 4];
-
-        parallel_reduce(&pool, input, 0, |a, b| {
-            if b == 2 {
-                panic!("reducer failed");
-            }
-            a + b
-        });
+    #[should_panic]
+    fn panic_propagates() {
+        parallel_reduce(
+            vec![1, 2, 3, 4],
+            NonZeroUsize::new(2).unwrap(),
+            0,
+            |_, _| panic!("bad"),
+        );
     }
 }

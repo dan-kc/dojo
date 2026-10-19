@@ -1,7 +1,8 @@
-// cargo test btree_merge_maps
+// cargo test --lib collections::btree_merge_maps::
+
+//! Consume maps in input order. For a repeated key combine the accumulated value with the incoming value, in that order. Empty input returns an empty map.
 
 /// Merge multiple sorted BTreeMaps, combining values for duplicate keys.
-/// Use a combining function to handle value conflicts.
 #[allow(unused_variables)]
 fn merge_sorted_btreemaps<K, V, F>(
     maps: Vec<std::collections::BTreeMap<K, V>>,

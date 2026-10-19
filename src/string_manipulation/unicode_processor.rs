@@ -1,40 +1,12 @@
-// Unicode Text Processing Practice
-//
-// Learning Objectives:
-// - Handle Unicode text correctly in Rust
-// - Understand the difference between bytes, chars, and graphemes
-// - Implement text normalization and cleaning operations
-// - Practice with Unicode-aware string operations
-// - Handle different character encodings and special characters
-//
-// Run tests with: cargo test --lib string_manipulation::unicode_processor
+// cargo test --lib string_manipulation::unicode_processor::
 
-/// Normalizes and cleans Unicode text according to specified rules.
-///
-/// The normalization process should:
-/// 1. Convert to lowercase
-/// 2. Remove leading and trailing whitespace
-/// 3. Collapse multiple consecutive whitespace characters into single spaces
-/// 4. Remove or replace common Unicode punctuation and symbols:
-///    - Convert curly quotes (' ' " ") to straight quotes (' ")
-///    - Convert em-dashes (—) and en-dashes (–) to hyphens (-)
-///    - Remove zero-width characters (ZWSP, ZWNJ, etc.)
-/// 5. Normalize Unicode combining characters (e.g., é should be consistent)
-/// 6. Remove control characters (except newlines and tabs)
-/// 7. Handle RTL (right-to-left) text markers appropriately
-///
-/// # Arguments
-/// * `text` - The input Unicode text to normalize
-///
-/// # Returns
-/// A normalized String with consistent formatting
-///
-/// # Examples
-/// ```
-/// let input = "  Hello'World"—test  ";  // Contains curly quote and em-dash
-/// let normalized = normalize_text(input);
-/// assert_eq!(normalized, "hello'world-test");
-/// ```
+//! Apply this deliberately lossy search-text cleanup: remove U+200B/C/D, U+FEFF, U+200E/F,
+//! U+202A..U+202E and U+2066..U+2069. Remove other controls unless char::is_whitespace.
+//! Convert U+2018/19 to ASCII apostrophe, U+201C/D to ASCII quote, and U+2013/14 to hyphen.
+//! Lowercase, collapse Unicode whitespace runs to one ASCII space, trim, and normalize to NFC.
+//! Preserve everything else. This policy is for this exercise, not universal natural-language cleanup.
+//! Use unicode-normalization for canonical composition; implement the cleanup yourself.
+
 pub fn normalize_text(text: &str) -> String {
     todo!()
 }

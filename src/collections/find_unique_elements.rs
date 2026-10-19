@@ -1,4 +1,6 @@
-// cargo test find_unique_elements
+// cargo test --lib collections::find_unique_elements::
+
+//! Return values present in exactly one input set, paired with that set's zero-based index. Occurrence in two or more sets excludes the value. Empty input returns an empty map.
 
 /// Find elements that are unique to each set (appear in exactly one set).
 /// Return a HashMap mapping each unique element to the set index it came from.

@@ -1,89 +1,43 @@
-// Text Holder
-//
-// Learning objectives:
-// - Structs with lifetime parameters
-// - Methods returning references with lifetimes
-// - Lifetime relationships in struct implementations
-//
-// cargo test --bin text_holder
+// cargo test --lib lifetimes::text_holder::
 
-/// Fix this struct definition and its method to properly handle lifetimes.
-/// The struct should hold a reference to a string slice.
+//! Hold borrowed text and return its first n Unicode scalar values without allocation.
+//! If n exceeds the character count, return the full text. Zero yields an empty prefix.
+//! Returned text borrows the original input and may outlive the holder.
+
 pub struct TextHolder<'a> {
     text: &'a str,
 }
-
 impl<'a> TextHolder<'a> {
-    /// Create a new TextHolder with the given text reference
-    pub fn new(text: &'a str) -> TextHolder<'a> {
-        TextHolder { text }
+    pub fn new(text: &'a str) -> Self {
+        todo!()
     }
-    
-    /// Return the held text
-    pub fn get_text(&self) -> &str {
-        self.text
+    pub fn get_text(&self) -> &'a str {
+        todo!()
     }
-    
-    /// Return the first n characters of the held text
-    pub fn get_prefix(&self, n: usize) -> &str {
-        if n >= self.text.len() {
-            self.text
-        } else {
-            &self.text[..n]
-        }
+    pub fn get_prefix(&self, n: usize) -> &'a str {
+        todo!()
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
     #[test]
-    fn test_text_holder_basic_usage() {
-        let text = "hello world";
-        let holder = TextHolder::new(text);
-        assert_eq!(holder.get_text(), "hello world");
+    fn utf8_boundaries() {
+        let h = TextHolder::new("🦀café");
+        assert_eq!(h.get_prefix(1), "🦀");
+        assert_eq!(h.get_prefix(3), "🦀ca");
+        assert_eq!(h.get_prefix(99), "🦀café");
+        assert_eq!(h.get_prefix(0), "");
     }
-
     #[test]
-    fn test_text_holder_prefix() {
-        let text = "hello world";
-        let holder = TextHolder::new(text);
-        assert_eq!(holder.get_prefix(5), "hello");
-        assert_eq!(holder.get_prefix(20), "hello world"); // Beyond length
-        assert_eq!(holder.get_prefix(0), "");
+    fn prefix_outlives_holder() {
+        let text = "owned".to_owned();
+        let prefix;
+        {
+            let holder = TextHolder::new(&text);
+            prefix = holder.get_prefix(2);
+        }
+        assert_eq!(prefix, "ow");
     }
-
-    #[test]
-    fn test_text_holder_unicode() {
-        let text = "hello 世界";
-        let holder = TextHolder::new(text);
-        assert_eq!(holder.get_text(), "hello 世界");
-        // Note: prefix by bytes, not chars - be careful with UTF-8
-        assert_eq!(holder.get_prefix(5), "hello");
-    }
-
-    #[test]
-    fn test_text_holder_empty() {
-        let text = "";
-        let holder = TextHolder::new(text);
-        assert_eq!(holder.get_text(), "");
-        assert_eq!(holder.get_prefix(5), "");
-    }
-
-    // #[test]
-    // fn test_text_holder_lifetime_scope() {
-    //     // This test demonstrates what would NOT compile due to lifetime errors
-    //     let holder = {
-    //         let text = String::from("temporary");
-    //         TextHolder::new(&text)
-    //     }; // text goes out of scope here
-    //     // This test verifies the struct compiles correctly with lifetime annotations
-    //     // In actual usage, the above would cause a compilation error
-    //     assert_eq!(holder.get_text().len(), 9);
-    // }
-}
-
-fn main() {
-    println!("Run tests with: cargo test --bin text_holder");
 }

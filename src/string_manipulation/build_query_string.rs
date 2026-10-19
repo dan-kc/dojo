@@ -1,67 +1,21 @@
-// Build URL Query String Practice
-//
-// Learning Objectives:
-// - Build strings efficiently using various methods
-// - Understand memory implications of string operations
-// - Handle URL encoding and query parameter construction
-// - Practice with iterator patterns and string formatting
-// - Work with HashMap and sorting
-//
-// cargo test --lib string_manipulation::build_query_string
+// cargo test --lib string_manipulation::build_query_string::
 
-/// Builds a URL query string from a HashMap of parameters.
-///
-/// The function should:
-/// 1. URL-encode parameter names and values properly
-/// 2. Handle special characters (&, =, ?, #, space, etc.)
-/// 3. Sort parameters alphabetically by key for consistent output
-/// 4. Handle empty values (include key with empty value: "key=")
-/// 5. Skip None values but include empty string values
-/// 6. Use efficient string building techniques
-/// 7. Return the query string without the leading '?'
-///
-/// URL encoding rules:
-/// - Spaces become '%20'
-/// - '&' becomes '%26'
-/// - '=' becomes '%3D'
-/// - Special characters should be percent-encoded
-/// - Alphanumeric characters, hyphens, underscores, periods, and tildes are safe
-///
-/// # Arguments
-/// * `params` - HashMap where keys are parameter names and values are optional parameter values
-///
-/// # Returns
-/// A properly formatted and encoded query string
-///
-/// # Examples
-/// ```
-/// let mut params = HashMap::new();
-/// params.insert("name".to_string(), Some("John Doe".to_string()));
-/// params.insert("age".to_string(), Some("30".to_string()));
-/// let query = build_query_string(&params);
-/// assert_eq!(query, "age=30&name=John%20Doe");
-/// ```
+//! Build a query string without a leading ?. Omit None values; retain Some(""). Sort by the
+//! original unencoded key, then percent-encode keys and values, joining key=value pairs with &.
+//! The supplied encoder is infrastructure; this exercise concerns optional map entries and ordered output.
+
 pub fn build_query_string(params: &std::collections::HashMap<String, Option<String>>) -> String {
-    todo!("Implement URL query string building with encoding and sorting")
+    todo!()
 }
 
-/// Helper function to URL-encode a string
-///
-/// This function should properly encode special characters according to URL encoding rules.
-/// For learning purposes, implement this without using external crates.
 fn url_encode(input: &str) -> String {
-    let mut result = String::with_capacity(input.len() * 3);
-    for ch in input.chars() {
-        match ch {
-            'A'..='Z' | 'a'..='z' | '0'..='9' | '-' | '_' | '.' | '~' => {
-                result.push(ch);
-            }
-            ' ' => result.push_str("%20"),
-            _ => {
-                for byte in ch.to_string().bytes() {
-                    result.push_str(&format!("%{:02X}", byte));
-                }
-            }
+    use std::fmt::Write;
+    let mut result = String::new();
+    for b in input.bytes() {
+        if b.is_ascii_alphanumeric() || b"-_.~".contains(&b) {
+            result.push(b as char);
+        } else {
+            write!(result, "%{b:02X}").unwrap();
         }
     }
     result
@@ -109,7 +63,7 @@ mod tests {
 
         // & and = should be encoded in values
         assert!(result.contains("name%3DJohn%26age%3D30"));
-        assert!(result.contains("http%3A//example.com%3Ffoo%3Dbar"));
+        assert!(result.contains("http%3A%2F%2Fexample.com%3Ffoo%3Dbar"));
     }
 
     #[test]

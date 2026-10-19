@@ -1,62 +1,28 @@
-// Find Longest String
-//
-// Learning objectives:
-// - Lifetime relationships with collections
-// - Returning references from slices
-// - Understanding Option with lifetimes
-//
-// cargo test --bin find_longest_string
+// cargo test --lib lifetimes::find_longest_string::
 
-/// Implement a function that takes a vector of string slices and returns
-/// the one with the maximum length. Return None if the vector is empty.
-/// Consider the lifetime relationship between input and output.
-pub fn find_longest_string<'a>(strings: &'a [&'a str]) -> Option<&'a str> {
-    strings.iter().max_by_key(|s| s.len()).copied()
+//! Return a borrowed longest string by UTF-8 byte length, choosing the first on ties. Empty input returns None.
+//! The returned string must be usable after the slice containing the references is dropped, provided its underlying text is still alive.
+
+pub fn find_longest_string<'a>(strings: &[&'a str]) -> Option<&'a str> {
+    todo!()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
     #[test]
-    fn test_find_longest_string() {
-        let strings = ["hi", "hello", "world", "programming"];
-        assert_eq!(find_longest_string(&strings), Some("programming"));
+    fn selection() {
+        assert_eq!(find_longest_string(&["hi", "rust", "code"]), Some("rust"));
+        assert_eq!(find_longest_string(&[]), None);
     }
-
     #[test]
-    fn test_find_longest_string_multiple_same_length() {
-        let strings = ["hello", "world", "rust!"];
-        // Should return first occurrence of max length
-        assert_eq!(find_longest_string(&strings), Some("hello"));
+    fn result_outlives_reference_array() {
+        let owned = "borrowed text".to_owned();
+        let selected;
+        {
+            let refs = [owned.as_str(), "short"];
+            selected = find_longest_string(&refs);
+        }
+        assert_eq!(selected, Some(owned.as_str()));
     }
-
-    #[test]
-    fn test_find_longest_string_empty() {
-        let strings: [&str; 0] = [];
-        assert_eq!(find_longest_string(&strings), None);
-    }
-
-    #[test]
-    fn test_find_longest_string_single() {
-        let strings = ["rust"];
-        assert_eq!(find_longest_string(&strings), Some("rust"));
-    }
-
-    #[test]
-    fn test_find_longest_string_with_empty_string() {
-        let strings = ["", "a", "ab", "abc"];
-        assert_eq!(find_longest_string(&strings), Some("abc"));
-    }
-
-    #[test]
-    fn test_find_longest_string_all_empty() {
-        let strings = ["", "", ""];
-        // Should return first empty string
-        assert_eq!(find_longest_string(&strings), Some(""));
-    }
-}
-
-fn main() {
-    println!("Run tests with: cargo test --bin find_longest_string");
 }

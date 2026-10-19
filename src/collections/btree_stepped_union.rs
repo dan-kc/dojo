@@ -1,4 +1,6 @@
-// cargo test btree_stepped_union
+// cargo test --lib collections::btree_stepped_union::
+
+//! Return one cumulative union after each input set, including empty input sets. Empty outer input produces no snapshots. Each snapshot is independent of later changes.
 
 /// Return each step of the union operation as it builds the result.
 #[allow(dead_code)]

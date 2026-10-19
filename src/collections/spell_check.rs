@@ -1,7 +1,8 @@
-// cargo test spell_check
+// cargo test --lib collections::spell_check::
 
-/// Implement a simple spell checker.
-/// Return words that are not in the dictionary.
+//! Words are maximal runs of Unicode alphabetic characters. Return distinct words absent from the dictionary.
+//! Matching is case-sensitive; punctuation, digits, and symbols separate words and are not themselves words.
+
 pub fn spell_check(
     text: &str,
     dictionary: &std::collections::HashSet<String>,
@@ -63,12 +64,7 @@ mod tests {
         let errors = spell_check(text, &dictionary);
 
         // Should handle punctuation correctly - no errors if punctuation is stripped
-        assert!(
-            errors.is_empty()
-                || errors.contains("hello,")
-                || errors.contains("world!")
-                || errors.contains("test?")
-        );
+        assert!(errors.is_empty());
     }
 
     #[test]
@@ -164,5 +160,20 @@ mod tests {
         let errors = spell_check(incorrect_word, &dictionary);
         let expected_errors: HashSet<String> = ["goodbye"].iter().map(|s| s.to_string()).collect();
         assert_eq!(errors, expected_errors);
+    }
+}
+
+#[cfg(test)]
+mod exact_tests {
+    use super::*;
+    #[test]
+    fn punctuation_and_digits_are_separators() {
+        assert_eq!(
+            spell_check(
+                "hello, wrold! 123 @#$",
+                &["hello".to_owned()].into_iter().collect()
+            ),
+            ["wrold".to_owned()].into_iter().collect()
+        );
     }
 }

@@ -1,4 +1,6 @@
-// cargo test intersect_all_sets
+// cargo test --lib collections::intersect_all_sets::
+
+//! Return elements present in every input set. Empty outer input returns an empty set; one set returns its contents; any empty inner set makes the intersection empty.
 
 /// Find elements that appear in all input sets (intersection of all sets).
 /// Handle empty input gracefully.

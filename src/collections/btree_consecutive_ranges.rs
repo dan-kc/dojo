@@ -1,12 +1,9 @@
-// cargo test btree_consecutive_ranges
+// cargo test --lib collections::btree_consecutive_ranges::
 
-/// Find all subranges in a BTreeSet where consecutive elements differ by exactly 1.
-/// Return the ranges as (start, end) pairs.
-#[allow(unused_variables, dead_code)]
-fn find_consecutive_ranges<T>(set: &std::collections::BTreeSet<T>) -> Vec<(T, T)>
-where
-    T: Ord + Clone + std::ops::Add<Output = T> + From<u8> + PartialEq,
-{
+//! Return maximal inclusive runs of consecutive i32 values in ascending order, including singleton runs.
+//! Empty input returns no runs. Handle i32::MIN and i32::MAX without overflow.
+
+fn find_consecutive_ranges(set: &std::collections::BTreeSet<i32>) -> Vec<(i32, i32)> {
     todo!()
 }
 
@@ -34,5 +31,17 @@ mod tests {
         let single_set: BTreeSet<i32> = [5].into_iter().collect();
         let single_ranges = find_consecutive_ranges(&single_set);
         assert_eq!(single_ranges, vec![(5, 5)]);
+    }
+}
+
+#[cfg(test)]
+mod boundary_tests {
+    use super::*;
+    #[test]
+    fn integer_limits() {
+        assert_eq!(
+            find_consecutive_ranges(&[i32::MIN, i32::MIN + 1, i32::MAX].into_iter().collect()),
+            [(i32::MIN, i32::MIN + 1), (i32::MAX, i32::MAX)]
+        );
     }
 }

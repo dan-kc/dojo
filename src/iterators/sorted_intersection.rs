@@ -1,17 +1,12 @@
-// Sorted Intersection
-//
-// Learning objectives:
-// - Finding common elements between collections
-// - Using HashSet for efficient lookups
-// - Deduplication and sorting with iterators
-//
-// cargo test --bin sorted_intersection
+// cargo test --lib iterators::sorted_intersection::
+
+//! Inputs must be sorted ascending. Return common values once each, ascending, in O(n+m) time and O(1) auxiliary space besides output.
 
 /// Create a function that finds the intersection of two sorted vectors
 /// (elements that appear in both) and returns them as a sorted vector
 /// without duplicates.
 pub fn sorted_intersection(first: Vec<i32>, second: Vec<i32>) -> Vec<i32> {
-    todo!("Use iterator methods to find common elements efficiently")
+    todo!()
 }
 
 #[cfg(test)]
@@ -65,16 +60,4 @@ mod tests {
         let result = sorted_intersection(first, second);
         assert_eq!(result, vec![1, 2, 3]);
     }
-
-    #[test]
-    fn test_sorted_intersection_unsorted_input() {
-        let first = vec![5, 1, 3, 2, 4];
-        let second = vec![3, 1, 6, 4, 7];
-        let result = sorted_intersection(first, second);
-        assert_eq!(result, vec![1, 3, 4]);
-    }
-}
-
-fn main() {
-    println!("Run tests with: cargo test --bin sorted_intersection");
 }

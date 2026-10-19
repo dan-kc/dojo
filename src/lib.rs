@@ -5,7 +5,6 @@
     unused_imports,
     unused_doc_comments
 )]
-#![feature(mpmc_channel)]
 
 pub mod axum;
 pub mod collections;

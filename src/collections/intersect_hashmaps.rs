@@ -1,4 +1,6 @@
-// cargo test intersect_hashmaps
+// cargo test --lib collections::intersect_hashmaps::
+
+//! Consume the first map, retaining only keys present in the borrowed second map. Preserve values from the first map and leave the second map unchanged.
 
 /// Implement efficient HashMap intersection that preserves values from the first map
 /// where keys exist in both maps.

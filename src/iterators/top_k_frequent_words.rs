@@ -1,16 +1,11 @@
-// Top K Frequent Words
-//
-// Learning objectives:
-// - Efficient text processing with iterators
-// - Using HashMap with iterator operations
-// - Sorting and limiting results efficiently
-//
-// cargo test --bin top_k_frequent_words
+// cargo test --lib iterators::top_k_frequent_words::
+
+//! Words are Unicode-whitespace-separated tokens, preserving case and punctuation. Sort by decreasing frequency, then lexicographically ascending for ties. Return at most k distinct words; k=0 returns empty.
 
 /// Implement an efficient function to find the top K most frequent words
 /// in a text, using iterator methods for text processing and HashMap operations.
 pub fn top_k_frequent_words(text: &str, k: usize) -> Vec<String> {
-    todo!("Use iterators to split, count, and find top K efficiently")
+    todo!()
 }
 
 #[cfg(test)]
@@ -44,8 +39,4 @@ mod tests {
         assert!(result.contains(&"hello".to_string()));
         assert!(result.contains(&"world".to_string()));
     }
-}
-
-fn main() {
-    println!("Run tests with: cargo test --bin top_k_frequent_words");
 }

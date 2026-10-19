@@ -1,6 +1,6 @@
-// Run with: cargo test deque_rotation
+// cargo test --lib collections::deque_rotation::
 
-/// Use VecDeque to implement efficient rotation of elements.
+//! Rotate left for positive n and right for negative n, modulo length. Empty input is unchanged. Support isize::MIN without overflow. Preserve all elements without cloning.
 /// Rotate left by n positions (negative n rotates right).
 #[allow(unused_variables)]
 #[allow(unused_mut)]
@@ -61,5 +61,17 @@ mod tests {
         let single_deque: VecDeque<_> = [42].iter().cloned().collect();
         let rotated = rotate_deque(single_deque.clone(), 1);
         assert_eq!(rotated, single_deque);
+    }
+}
+
+#[cfg(test)]
+mod boundary_tests {
+    use super::*;
+    #[test]
+    fn minimum_rotation() {
+        let d = std::collections::VecDeque::from([0, 1, 2, 3, 4]);
+        let mut expected = d.clone();
+        expected.rotate_left(isize::MIN.rem_euclid(5) as usize);
+        assert_eq!(rotate_deque(d, isize::MIN), expected);
     }
 }

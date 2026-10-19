@@ -1,4 +1,6 @@
-// Run with: cargo test difference_chain
+// cargo test --lib collections::difference_chain::
+
+//! For each adjacent pair of input sets return the first minus the second. Zero or one input set produces no output sets; keep empty differences in the output.
 
 /// Implement set difference chain - consecutive differences between sets.
 /// Given sets [A, B, C, D], return [A-B, B-C, C-D].

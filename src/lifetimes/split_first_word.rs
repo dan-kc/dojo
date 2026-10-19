@@ -1,18 +1,13 @@
-// Split First Word
-//
-// Learning objectives:
-// - Understanding lifetime elision rules
-// - Working with string slices and lifetimes
-// - Returning multiple references with same lifetime
-//
-// cargo test --bin split_first_word
+// cargo test --lib lifetimes::split_first_word::
+
+//! Split at the first ASCII space only, removing exactly that one separator. Preserve any further spaces. If absent return (input, ""). Both results borrow the input.
 
 /// Create a function that takes a string slice and returns a tuple containing
 /// the first word and the rest of the string. If there's no space, return
 /// the entire string as the first element and an empty string as the second.
 /// Pay attention to lifetime requirements for the returned references.
 pub fn split_first_word(s: &str) -> (&str, &str) {
-    todo!("Implement with correct lifetime handling")
+    todo!()
 }
 
 #[cfg(test)]
@@ -66,8 +61,4 @@ mod tests {
         assert_eq!(first, "hello");
         assert_eq!(rest, "");
     }
-}
-
-fn main() {
-    println!("Run tests with: cargo test --bin split_first_word");
 }

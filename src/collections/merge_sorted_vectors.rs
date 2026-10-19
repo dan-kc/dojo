@@ -1,4 +1,7 @@
-// cargo test merge_sorted_vectors
+// cargo test --lib collections::merge_sorted_vectors::
+
+//! Inputs are sorted ascending. Merge into ascending output, retaining duplicates, in O(N log(k + 1)) time for N elements across k vectors. Empty vectors are allowed. Avoid sorting the entire flattened input.
+
 /// Implement a function that efficiently merges multiple sorted vectors
 /// into a single sorted vector
 #[allow(unused_variables, dead_code)]

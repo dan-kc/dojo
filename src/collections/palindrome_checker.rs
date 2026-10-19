@@ -1,7 +1,8 @@
-// cargo test palindrome_checker
+// cargo test --lib collections::palindrome_checker::
 
-/// Implement a palindrome checker.
-#[allow(unused_variables)]
+//! Compare Unicode alphanumeric characters case-insensitively, ignoring all other characters.
+//! Apply Unicode lowercase expansion before comparing scalar values. Empty normalized text is a palindrome.
+
 pub fn is_palindrome(s: &str) -> bool {
     todo!()
 }
@@ -31,5 +32,20 @@ mod tests {
 
         // Test single character
         assert!(is_palindrome("x"));
+    }
+}
+
+#[cfg(test)]
+mod unicode_tests {
+    use super::*;
+    #[test]
+    fn ignores_case_and_punctuation() {
+        assert!(is_palindrome("A man, a plan, a canal: Panama!"));
+        assert!(!is_palindrome("Rust 12"));
+    }
+    #[test]
+    fn unicode_and_empty_normalization() {
+        assert!(is_palindrome("Été"));
+        assert!(is_palindrome("!? "));
     }
 }

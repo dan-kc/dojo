@@ -1,4 +1,6 @@
-// cargo test partition_vector
+// cargo test --lib collections::partition_vector::
+
+//! Consume the input and return (matching, nonmatching) vectors in original relative order. Move elements without cloning; the original vector is not retained.
 
 /// Remove all elements from a vector that don't satisfy a predicate,
 /// returning both the remaining elements and the removed elements.

@@ -1,23 +1,15 @@
-// Exercise: Binary File Operations
-// Task: Read a binary file in chunks, XOR each byte with a key value,
-// and write the encrypted result to a new file using BufWriter.
-//
-// Hints:
-// - Use a fixed buffer size (e.g., 8192 bytes) for chunked reading
-// - XOR is its own inverse: encrypting twice gives the original
-// - BufWriter improves performance for many small writes
-//
-// Example:
-// Original bytes: [72, 101, 108, 108, 111] ("Hello")
-// With key=42:    [98, 79, 70, 70, 69]
-// Run tests with: cargo test --bin practice_binary_handler
+// cargo test --lib file_io::binary_handler::
+
+//! Stream a file to a distinct output file, XORing every byte with key. Return the byte count.
+//! Use bounded memory regardless of input size, handle partial I/O, and propagate errors including
+//! flush errors. Paths refer to distinct regular files. This reversible transform is not encryption security.
 
 pub fn xor_encrypt_file(
     input_path: &std::path::Path,
     output_path: &std::path::Path,
     key: u8,
 ) -> std::io::Result<u64> {
-    todo!("Implement XOR encryption for binary files with buffered I/O")
+    todo!()
 }
 
 #[cfg(test)]
@@ -36,7 +28,8 @@ mod tests {
 
     #[test]
     fn test_xor_encrypt_file() {
-        let temp_dir = std::env::temp_dir();
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path();
         let input_path = temp_dir.join("test_binary.bin");
         let encrypted_path = temp_dir.join("test_encrypted.bin");
         let decrypted_path = temp_dir.join("test_decrypted.bin");
@@ -51,7 +44,10 @@ mod tests {
 
         // Verify encryption changed the content
         let encrypted_data = fs::read(&encrypted_path).unwrap();
-        assert_ne!(encrypted_data, original_data);
+        assert_eq!(
+            encrypted_data,
+            original_data.iter().map(|b| b ^ 42).collect::<Vec<_>>()
+        );
 
         // Decrypt (XOR with same key)
         xor_encrypt_file(&encrypted_path, &decrypted_path, 42).unwrap();
@@ -68,7 +64,8 @@ mod tests {
 
     #[test]
     fn test_empty_binary_file() {
-        let temp_dir = std::env::temp_dir();
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path();
         let empty_file = temp_dir.join("empty_binary.bin");
         let output = temp_dir.join("empty_encrypted.bin");
 
@@ -87,7 +84,8 @@ mod tests {
 
     #[test]
     fn test_large_binary_file() {
-        let temp_dir = std::env::temp_dir();
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path();
         let input_path = temp_dir.join("large_binary.bin");
         let output_path = temp_dir.join("large_encrypted.bin");
 
@@ -100,7 +98,10 @@ mod tests {
 
         // Verify the output is different
         let encrypted_data = fs::read(&output_path).unwrap();
-        assert_ne!(encrypted_data, large_data);
+        assert_eq!(
+            encrypted_data,
+            large_data.iter().map(|b| b ^ 123).collect::<Vec<_>>()
+        );
         assert_eq!(encrypted_data.len(), large_data.len());
 
         // Cleanup

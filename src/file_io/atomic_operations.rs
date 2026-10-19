@@ -1,24 +1,15 @@
-// Exercise: Atomic File Operations
-// Task: Implement a safe file replacement that writes to a temporary file first,
-// then atomically replaces the original. This prevents data loss if the write fails.
-//
-// Hints:
-// - Create a temp file with a unique name (e.g., add .tmp suffix)
-// - Write all data to the temp file first
-// - Use fs::rename() for atomic replacement (on same filesystem)
-// - Clean up temp file if operation fails
-//
-// Requirements:
-// - The function should apply a transformation function to the content
-// - If any error occurs, the original file must remain unchanged
-// - The temp file should be in the same directory as the target
-// Run tests with: cargo test --bin practice_atomic_operations
+// cargo test --lib file_io::atomic_operations::
+
+//! Replace an existing UTF-8 file with transform(contents). On any failure before replacement,
+//! leave the original unchanged and remove temporary files. Replacement must be atomic for
+//! readers of the path. Preserve file permissions; use a temporary file in the same directory.
+//! The target is a regular file, not a symlink. Crash durability of the directory entry is out of scope.
 
 pub fn safe_file_replace<F>(file_path: &std::path::Path, transform: F) -> std::io::Result<()>
 where
     F: FnOnce(String) -> std::io::Result<String>,
 {
-    todo!("Implement atomic file replacement with transformation")
+    todo!()
 }
 
 #[cfg(test)]
@@ -36,7 +27,8 @@ mod tests {
 
     #[test]
     fn test_safe_file_replace() {
-        let temp_dir = std::env::temp_dir();
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path();
         let file_path = temp_dir.join("test_atomic.txt");
 
         // Create initial file
@@ -71,7 +63,8 @@ mod tests {
 
     #[test]
     fn test_safe_replace_with_unicode() {
-        let temp_dir = std::env::temp_dir();
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path();
         let file_path = temp_dir.join("test_unicode.txt");
 
         // Create file with unicode content
@@ -91,7 +84,8 @@ mod tests {
 
     #[test]
     fn test_safe_replace_non_existent_file() {
-        let file_path = std::env::temp_dir().join("non_existent_file.txt");
+        let sandbox = tempfile::tempdir().unwrap();
+        let file_path = sandbox.path().join("non_existent_file.txt");
 
         // Make sure file doesn't exist
         fs::remove_file(&file_path).ok();
@@ -104,7 +98,8 @@ mod tests {
 
     #[test]
     fn test_safe_replace_permission_error_simulation() {
-        let temp_dir = std::env::temp_dir();
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path();
         let file_path = temp_dir.join("test_permission.txt");
 
         create_test_file(&file_path, b"test content").unwrap();

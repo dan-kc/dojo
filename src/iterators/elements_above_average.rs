@@ -1,17 +1,12 @@
-// Elements Above Average
-//
-// Learning objectives:
-// - Processing nested data structures with iterators
-// - Using flat_map for flattening operations
-// - Efficient average calculation and filtering
-//
-// cargo test --bin elements_above_average
+// cargo test --lib iterators::elements_above_average::
+
+//! Return qualifying values in row order and their original within-row order. Ignore empty rows. Calculate means without overflowing an i32 intermediate sum.
 
 /// Create a function that efficiently processes nested data structures.
 /// Given a vector of vectors, find all elements that are greater than
 /// the average of their respective inner vector.
 pub fn elements_above_average(data: &[Vec<i32>]) -> Vec<i32> {
-    todo!("Use flat_map and efficient average calculation")
+    todo!()
 }
 
 #[cfg(test)]
@@ -69,6 +64,14 @@ mod tests {
     }
 }
 
-fn main() {
-    println!("Run tests with: cargo test --bin elements_above_average");
+#[cfg(test)]
+mod boundary_tests {
+    use super::*;
+    #[test]
+    fn overflow_and_precision() {
+        assert_eq!(
+            elements_above_average(&[vec![i32::MAX, i32::MAX - 1], vec![], vec![i32::MIN, 0]]),
+            vec![i32::MAX, 0]
+        );
+    }
 }

@@ -1,20 +1,9 @@
-// Exercise: File Metadata and Directory Operations
-// Task: Analyze a directory recursively and return statistics about its contents.
-// Count files by extension, calculate total size, and find the largest file.
-//
-// Hints:
-// - Use fs::read_dir() for directory iteration
-// - Use entry.metadata() to get file information
-// - Consider using a HashMap for extension counting
-// - Handle nested directories with recursion or a queue
-//
-// The FileStats struct should contain:
-// - total_files: number of regular files
-// - total_dirs: number of directories
-// - total_size: sum of all file sizes in bytes
-// - largest_file: path and size of the largest file
-// - extensions: map of extension to count (e.g., "txt" -> 5)
-// Run tests with: cargo test --bin practice_metadata_analyzer
+// cargo test --lib file_io::metadata_analyzer::
+
+//! Recursively summarize regular files and directories below dir_path (exclude the root from
+//! the directory count). Ignore symlinks and special files. Sum byte sizes and count case-sensitive
+//! extensions without the dot; absent/non-UTF-8 extensions use the empty key. The largest file
+//! uses the lexicographically smallest full PathBuf to break size ties. Propagate filesystem errors.
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct FileStats {
@@ -24,9 +13,8 @@ pub struct FileStats {
     pub largest_file: Option<(std::path::PathBuf, u64)>,
     pub extensions: std::collections::HashMap<String, usize>,
 }
-
 pub fn analyze_directory(dir_path: &std::path::Path) -> std::io::Result<FileStats> {
-    todo!("Implement recursive directory analysis with metadata collection")
+    todo!()
 }
 
 #[cfg(test)]
@@ -46,7 +34,8 @@ mod tests {
 
     #[test]
     fn test_analyze_directory() {
-        let temp_dir = std::env::temp_dir().join("test_analyze_dir");
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path().join("test_analyze_dir");
 
         // Create test directory structure
         fs::create_dir_all(&temp_dir).unwrap();
@@ -82,7 +71,8 @@ mod tests {
 
     #[test]
     fn test_empty_directory() {
-        let temp_dir = std::env::temp_dir();
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path();
         let empty_dir = temp_dir.join("empty_dir_test");
         fs::create_dir_all(&empty_dir).unwrap();
 
@@ -99,7 +89,8 @@ mod tests {
 
     #[test]
     fn test_nested_directories() {
-        let temp_dir = std::env::temp_dir().join("nested_test");
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path().join("nested_test");
 
         // Create deeply nested structure
         fs::create_dir_all(temp_dir.join("a/b/c/d")).unwrap();
@@ -123,7 +114,9 @@ mod tests {
 
     #[test]
     fn test_non_existent_directory() {
-        let non_existent = Path::new("/tmp/does_not_exist_xyz_12345");
+        let sandbox = tempfile::tempdir().unwrap();
+        let missing = sandbox.path().join("missing");
+        let non_existent = missing.as_path();
         let result = analyze_directory(non_existent);
         assert!(result.is_err());
     }

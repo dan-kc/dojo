@@ -1,4 +1,6 @@
-// cargo test btree_custom_ordering
+// cargo test --lib collections::btree_custom_ordering::
+
+//! Order strings by UTF-8 byte length, then lexicographically by their exact contents. Ordering equality must agree with Eq. Keep distinct strings of the same length.
 
 /// Implement a custom ordering for BTreeSet using a wrapper type.
 /// Sort strings by length first, then lexicographically.

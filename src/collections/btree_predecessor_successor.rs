@@ -1,4 +1,6 @@
-// cargo test btree_predecessor_successor
+// cargo test --lib collections::btree_predecessor_successor::
+
+//! Return strict neighbors: greatest value below target and least value above target. An absent neighbor is None. Use logarithmic ordered lookup rather than scanning the entire set.
 
 /// Implement efficient predecessor/successor queries in BTreeSet.
 /// Find the largest element < target and smallest element > target.

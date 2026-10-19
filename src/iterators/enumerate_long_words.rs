@@ -1,88 +1,40 @@
-// Enumerate Long Words
-//
-// Learning objectives:
-// - Combining skip(), enumerate(), filter(), and map()
-// - Understanding iterator chain order
-// - Working with indices after transformations
-//
-// cargo test --bin enumerate_long_words
+// cargo test --lib iterators::enumerate_long_words::
 
-/// Given a vector of words, return a vector of tuples containing
-/// (index, word, character_count) for words longer than 4 characters.
-/// Skip the first 2 words in the original vector.
-pub fn enumerate_long_words(words: Vec<String>) -> Vec<(usize, String, usize)> {
-    todo!("Combine skip(), enumerate(), filter(), and map()")
+//! Return (original_index, owned_word, Unicode_scalar_count) for words longer than min_chars,
+//! after skipping the first skip input words. Preserve order and move strings without cloning.
+//! Indices refer to the original vector, including skipped and filtered entries.
+
+pub fn enumerate_long_words(
+    words: Vec<String>,
+    skip: usize,
+    min_chars: usize,
+) -> Vec<(usize, String, usize)> {
+    todo!()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
     #[test]
-    fn test_enumerate_long_words() {
-        let words = vec![
-            "hi".to_string(),
-            "go".to_string(),
-            "hello".to_string(),
-            "world".to_string(),
-            "programming".to_string(),
-            "rust".to_string(),
-        ];
-        let result = enumerate_long_words(words);
-        // Skips "hi", "go", then enumerates from index 0 for remaining
-        // Filters for words > 4 chars: "hello"(5), "world"(5), "programming"(11)
-        assert_eq!(result, vec![
-            (0, "hello".to_string(), 5),
-            (1, "world".to_string(), 5),
-            (2, "programming".to_string(), 11),
-        ]);
+    fn original_positions() {
+        assert_eq!(
+            enumerate_long_words(
+                ["skip", "hello", "a", "world"].map(str::to_owned).to_vec(),
+                1,
+                4
+            ),
+            vec![(1, "hello".into(), 5), (3, "world".into(), 5)]
+        );
     }
-
     #[test]
-    fn test_enumerate_long_words_insufficient_data() {
-        let words = vec!["hi".to_string()];
-        let result = enumerate_long_words(words);
-        assert_eq!(result, vec![]);
+    fn unicode_counts_scalars() {
+        assert_eq!(
+            enumerate_long_words(["🦀", "café", "日本語"].map(str::to_owned).to_vec(), 0, 2),
+            vec![(1, "café".into(), 4), (2, "日本語".into(), 3)]
+        );
     }
-
     #[test]
-    fn test_enumerate_long_words_no_long_words() {
-        let words = vec![
-            "skip".to_string(),
-            "this".to_string(),
-            "hi".to_string(),
-            "no".to_string(),
-            "long".to_string(),
-        ];
-        let result = enumerate_long_words(words);
-        assert_eq!(result, vec![]); // After skipping 2, no words > 4 chars
+    fn excessive_skip() {
+        assert!(enumerate_long_words(vec!["x".into()], 4, 0).is_empty());
     }
-
-    #[test]
-    fn test_enumerate_long_words_all_long() {
-        let words = vec![
-            "skip1".to_string(),
-            "skip2".to_string(),
-            "hello".to_string(),
-            "world".to_string(),
-            "coding".to_string(),
-        ];
-        let result = enumerate_long_words(words);
-        assert_eq!(result, vec![
-            (0, "hello".to_string(), 5),
-            (1, "world".to_string(), 5),
-            (2, "coding".to_string(), 6),
-        ]);
-    }
-
-    #[test]
-    fn test_enumerate_long_words_empty() {
-        let words = vec![];
-        let result = enumerate_long_words(words);
-        assert_eq!(result, vec![]);
-    }
-}
-
-fn main() {
-    println!("Run tests with: cargo test --bin enumerate_long_words");
 }

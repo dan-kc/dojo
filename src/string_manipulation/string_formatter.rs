@@ -1,13 +1,9 @@
-// String Formatting and Transformation Practice
-//
-// Learning Objectives:
-// - Format data into structured string representations
-// - Use Rust's formatting macros and string interpolation
-// - Handle optional data and provide sensible defaults
-// - Practice with string building and memory efficiency
-// - Implement custom display logic for data structures
-//
-// Run tests with: cargo test --lib string_manipulation::string_formatter
+// cargo test --lib string_manipulation::string_formatter::
+
+//! Format a person's nonempty trimmed name parts separated by one space. Append " (age: N)"
+//! when age is Some, including zero. Then append nonblank trimmed contacts on separate lines,
+//! in Email, Phone, Address order, formatted "Label: value". If none exist append
+//! "No contact information available". No trailing newline. Internal field whitespace is preserved.
 
 /// Represents a person with optional contact information
 #[derive(Debug)]
@@ -19,38 +15,6 @@ pub struct PersonData {
     pub phone: Option<String>,
     pub address: Option<String>,
 }
-
-/// Formats person data into a human-readable string representation.
-///
-/// The format should follow these rules:
-/// - Always include first and last name: "FirstName LastName"
-/// - If age is provided, add it in parentheses: "FirstName LastName (age: 25)"
-/// - Add contact information on separate lines if available:
-///   - "Email: email@example.com"
-///   - "Phone: +1-555-0123"
-///   - "Address: 123 Main St, City, State"
-/// - If no contact information is available, add "No contact information available"
-/// - Trim whitespace and handle empty optional fields gracefully
-///
-/// # Arguments
-/// * `person` - The PersonData to format
-///
-/// # Returns
-/// A formatted string representation of the person
-///
-/// # Examples
-/// ```
-/// let person = PersonData {
-///     first_name: "John".to_string(),
-///     last_name: "Doe".to_string(),
-///     age: Some(30),
-///     email: Some("john@example.com".to_string()),
-///     phone: None,
-///     address: None,
-/// };
-/// let formatted = format_person_data(&person);
-/// // Should contain name, age, email, but indicate missing phone/address
-/// ```
 pub fn format_person_data(person: &PersonData) -> String {
     todo!()
 }
@@ -167,7 +131,10 @@ mod tests {
 
         // Check that the format is consistent and readable
         let lines: Vec<&str> = result.lines().collect();
-        assert!(lines.len() >= 3); // Name line + at least 2 contact lines
+        assert_eq!(
+            result,
+            "Test User (age: 42)\nEmail: test@example.com\nPhone: 555-1234"
+        ); // Name line + at least 2 contact lines
 
         // First line should be the name and age
         assert!(lines[0].contains("Test User (age: 42)"));

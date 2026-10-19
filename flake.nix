@@ -60,6 +60,7 @@
           mkShell {
             buildInputs = [
               rustToolchain
+              python3
               nil
               nixfmt
               ra-mux.packages.${system}.default

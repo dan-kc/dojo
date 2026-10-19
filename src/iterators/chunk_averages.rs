@@ -1,17 +1,12 @@
-// Chunk Averages
-//
-// Learning objectives:
-// - Efficient batch processing with chunks()
-// - Computing aggregates over slices
-// - Understanding iterator methods for windowing operations
-//
-// cargo test --bin chunk_averages
+// cargo test --lib iterators::chunk_averages::
+
+//! Include the shorter final chunk. Zero chunk size returns no averages. Input values are finite; output order follows the chunks.
 
 /// Create a function that processes a large dataset in chunks to demonstrate
 /// efficient batch processing. Calculate the average of each chunk and return
 /// a vector of chunk averages.
 pub fn chunk_averages(numbers: &[f64], chunk_size: usize) -> Vec<f64> {
-    todo!("Use chunks() iterator method for efficient batch processing")
+    todo!()
 }
 
 #[cfg(test)]
@@ -52,8 +47,4 @@ mod tests {
         let result = chunk_averages(&numbers, 0);
         assert_eq!(result, Vec::<f64>::new()); // chunks(0) returns empty iterator
     }
-}
-
-fn main() {
-    println!("Run tests with: cargo test --bin chunk_averages");
 }

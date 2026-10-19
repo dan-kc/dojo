@@ -1,4 +1,6 @@
-// cargo test group_by
+// cargo test --lib collections::group_by::
+
+//! Preserve input order within each group and move each item into exactly one group without cloning it. Empty input returns an empty map.
 
 /// Group vector elements by a key function, returning a HashMap of groups.
 #[allow(unused_variables)]

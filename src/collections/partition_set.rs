@@ -1,4 +1,6 @@
-// cargo test partition_set
+// cargo test --lib collections::partition_set::
+
+//! Return (matching, nonmatching) sets; every input element belongs to exactly one output according to the predicate. Empty input produces two empty sets.
 
 /// Implement set partitioning based on a predicate function.
 /// Return two sets: one with elements matching the predicate, one without.

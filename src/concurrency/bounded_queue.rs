@@ -1,4 +1,6 @@
-// cargo test bounded_queue
+// cargo test --lib concurrency::bounded_queue::
+
+//! FIFO bounded MPMC queue: capacity must be positive; new(0) panics. Blocking waits must not busy-spin. This exercise has no close operation: callers supply matching sends/receives and join all workers. Mutex poisoning may panic.
 
 /// Create a thread-safe message queue with bounded capacity.
 /// Multiple producers can enqueue messages, and multiple consumers can dequeue.
@@ -9,22 +11,22 @@ struct BoundedQueue<T> {
 
 impl<T> BoundedQueue<T> {
     fn new(capacity: usize) -> Self {
-        todo!("Implement new")
+        todo!()
     }
 
     /// Enqueue an item. Blocks if the queue is full.
     fn enqueue(&self, item: T) {
-        todo!("Implement enqueue")
+        todo!()
     }
 
     /// Dequeue an item. Blocks if the queue is empty.
     fn dequeue(&self) -> T {
-        todo!("Implement dequeue")
+        todo!()
     }
 
     /// Get the current size of the queue.
     fn len(&self) -> usize {
-        todo!("Implement len")
+        todo!()
     }
 }
 
@@ -319,5 +321,15 @@ mod tests {
         let expected = (0..PRODUCERS * ITEMS_PER_PRODUCER).collect::<Vec<_>>();
         assert_eq!(consumed, expected);
         assert_eq!(queue.len(), 0);
+    }
+}
+
+#[cfg(test)]
+mod boundary_tests {
+    use super::*;
+    #[test]
+    #[should_panic]
+    fn zero_capacity_panics() {
+        BoundedQueue::<u8>::new(0);
     }
 }

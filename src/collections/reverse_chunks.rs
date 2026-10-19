@@ -1,4 +1,6 @@
-// cargo test reverse_chunks
+// cargo test --lib collections::reverse_chunks::
+
+//! Reverse consecutive nonoverlapping chunks, including a shorter final chunk. Preserve the vector allocation. Zero chunk size must panic, including for empty input.
 
 /// Implement in-place vector reversal in chunks.
 /// Reverse every chunk of specified size within the vector.

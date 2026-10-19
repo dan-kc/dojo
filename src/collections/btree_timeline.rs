@@ -1,4 +1,6 @@
-// cargo test btree_timeline
+// cargo test --lib collections::btree_timeline::
+
+//! Timestamps and durations use the same unit (minutes). Range queries include both endpoints and sort by timestamp, then insertion order. Next event means strictly after the argument. Overlap uses half-open intervals; zero-duration events overlap nothing. Compute interval endpoints without overflow. Removing before a timestamp is strict.
 
 /// Implement a timeline data structure using BTreeMap for event scheduling.
 /// Events have timestamps and can be queried by time ranges.
@@ -92,5 +94,29 @@ mod tests {
         timeline.remove_events_before(1100);
         let remaining = timeline.get_events_in_range(0, 2000);
         assert_eq!(remaining.len(), 1); // Only lunch should remain
+    }
+}
+
+#[cfg(test)]
+mod boundary_tests {
+    use super::*;
+    #[test]
+    fn boundaries_and_overflow() {
+        let mut t = Timeline::new();
+        let e = |id, duration| Event {
+            id,
+            description: String::new(),
+            duration,
+        };
+        t.add_event(10, e(1, 5));
+        t.add_event(15, e(2, 0));
+        t.add_event(u64::MAX, e(3, 2));
+        assert_eq!(t.get_events_in_range(10, 10).len(), 1);
+        assert!(t.get_events_in_range(20, 10).is_empty());
+        assert!(t.get_overlapping_events(15, 1).is_empty());
+        assert!(t.get_overlapping_events(10, 0).is_empty());
+        assert_eq!(t.get_overlapping_events(u64::MAX, 1)[0].1.id, 3);
+        t.remove_events_before(10);
+        assert_eq!(t.get_events_in_range(10, 10).len(), 1);
     }
 }

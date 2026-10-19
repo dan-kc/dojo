@@ -1,4 +1,6 @@
-// cargo test producer_consumer_pattern
+// cargo test --lib concurrency::producer_consumer_pattern::
+
+//! Spawn one producer per inclusive (start,end) range and collect through a channel. Reversed ranges emit nothing; duplicates from overlapping ranges remain. Join all producers and return sorted output. Empty input returns empty output.
 
 /// Create a producer-consumer pattern where multiple producers send work items
 /// to a single consumer. Each producer sends numbers from their range,

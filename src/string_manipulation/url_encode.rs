@@ -1,38 +1,10 @@
-// URL Encoding Practice
-//
-// Learning Objectives:
-// - Understand URL/percent encoding rules
-// - Work with character classification and transformation
-// - Practice efficient string building
-// - Handle UTF-8 and special characters correctly
-//
-// cargo test --lib string_manipulation::url_encode
+// cargo test --lib string_manipulation::url_encode::
 
-/// Implement URL/percent encoding for a given string.
-///
-/// This function should properly encode special characters according to URL encoding rules.
-/// For learning purposes, implement this without using external crates.
-///
-/// URL encoding rules:
-/// - Alphanumeric characters (A-Z, a-z, 0-9) remain unchanged
-/// - Hyphen (-), underscore (_), period (.), and tilde (~) are safe and remain unchanged
-/// - Space becomes '%20'
-/// - All other characters are percent-encoded using their UTF-8 byte representation
-/// - Each byte is encoded as %XX where XX is the uppercase hexadecimal value
-///
-/// Examples:
-/// - "hello world" -> "hello%20world"
-/// - "user@example.com" -> "user%40example.com"
-/// - "100%" -> "100%25"
-/// - "café" -> "caf%C3%A9" (é is encoded as UTF-8 bytes C3 A9)
-///
-/// # Arguments
-/// * `input` - The string to URL-encode
-///
-/// # Returns
-/// The URL-encoded string
+//! Percent-encode UTF-8 bytes using uppercase hex. Only ASCII alphanumerics and -_.~ remain
+//! unchanged. Spaces become %20, never +. Implement without an encoding library.
+
 pub fn url_encode(input: &str) -> String {
-    todo!("Implement URL encoding with proper character handling")
+    todo!()
 }
 
 #[cfg(test)]
@@ -49,15 +21,23 @@ mod tests {
     fn test_safe_characters() {
         // These characters should not be encoded
         assert_eq!(url_encode("safe-chars_123.~"), "safe-chars_123.~");
-        assert_eq!(url_encode("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~"), 
-                   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~");
+        assert_eq!(
+            url_encode("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~"),
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~"
+        );
     }
 
     #[test]
     fn test_special_characters() {
         assert_eq!(url_encode("user@example.com"), "user%40example.com");
-        assert_eq!(url_encode("name=value&other=data"), "name%3Dvalue%26other%3Ddata");
-        assert_eq!(url_encode("http://example.com?foo=bar"), "http%3A%2F%2Fexample.com%3Ffoo%3Dbar");
+        assert_eq!(
+            url_encode("name=value&other=data"),
+            "name%3Dvalue%26other%3Ddata"
+        );
+        assert_eq!(
+            url_encode("http://example.com?foo=bar"),
+            "http%3A%2F%2Fexample.com%3Ffoo%3Dbar"
+        );
     }
 
     #[test]
@@ -105,9 +85,14 @@ mod tests {
 
     #[test]
     fn test_mixed_content() {
-        assert_eq!(url_encode("Hello World! 123 #test"), "Hello%20World%21%20123%20%23test");
-        assert_eq!(url_encode("param=value with spaces&another=test"), 
-                   "param%3Dvalue%20with%20spaces%26another%3Dtest");
+        assert_eq!(
+            url_encode("Hello World! 123 #test"),
+            "Hello%20World%21%20123%20%23test"
+        );
+        assert_eq!(
+            url_encode("param=value with spaces&another=test"),
+            "param%3Dvalue%20with%20spaces%26another%3Dtest"
+        );
     }
 
     #[test]

@@ -1,4 +1,6 @@
-// Run with: cargo test sliding_windows
+// cargo test --lib collections::sliding_windows::
+
+//! Return all contiguous windows in input order. A window larger than the input produces no windows. Zero window size must panic, including for empty input.
 
 /// Implement sliding window operations on a vector.
 /// Return all windows of the specified size as separate vectors.

@@ -1,38 +1,44 @@
-// Timed Message Collection Practice
-//
-// Learning Objectives:
-// - Use channel recv_timeout for time-based operations
-// - Handle timeout scenarios in channel communication
-// - Work with time-bounded message collection
-//
-// cargo test --bin timed_message_collector
+// cargo test --lib concurrency::timed_message_collector::
 
-/// Implement a timeout-based message receiver that collects messages
-/// for a specified duration and then returns all received messages.
-/// Use channel recv_timeout for this implementation.
-fn timed_message_collector(
-    messages: Vec<String>,
-    send_interval_ms: u64,
-    collect_duration_ms: u64,
-) -> Vec<String> {
-    todo!("Implement timed message collection with recv_timeout")
+//! Collect messages until a fixed deadline or channel disconnection, preserving receive order.
+//! An already-expired deadline returns immediately without consuming queued messages. New arrivals do not
+//! extend the deadline. Own no producer thread: the caller supplies the channel. Return collected messages.
+
+pub fn timed_message_collector<T>(
+    receiver: &std::sync::mpsc::Receiver<T>,
+    deadline: std::time::Instant,
+) -> Vec<T> {
+    todo!()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
+    use std::sync::mpsc;
+    use std::time::{Duration, Instant};
     #[test]
-    fn test_timed_message_collector() {
-        let messages = vec!["hello".to_string(), "world".to_string(), "test".to_string()];
-        let result = timed_message_collector(messages.clone(), 50, 200);
-        
-        // Should collect all messages sent within 200ms window
-        assert!(result.len() >= 2); // At least some messages should be collected
-        
-        // Test timeout behavior
-        let messages = vec!["slow".to_string()];
-        let result = timed_message_collector(messages, 300, 100);
-        assert_eq!(result.len(), 0); // No messages should be collected due to timeout
+    fn queued_then_disconnected() {
+        let (tx, rx) = mpsc::channel();
+        tx.send(2).unwrap();
+        tx.send(1).unwrap();
+        drop(tx);
+        assert_eq!(
+            timed_message_collector(&rx, Instant::now() + Duration::from_secs(3)),
+            [2, 1]
+        );
+    }
+    #[test]
+    fn expired_does_not_consume() {
+        let (tx, rx) = mpsc::channel();
+        tx.send(8).unwrap();
+        assert!(timed_message_collector(&rx, Instant::now()).is_empty());
+        assert_eq!(rx.try_recv(), Ok(8));
+    }
+    #[test]
+    fn open_empty_channel_times_out() {
+        let (_tx, rx) = mpsc::channel::<u8>();
+        assert!(
+            timed_message_collector(&rx, Instant::now() + Duration::from_millis(20)).is_empty()
+        );
     }
 }

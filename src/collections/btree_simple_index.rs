@@ -1,6 +1,6 @@
-// cargo test btree_simple_index
+// cargo test --lib collections::btree_simple_index::
 
-/// Use BTreeMap to implement a simple database index.
+//! Exact, inclusive range, and prefix searches return distinct row IDs in ascending numeric order. An empty prefix matches all keys; a reversed range is empty. Duplicate inserts are idempotent. Removing an absent row is a no-op.
 /// Support range queries, prefix searches, and ordered iteration.
 #[allow(dead_code)]
 struct SimpleIndex {
@@ -78,5 +78,21 @@ mod tests {
         index.remove("apple", 1);
         let apple_after_remove = index.find_exact("apple");
         assert!(apple_after_remove.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod boundary_tests {
+    use super::*;
+    #[test]
+    fn range_and_prefix_edges() {
+        let mut s = SimpleIndex::new();
+        s.insert("a".into(), 2);
+        s.insert("z".into(), 1);
+        s.insert(format!("a{}suffix", char::MAX), 3);
+        assert_eq!(s.find_range("a", "a"), vec![2]);
+        assert!(s.find_range("z", "a").is_empty());
+        assert_eq!(s.find_prefix("a"), vec![2, 3]);
+        assert_eq!(s.find_prefix(""), vec![1, 2, 3]);
     }
 }

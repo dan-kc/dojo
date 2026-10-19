@@ -1,7 +1,8 @@
-// cargo test memoizer
+// cargo test --lib collections::memoizer::
+
+//! compute calls the supplied closure only on a cache miss and returns a cloned cached value otherwise. Clearing forgets all entries. Do not retain a mutable borrow while invoking user code; computing another key recursively is allowed.
 
 /// Implement HashMap-based memoization for expensive function calls.
-/// Use interior mutability for caching within an immutable context.
 #[allow(dead_code)]
 pub struct Memoizer<K, V> {
     cache: std::cell::RefCell<std::collections::HashMap<K, V>>,
@@ -116,5 +117,16 @@ mod tests {
         assert_eq!(result3, 7);
 
         assert_eq!(memoizer.cache_size(), 2);
+    }
+}
+
+#[cfg(test)]
+mod boundary_tests {
+    use super::*;
+    #[test]
+    fn recursive_different_key() {
+        let m = Memoizer::new();
+        assert_eq!(m.compute(2, |_| m.compute(1, |_| 10) + 1), 11);
+        assert_eq!(m.cache_size(), 2);
     }
 }

@@ -1,6 +1,6 @@
-// cargo test word_index
+// cargo test --lib collections::word_index::
 
-/// Use HashMap to implement a simple word index for text search.
+//! Split on Unicode whitespace. Preserve case and punctuation exactly. Positions are zero-based token indices, not byte offsets. Each word maps to every position where it occurs.
 /// Map words to sets of positions where they appear.
 pub fn build_word_index(
     text: &str,
@@ -72,16 +72,9 @@ mod tests {
         let text = "Hello hello HELLO";
         let index = build_word_index(text);
 
-        // Should treat different cases as different words (or normalize - implementation choice)
-        // This test assumes case-sensitive indexing
-        if index.contains_key("hello") && index.contains_key("Hello") && index.contains_key("HELLO")
-        {
-            // Case-sensitive implementation
-            assert_eq!(index.len(), 3);
-        } else if index.contains_key("hello") && index.len() == 1 {
-            // Case-insensitive implementation
-            let hello_positions = index.get("hello").unwrap();
-            assert_eq!(hello_positions.len(), 3);
-        }
+        assert_eq!(index.len(), 3);
+        assert_eq!(index["Hello"], [0].into_iter().collect());
+        assert_eq!(index["hello"], [1].into_iter().collect());
+        assert_eq!(index["HELLO"], [2].into_iter().collect());
     }
 }

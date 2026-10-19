@@ -1,6 +1,6 @@
-# BTree Timeline Solution
+# collections/btree_timeline
 
-## Implementation
+Reference implementation. Read after attempting the exercise.
 
 ```rust
 #[derive(Debug, Clone, PartialEq)]
@@ -9,134 +9,50 @@ struct Event {
     description: String,
     duration: u32,
 }
-
-use std::collections;
-use std::ops;
+struct Timeline {
+    events: std::collections::BTreeMap<u64, Vec<Event>>,
+}
 impl Timeline {
     fn new() -> Self {
-        return Self {
-            events: collections::BTreeMap::new(),
-        };
+        Self {
+            events: std::collections::BTreeMap::new(),
+        }
     }
-
     fn add_event(&mut self, timestamp: u64, event: Event) {
         self.events.entry(timestamp).or_default().push(event);
     }
-
     fn get_events_in_range(&self, start: u64, end: u64) -> Vec<(u64, &Event)> {
-        let mut res = vec![];
-        for (k, v) in self.events.range(start..end) {
-            for event in v {
-                res.push((k.clone(), event))
-            }
+        if start > end {
+            return vec![];
         }
-        return res;
+        self.events
+            .range(start..=end)
+            .flat_map(|(&t, es)| es.iter().map(move |e| (t, e)))
+            .collect()
     }
-
     fn get_next_event(&self, after: u64) -> Option<(u64, &Event)> {
-        let (timestamp, events) = self
-            .events
-            .range((ops::Bound::Excluded(after), ops::Bound::Unbounded))
-            .next()?;
-        return Some((*timestamp, events.first()?));
+        self.events
+            .range((std::ops::Bound::Excluded(after), std::ops::Bound::Unbounded))
+            .next()
+            .and_then(|(&t, es)| es.first().map(|e| (t, e)))
     }
-
     fn remove_events_before(&mut self, timestamp: u64) {
-        self.events.retain(|k, _| *k > timestamp)
+        self.events.retain(|&t, _| t >= timestamp);
     }
-
     fn get_overlapping_events(&self, timestamp: u64, duration: u32) -> Vec<(u64, &Event)> {
-        let mut res = vec![];
-        let start = timestamp;
-        let end = timestamp + duration as u64;
-        for (curr_start, event) in &self.events {
-            if *curr_start > end {
-                continue;
-            }
-            for v in event {
-                let curr_end = v.duration as u64 + *curr_start;
-                if curr_end < start {
-                    continue;
-                }
-                res.push((*curr_start, v))
-            }
+        if duration == 0 {
+            return vec![];
         }
-        res
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_timeline() {
-        let mut timeline = Timeline::new();
-
-        let event1 = Event {
-            id: 1,
-            description: "Meeting".to_string(),
-            duration: 60,
-        };
-        let event2 = Event {
-            id: 2,
-            description: "Call".to_string(),
-            duration: 30,
-        };
-        let event3 = Event {
-            id: 3,
-            description: "Lunch".to_string(),
-            duration: 90,
-        };
-
-        timeline.add_event(1000, event1.clone());
-        timeline.add_event(1030, event2.clone());
-        timeline.add_event(1200, event3.clone());
-
-        // Test range queries
-        let events_in_range = timeline.get_events_in_range(1000, 1100);
-        assert_eq!(events_in_range.len(), 2);
-
-        // Test next event
-        let next = timeline.get_next_event(1050);
-        assert!(next.is_some());
-        assert_eq!(next.unwrap().1.id, 3);
-
-        // Test overlapping events (meeting from 1000-1060 overlaps with call at 1030-1060)
-        let overlapping = timeline.get_overlapping_events(1020, 40); // 1020-1060
-        assert!(!overlapping.is_empty());
-
-        // Test removal
-        timeline.remove_events_before(1100);
-        let remaining = timeline.get_events_in_range(0, 2000);
-        assert_eq!(remaining.len(), 1); // Only lunch should remain
+        let end = u128::from(timestamp) + u128::from(duration);
+        self.events
+            .iter()
+            .flat_map(|(&t, es)| es.iter().map(move |e| (t, e)))
+            .filter(|(t, e)| {
+                e.duration > 0
+                    && u128::from(*t) < end
+                    && u128::from(timestamp) < u128::from(*t) + u128::from(e.duration)
+            })
+            .collect()
     }
 }
 ```
-
-## Explanation
-
-This solution implements a timeline data structure for event scheduling:
-
-1. **Event storage**: BTreeMap maps timestamps to vectors of events
-2. **Multiple events**: Supports multiple events at same timestamp
-3. **Range queries**: Efficiently finds events within time periods
-4. **Next event**: Uses range with excluded bound to find future events
-5. **Overlap detection**: Checks interval intersection for all events
-6. **Bulk removal**: Removes historical events before cutoff
-
-## Key Learning Points
-
-- **Temporal indexing**: Using BTreeMap for time-based ordering
-- **Range operations**: Efficient queries over time intervals
-- **Overlap algorithm**: Interval intersection logic
-- **Multiple values**: Handling multiple events at same timestamp
-- **Bound types**: Using Excluded bound for "greater than" queries
-
-## Rust Concepts Demonstrated
-
-- BTreeMap for temporal ordering
-- Range queries with various bound types
-- Entry API for vector initialization
-- Interval overlap detection logic
-- Collecting keys for bulk removal

@@ -1,4 +1,6 @@
-// cargo test sliding_window_tracker
+// cargo test --lib collections::sliding_window_tracker::
+
+//! Retain the last k inserted values, counting duplicates. Report min/max over that window and its actual size. Zero k retains nothing and always reports None for min/max. Target O(log(k + 1)) insertion and O(k) storage.
 
 /// Implement a sliding window minimum/maximum tracker using BTreeMap.
 /// Efficiently maintain min/max in a sliding window of size k.
@@ -66,5 +68,25 @@ mod tests {
         tracker.add(10);
         assert_eq!(tracker.get_min(), Some(1)); // min of [8, 1, 10]
         assert_eq!(tracker.get_max(), Some(10)); // max of [8, 1, 10]
+    }
+}
+
+#[cfg(test)]
+mod boundary_tests {
+    use super::*;
+    #[test]
+    fn zero_and_duplicate_expiry() {
+        let mut z = SlidingWindowTracker::new(0);
+        z.add(4);
+        assert_eq!(z.window_size(), 0);
+        assert_eq!(z.get_min(), None);
+        let mut t = SlidingWindowTracker::new(2);
+        t.add(1);
+        t.add(1);
+        t.add(9);
+        assert_eq!(t.get_min(), Some(1));
+        t.add(8);
+        assert_eq!(t.get_min(), Some(8));
+        assert_eq!(t.get_max(), Some(9));
     }
 }

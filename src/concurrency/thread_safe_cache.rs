@@ -1,38 +1,34 @@
-// Thread-Safe Cache with RwLock Practice
-//
-// Learning Objectives:
-// - Use RwLock for reader-writer scenarios
-// - Allow concurrent reads but exclusive writes
-// - Implement thread-safe data structures
-//
-// cargo test --bin thread_safe_cache
+// cargo test --lib concurrency::thread_safe_cache::
 
-/// Create a shared cache that multiple threads can read from and write to.
-/// Implement get, put, and size operations that are thread-safe.
-/// Use RwLock to allow concurrent reads but exclusive writes.
-struct ThreadSafeCache<K, V> {
-    data: std::marker::PhantomData<(K, V)>, // Define your fields here
+//! Provide a shared cache with concurrent reads and exclusive writes. Clone handles share the same data.
+//! put replaces values; get clones them. get_or_insert_with must compute a missing key exactly once even with simultaneous callers.
+//! Computations run under exclusive access and must not re-enter this cache. Poisoning may panic.
+//! clear removes all entries; size reports distinct keys.
+
+pub struct ThreadSafeCache<K, V> {
+    data: std::sync::Arc<std::sync::RwLock<std::collections::HashMap<K, V>>>,
 }
-
-impl<K, V> ThreadSafeCache<K, V> 
-where 
-    K: Clone + Eq + std::hash::Hash,
-    V: Clone,
-{
-    fn new() -> Self {
-        todo!("Implement new")
+impl<K: Eq + std::hash::Hash, V: Clone> ThreadSafeCache<K, V> {
+    pub fn new() -> Self {
+        todo!()
     }
-
-    fn put(&self, key: K, value: V) {
-        todo!("Implement put")
+    pub fn clone_handle(&self) -> Self {
+        todo!()
     }
-
-    fn get(&self, key: &K) -> Option<V> {
-        todo!("Implement get")
+    pub fn put(&self, key: K, value: V) {
+        todo!()
     }
-
-    fn size(&self) -> usize {
-        todo!("Implement size")
+    pub fn get(&self, key: &K) -> Option<V> {
+        todo!()
+    }
+    pub fn size(&self) -> usize {
+        todo!()
+    }
+    pub fn clear(&self) {
+        todo!()
+    }
+    pub fn get_or_insert_with<F: FnOnce() -> V>(&self, key: K, compute: F) -> V {
+        todo!()
     }
 }
 
@@ -46,27 +42,57 @@ mod tests {
     fn test_thread_safe_cache() {
         let cache = Arc::new(ThreadSafeCache::new());
         let cache_clone = cache.clone();
-        
+
         // Test basic operations
         cache.put("key1".to_string(), "value1".to_string());
         assert_eq!(cache.get(&"key1".to_string()), Some("value1".to_string()));
         assert_eq!(cache.get(&"nonexistent".to_string()), None);
         assert_eq!(cache.size(), 1);
-        
+
         // Test concurrent access
-        let handles: Vec<_> = (0..5).map(|i| {
-            let cache = cache_clone.clone();
-            thread::spawn(move || {
-                cache.put(format!("key{}", i), format!("value{}", i));
-                cache.get(&format!("key{}", i))
+        let handles: Vec<_> = (0..5)
+            .map(|i| {
+                let cache = cache_clone.clone();
+                thread::spawn(move || {
+                    cache.put(format!("key{}", i), format!("value{}", i));
+                    cache.get(&format!("key{}", i))
+                })
             })
-        }).collect();
-        
-        for handle in handles {
+            .collect();
+
+        for (i, handle) in handles.into_iter().enumerate() {
             let result = handle.join().unwrap();
-            assert!(result.is_some());
+            assert_eq!(result, Some(format!("value{i}")));
         }
-        
-        assert!(cache.size() >= 5);
+
+        assert_eq!(cache.size(), 5);
+    }
+}
+#[cfg(test)]
+mod miss_tests {
+    use super::*;
+    #[test]
+    fn concurrent_miss_computes_once() {
+        let cache = ThreadSafeCache::new();
+        let calls = std::sync::atomic::AtomicUsize::new(0);
+        std::thread::scope(|s| {
+            let mut handles = vec![];
+            for _ in 0..8 {
+                let c = cache.clone_handle();
+                let calls = &calls;
+                handles.push(s.spawn(move || {
+                    c.get_or_insert_with("key", || {
+                        calls.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+                        42
+                    })
+                }));
+            }
+            for h in handles {
+                assert_eq!(h.join().unwrap(), 42);
+            }
+        });
+        assert_eq!(calls.load(std::sync::atomic::Ordering::SeqCst), 1);
+        cache.clear();
+        assert_eq!(cache.size(), 0);
     }
 }

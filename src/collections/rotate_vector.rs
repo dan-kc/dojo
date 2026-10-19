@@ -1,4 +1,6 @@
-// cargo test rotate_vector
+// cargo test --lib collections::rotate_vector::
+
+//! Positive n rotates right and negative n rotates left, modulo length. Empty input is unchanged. Support isize::MIN and preserve the vector allocation without cloning elements.
 
 /// Rotate vector elements efficiently using Vec operations.
 /// Positive n rotates right, negative n rotates left.
@@ -53,5 +55,20 @@ mod tests {
 
         let result = rotate_vector(vec.clone(), -8); // -8 % 5 = -3
         assert_eq!(result, vec!['d', 'e', 'a', 'b', 'c']);
+    }
+}
+
+#[cfg(test)]
+mod boundary_tests {
+    use super::*;
+    #[test]
+    fn minimum_rotation_reuses_allocation() {
+        let v = vec![0, 1, 2, 3, 4];
+        let p = v.as_ptr();
+        let mut expected = v.clone();
+        expected.rotate_right(isize::MIN.rem_euclid(5) as usize);
+        let result = rotate_vector(v, isize::MIN);
+        assert_eq!(result, expected);
+        assert_eq!(result.as_ptr(), p);
     }
 }

@@ -1,66 +1,38 @@
-// Sliding Window Sums
-//
-// Learning objectives:
-// - Using windows() for overlapping slices
-// - Understanding the difference between chunks() and windows()
-// - Efficient sliding window computations
-//
-// cargo test --bin sliding_window_sums
+// cargo test --lib iterators::sliding_window_sums::
 
-/// Given a vector of integers, create windows of size 3 and return
-/// the sum of each window. For example, [1,2,3,4,5] would create
-/// windows [1,2,3], [2,3,4], [3,4,5] with sums [6, 9, 12].
-pub fn sliding_window_sums(numbers: Vec<i32>) -> Vec<i32> {
-    todo!("Use windows() method and map to sum each window")
+//! Return the i64 sum of each contiguous window of width items, in order.
+//! Width is nonzero by type. A wider-than-input window yields no results.
+//! Use O(n) time and O(1) auxiliary space besides output; avoid summing each window from scratch.
+
+pub fn sliding_window_sums(numbers: &[i32], width: std::num::NonZeroUsize) -> Vec<i64> {
+    todo!()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
+    use std::num::NonZeroUsize;
     #[test]
-    fn test_sliding_window_sums() {
-        let numbers = vec![1, 2, 3, 4, 5];
-        let result = sliding_window_sums(numbers);
-        assert_eq!(result, vec![6, 9, 12]); // [1+2+3, 2+3+4, 3+4+5]
+    fn overlapping() {
+        assert_eq!(
+            sliding_window_sums(&[1, 2, 3, 4, 5], NonZeroUsize::new(3).unwrap()),
+            [6, 9, 12]
+        );
     }
-
     #[test]
-    fn test_sliding_window_sums_insufficient_elements() {
-        let numbers = vec![1, 2];
-        let result = sliding_window_sums(numbers);
-        assert_eq!(result, Vec::<i32>::new());
+    fn wide_values() {
+        assert_eq!(
+            sliding_window_sums(&[i32::MAX, i32::MAX, -1], NonZeroUsize::new(2).unwrap()),
+            [4294967294, 2147483646]
+        );
     }
-
     #[test]
-    fn test_sliding_window_sums_exact_window_size() {
-        let numbers = vec![10, 20, 30];
-        let result = sliding_window_sums(numbers);
-        assert_eq!(result, vec![60]);
+    fn boundaries() {
+        assert!(sliding_window_sums(&[], NonZeroUsize::new(1).unwrap()).is_empty());
+        assert!(sliding_window_sums(&[1], NonZeroUsize::new(2).unwrap()).is_empty());
+        assert_eq!(
+            sliding_window_sums(&[3, -2], NonZeroUsize::new(1).unwrap()),
+            [3, -2]
+        );
     }
-
-    #[test]
-    fn test_sliding_window_sums_negative_numbers() {
-        let numbers = vec![-1, 0, 1, 2, 3];
-        let result = sliding_window_sums(numbers);
-        assert_eq!(result, vec![0, 3, 6]); // [-1+0+1, 0+1+2, 1+2+3]
-    }
-
-    #[test]
-    fn test_sliding_window_sums_empty() {
-        let numbers = vec![];
-        let result = sliding_window_sums(numbers);
-        assert_eq!(result, Vec::<i32>::new());
-    }
-
-    #[test]
-    fn test_sliding_window_sums_large_numbers() {
-        let numbers = vec![100, 200, 300, 400];
-        let result = sliding_window_sums(numbers);
-        assert_eq!(result, vec![600, 900]); // [100+200+300, 200+300+400]
-    }
-}
-
-fn main() {
-    println!("Run tests with: cargo test --bin sliding_window_sums");
 }

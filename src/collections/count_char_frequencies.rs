@@ -1,4 +1,6 @@
-// cargo test count_char_frequencies
+// cargo test --lib collections::count_char_frequencies::
+
+//! Count Unicode scalar values, including whitespace, punctuation, and case distinctions. Do not count UTF-8 bytes or grapheme clusters. Empty input returns an empty map.
 
 /// Count character frequencies in a string.
 #[allow(unused_variables, dead_code)]

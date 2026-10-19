@@ -1,17 +1,9 @@
-// Dot Product
-//
-// Learning objectives:
-// - Using zip() for parallel iteration
-// - Efficient numerical computations with iterators
-// - Understanding map and fold/sum patterns
-//
-// cargo test --bin dot_product
+// cargo test --lib iterators::dot_product::
 
-/// Implement a function that demonstrates efficient parallel-like processing
-/// using iterator combinators. Given two vectors of the same length,
-/// compute the dot product efficiently.
+//! Multiply corresponding entries and sum through the shorter slice. Unpaired trailing entries are ignored. Empty input yields 0.0; use O(1) extra storage.
+
 pub fn dot_product(a: &[f64], b: &[f64]) -> f64 {
-    todo!("Use zip and map with fold/sum for optimal performance")
+    todo!()
 }
 
 #[cfg(test)]
@@ -57,8 +49,4 @@ mod tests {
         let result = dot_product(&a, &b);
         assert_eq!(result, -24.0); // 1*4 + (-2)*5 + 3*(-6) = 4 - 10 - 18 = -24
     }
-}
-
-fn main() {
-    println!("Run tests with: cargo test --bin dot_product");
 }

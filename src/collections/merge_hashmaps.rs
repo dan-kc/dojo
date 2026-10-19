@@ -1,4 +1,6 @@
-// cargo test merge_hashmaps
+// cargo test --lib collections::merge_hashmaps::
+
+//! Consume maps in input order. For repeated keys call combine(accumulated, incoming). Preserve that order even for noncommutative combiners. Empty input returns an empty map.
 
 /// Merge multiple hashmaps by combining their values using a provided function.
 #[allow(unused_variables, dead_code)]
@@ -86,4 +88,3 @@ mod tests {
         assert_eq!(merged.get("attempts"), Some(&5));
     }
 }
-

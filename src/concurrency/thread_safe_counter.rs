@@ -1,35 +1,25 @@
-// Thread-Safe Counter Practice
-//
-// Learning Objectives:
-// - Implement Send + Sync traits for thread-safe types
-// - Use Arc<Mutex<T>> for shared mutable state
-// - Practice thread-safe operations
-//
-// Run with: cargo test --bin thread_safe_counter
+// cargo test --lib concurrency::thread_safe_counter::
 
-use std::sync::{Arc, Mutex};
-use std::thread;
+//! Implement a counter shareable across threads through shared references. Operations are atomic with respect to one another; get reports a completed state. Inputs and totals fit i32. Automatic Send/Sync is sufficient.
 
-/// A thread-safe counter that implements Send + Sync
-pub struct ThreadSafeCounter {
-    // Define your fields here
-}
+/// A std::thread-safe counter that implements Send + Sync
+pub struct ThreadSafeCounter {}
 
 impl ThreadSafeCounter {
     pub fn new(initial: i32) -> Self {
-        todo!("Implement new")
+        todo!()
     }
 
     pub fn increment(&self) {
-        todo!("Implement increment")
+        todo!()
     }
 
     pub fn get(&self) -> i32 {
-        todo!("Implement get")
+        todo!()
     }
 
     pub fn add(&self, value: i32) {
-        todo!("Implement add")
+        todo!()
     }
 }
 
@@ -39,13 +29,16 @@ fn assert_sync<T: Sync>() {}
 fn assert_send_sync<T: Send + Sync>() {}
 
 /// Utility functions to work with Send/Sync constraints
-pub fn share_across_threads<T: Send + Sync + 'static>(value: T) -> Arc<T> {
-    Arc::new(value)
+pub fn share_across_threads<T: Send + Sync + 'static>(value: T) -> std::sync::Arc<T> {
+    std::sync::Arc::new(value)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::sync::Arc;
+    use std::sync::Mutex;
+    use std::thread;
 
     #[test]
     fn test_trait_bounds() {

@@ -1,12 +1,12 @@
-// cargo test median_tracker
+// cargo test --lib collections::median_tracker::
+
+//! Support O(log n) insertion and O(1) median lookup. Include duplicate values. Empty median is None; an even-length median is the arithmetic mean of the middle values, without i32 overflow.
 
 /// Implement a median tracker for i32.
 /// Efficiently maintain running median as elements are added.
 
 #[derive(Debug)]
-pub struct MedianTracker {
-    // TODO
-}
+pub struct MedianTracker {}
 
 impl MedianTracker {
     pub fn new() -> Self {
@@ -136,15 +136,14 @@ mod tests {
         let mut tracker = MedianTracker::new();
 
         tracker.add(5);
-        tracker = dbg!(tracker);
+
         tracker.add(4);
-        tracker = dbg!(tracker);
+
         tracker.add(3);
-        tracker = dbg!(tracker);
+
         tracker.add(2);
-        tracker = dbg!(tracker);
+
         tracker.add(1);
-        tracker = dbg!(tracker);
 
         assert_eq!(tracker.get_median(), Some(3.0));
         //          left: Some(1.0)

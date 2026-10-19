@@ -1,13 +1,10 @@
-// Word Counting and Text Analysis Practice
-//
-// Learning Objectives:
-// - Analyze text content and extract statistics
-// - Use iterator patterns for efficient text processing
-// - Handle Unicode text correctly
-// - Implement custom data structures
-// - Practice with String methods and character classification
-//
-// Run tests with: cargo test --lib string_manipulation::word_counter
+// cargo test --lib string_manipulation::word_counter::
+
+//! Words are maximal runs of Unicode alphabetic characters. Count frequencies case-insensitively
+//! using Unicode lowercase; break most-common ties lexicographically. Count characters as Unicode
+//! scalars; character_count_no_spaces excludes all Unicode whitespace. Line count follows str::lines.
+//! Average original word length in scalars is zero when there are no words. Count punctuation and
+//! whitespace in total characters. Do not normalize accents or treat graphemes as single scalars.
 
 /// Statistics about analyzed text
 #[derive(Debug, PartialEq)]
@@ -20,25 +17,6 @@ pub struct WordStats {
     pub average_word_length: f64,
     pub most_common_word: Option<String>,
 }
-
-/// Analyzes text and returns comprehensive word statistics.
-///
-/// Words are defined as sequences of alphabetic characters separated by non-alphabetic characters.
-/// The analysis should be case-insensitive for counting purposes.
-///
-/// # Arguments
-/// * `text` - The input text to analyze
-///
-/// # Returns
-/// A WordStats struct containing various text statistics
-///
-/// # Examples
-/// ```
-/// let stats = count_words("Hello world! Hello again.");
-/// assert_eq!(stats.word_count, 4);
-/// assert_eq!(stats.unique_words, 3);
-/// assert_eq!(stats.most_common_word, Some("hello".to_string()));
-/// ```
 pub fn count_words(text: &str) -> WordStats {
     todo!()
 }
@@ -66,9 +44,9 @@ mod tests {
         let text = "First line\nSecond line with more words\nThird line";
         let stats = count_words(text);
 
-        assert_eq!(stats.word_count, 8);
+        assert_eq!(stats.word_count, 9);
         assert_eq!(stats.line_count, 3);
-        assert!(stats.unique_words <= 8);
+        assert_eq!(stats.unique_words, 7);
     }
 
     #[test]
@@ -115,6 +93,13 @@ mod tests {
         assert_eq!(stats.word_count, 3);
         assert_eq!(stats.unique_words, 3);
         // Should handle Unicode characters properly
-        assert!(stats.character_count >= 15);
+        assert_eq!(stats.character_count, 17);
+    }
+    #[test]
+    fn ties_unicode_lengths() {
+        let s = count_words("雪 café\tcafé 雪");
+        assert_eq!(s.most_common_word.as_deref(), Some("café"));
+        assert_eq!(s.average_word_length, 2.5);
+        assert_eq!(s.character_count_no_spaces, 10);
     }
 }

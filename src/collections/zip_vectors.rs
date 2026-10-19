@@ -1,4 +1,6 @@
-// Run with: cargo test zip_vectors
+// cargo test --lib collections::zip_vectors::
+
+//! Alternate elements starting from the first vector, then append any remainder in its original order. Move values without cloning. Empty inputs are allowed.
 
 /// Implement vector zipper - merge two vectors alternating elements.
 /// Handle different lengths gracefully.

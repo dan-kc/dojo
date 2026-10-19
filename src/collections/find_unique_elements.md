@@ -1,6 +1,6 @@
-# Find Unique Elements Solution
+# collections/find_unique_elements
 
-## Implementation
+Reference implementation. Read after attempting the exercise.
 
 ```rust
 pub fn find_unique_elements<T>(
@@ -28,4 +28,3 @@ where
     return res;
 }
 ```
-

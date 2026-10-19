@@ -1,4 +1,6 @@
-// cargo test find_mutual_friends
+// cargo test --lib collections::find_mutual_friends::
+
+//! Intersect the two stored friend sets without inferring reverse friendships. A missing person has no friends. Querying the same person returns their complete stored friend set.
 
 /// Implement set-based algorithm for finding common friends in a social network.
 /// Given friendship connections, find mutual friends between two people.
@@ -100,11 +102,9 @@ mod tests {
                 .collect(),
         );
 
-        // Mutual friends with oneself should return all friends or empty set
+        // Self-intersection returns exactly the original friend set.
         let mutual = find_mutual_friends(&friendships, "Alice", "Alice");
-        // This could be empty (no mutual friends with self) or all friends (depending on implementation)
-        // Test that it doesn't crash and returns a valid HashSet
-        assert!(mutual.len() <= 3);
+        assert_eq!(mutual, friendships["Alice"]);
     }
 
     #[test]

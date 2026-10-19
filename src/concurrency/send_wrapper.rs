@@ -1,48 +1,30 @@
-// Send Wrapper Practice
-//
-// Learning Objectives:
-// - Create wrappers around non-Send types to make them usable across threads
-// - Use interior mutability for thread safety
-// - Understand when and how to implement Send manually
-//
-// Run with: cargo test --bin send_wrapper
+// cargo test --lib concurrency::send_wrapper::
 
-use std::sync::Mutex;
-use std::thread;
-use std::sync::Arc;
+//! Provide synchronized closure-based access to an owned T through shared references.
+//! with reads and with_mut modifies the value while excluding concurrent access. Propagate poisoning as a panic.
+//! The wrapper should be Send + Sync when T: Send, including T that is not Sync. Use safe Rust and automatic trait derivation;
+//! it must not make a non-Send T transferable. The type name is historical; this is synchronized access, not an unsafe Send escape hatch.
 
-/// A wrapper around a non-Send type that makes it usable across threads
-/// by using interior mutability and ensuring thread safety
 pub struct SendWrapper<T> {
-    value: Mutex<T>,
+    value: std::sync::Mutex<T>,
 }
-
 impl<T> SendWrapper<T> {
     pub fn new(value: T) -> Self {
-        todo!("Implement new")
+        todo!()
     }
-
-    pub fn with<F, R>(&self, f: F) -> R
-    where
-        F: FnOnce(&T) -> R,
-    {
-        todo!("Implement with")
+    pub fn with<F: FnOnce(&T) -> R, R>(&self, f: F) -> R {
+        todo!()
     }
-
-    pub fn with_mut<F, R>(&self, f: F) -> R
-    where
-        F: FnOnce(&mut T) -> R,
-    {
-        todo!("Implement with_mut")
+    pub fn with_mut<F: FnOnce(&mut T) -> R, R>(&self, f: F) -> R {
+        todo!()
     }
 }
-
-// Implement Send for SendWrapper when T is Send
-// This is typically done automatically, but we're being explicit for learning
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::sync::Arc;
+    use std::thread;
 
     #[test]
     fn test_send_wrapper() {
@@ -67,5 +49,17 @@ mod tests {
         wrapper.with(|s| {
             assert_eq!(s, "Hello, World! Modified");
         });
+    }
+}
+#[cfg(test)]
+mod trait_tests {
+    use super::*;
+    #[test]
+    fn send_but_not_sync_payload() {
+        fn check<T: Send + Sync>() {}
+        check::<SendWrapper<std::cell::Cell<u32>>>();
+        let w = SendWrapper::new(std::cell::Cell::new(1));
+        w.with(|c| c.set(2));
+        assert_eq!(w.with(|c| c.get()), 2);
     }
 }

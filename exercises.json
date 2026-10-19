@@ -1,0 +1,1154 @@
+{
+  "version": 1,
+  "purpose": "Independent Rust implementation, especially standard-library concurrency and Tokio.",
+  "exercises": [
+    {
+      "id": "axum/basic_server",
+      "source": "src/axum/basic_server.rs",
+      "reference": "src/axum/basic_server.md",
+      "card": "cards/dojo/basic_server.md",
+      "audit": "Retain a coherent introductory routing exercise; fix noncompiling async constructor reference.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "axum/error_handling",
+      "source": "src/axum/error_handling.rs",
+      "reference": "src/axum/error_handling.md",
+      "card": "cards/dojo/error_handling.md",
+      "audit": "Make error contract exact and fix reference imports/signature.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "axum/extractors",
+      "source": "src/axum/extractors.rs",
+      "reference": "src/axum/extractors.md",
+      "card": "cards/dojo/extractors.md",
+      "audit": "Test extractor validation and pagination overflow; fix noncompiling reference.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "axum/json_api",
+      "source": "src/axum/json_api.rs",
+      "reference": "src/axum/json_api.md",
+      "card": "cards/dojo/json_api.md",
+      "audit": "Replace static-global suggestion with isolated router state and test concurrent ID allocation.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "axum/middleware",
+      "source": "src/axum/middleware.rs",
+      "reference": "src/axum/middleware.md",
+      "card": "cards/dojo/middleware.md",
+      "audit": "Test fallback middleware and remove undeclared UUID dependency from reference.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "axum/routing",
+      "source": "src/axum/routing.rs",
+      "reference": "src/axum/routing.md",
+      "card": "cards/dojo/routing.md",
+      "audit": "Specify query rejection/decoding; preserve composed routing objective.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "axum/state_management",
+      "source": "src/axum/state_management.rs",
+      "reference": "src/axum/state_management.md",
+      "card": "cards/dojo/state_management.md",
+      "audit": "Remove prescribed synchronization fields while retaining shared-state contract.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "axum/websockets",
+      "source": "src/axum/websockets.rs",
+      "reference": "src/axum/websockets.md",
+      "card": "cards/dojo/websockets.md",
+      "audit": "Replace fake upgrade test with real frame-level integration coverage.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "collections/analyze_duplicates",
+      "source": "src/collections/analyze_duplicates.rs",
+      "reference": "src/collections/analyze_duplicates.md",
+      "card": "cards/dojo/analyze_duplicates.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 4
+    },
+    {
+      "id": "collections/btree_consecutive_ranges",
+      "source": "src/collections/btree_consecutive_ranges.rs",
+      "reference": "src/collections/btree_consecutive_ranges.md",
+      "card": "cards/dojo/btree_consecutive_ranges.md",
+      "audit": "Concretized integer domain and added overflow boundary coverage.",
+      "history": "preserved",
+      "previous_review_count": 3
+    },
+    {
+      "id": "collections/btree_custom_ordering",
+      "source": "src/collections/btree_custom_ordering.rs",
+      "reference": "src/collections/btree_custom_ordering.md",
+      "card": "cards/dojo/btree_custom_ordering.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/btree_k_extremes",
+      "source": "src/collections/btree_k_extremes.rs",
+      "reference": "src/collections/btree_k_extremes.md",
+      "card": "cards/dojo/btree_k_extremes.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "collections/btree_merge_maps",
+      "source": "src/collections/btree_merge_maps.rs",
+      "reference": "src/collections/btree_merge_maps.md",
+      "card": "cards/dojo/btree_merge_maps.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 4
+    },
+    {
+      "id": "collections/btree_predecessor_successor",
+      "source": "src/collections/btree_predecessor_successor.rs",
+      "reference": "src/collections/btree_predecessor_successor.md",
+      "card": "cards/dojo/btree_predecessor_successor.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 5
+    },
+    {
+      "id": "collections/btree_range_query",
+      "source": "src/collections/btree_range_query.rs",
+      "reference": "src/collections/btree_range_query.md",
+      "card": "cards/dojo/btree_range_query.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 3
+    },
+    {
+      "id": "collections/btree_simple_index",
+      "source": "src/collections/btree_simple_index.rs",
+      "reference": "src/collections/btree_simple_index.md",
+      "card": "cards/dojo/btree_simple_index.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 4
+    },
+    {
+      "id": "collections/btree_split_map",
+      "source": "src/collections/btree_split_map.rs",
+      "reference": "src/collections/btree_split_map.md",
+      "card": "cards/dojo/btree_split_map.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/btree_stepped_union",
+      "source": "src/collections/btree_stepped_union.rs",
+      "reference": "src/collections/btree_stepped_union.md",
+      "card": "cards/dojo/btree_stepped_union.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/btree_timeline",
+      "source": "src/collections/btree_timeline.rs",
+      "reference": "src/collections/btree_timeline.md",
+      "card": "cards/dojo/btree_timeline.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/card_deck",
+      "source": "src/collections/card_deck.rs",
+      "reference": "src/collections/card_deck.md",
+      "card": "cards/dojo/card_deck.md",
+      "audit": "Replaced unspecified hard-coded cards and shuffle with caller-owned data and RNG.",
+      "history": "reset",
+      "previous_review_count": 4
+    },
+    {
+      "id": "collections/chunk_vector",
+      "source": "src/collections/chunk_vector.rs",
+      "reference": "src/collections/chunk_vector.md",
+      "card": "cards/dojo/chunk_vector.md",
+      "audit": "Removed unnecessary Clone bound; now requires ownership-preserving batching.",
+      "history": "reset",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/count_char_frequencies",
+      "source": "src/collections/count_char_frequencies.rs",
+      "reference": "src/collections/count_char_frequencies.md",
+      "card": "cards/dojo/count_char_frequencies.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/dedup_preserve_order",
+      "source": "src/collections/dedup_preserve_order.rs",
+      "reference": "src/collections/dedup_preserve_order.md",
+      "card": "cards/dojo/dedup_preserve_order.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/deque_rotation",
+      "source": "src/collections/deque_rotation.rs",
+      "reference": "src/collections/deque_rotation.md",
+      "card": "cards/dojo/deque_rotation.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 4
+    },
+    {
+      "id": "collections/difference_chain",
+      "source": "src/collections/difference_chain.rs",
+      "reference": "src/collections/difference_chain.md",
+      "card": "cards/dojo/difference_chain.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/find_connected_components",
+      "source": "src/collections/find_connected_components.rs",
+      "reference": "src/collections/find_connected_components.md",
+      "card": "cards/dojo/find_connected_components.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/find_mutual_friends",
+      "source": "src/collections/find_mutual_friends.rs",
+      "reference": "src/collections/find_mutual_friends.md",
+      "card": "cards/dojo/find_mutual_friends.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/find_unique_elements",
+      "source": "src/collections/find_unique_elements.rs",
+      "reference": "src/collections/find_unique_elements.md",
+      "card": "cards/dojo/find_unique_elements.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/group_by",
+      "source": "src/collections/group_by.rs",
+      "reference": "src/collections/group_by.md",
+      "card": "cards/dojo/group_by.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/hashmap_transform",
+      "source": "src/collections/hashmap_transform.rs",
+      "reference": "src/collections/hashmap_transform.md",
+      "card": "cards/dojo/hashmap_transform.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/intersect_all_sets",
+      "source": "src/collections/intersect_all_sets.rs",
+      "reference": "src/collections/intersect_all_sets.md",
+      "card": "cards/dojo/intersect_all_sets.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/intersect_hashmaps",
+      "source": "src/collections/intersect_hashmaps.rs",
+      "reference": "src/collections/intersect_hashmaps.md",
+      "card": "cards/dojo/intersect_hashmaps.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/jaccard_similarity",
+      "source": "src/collections/jaccard_similarity.rs",
+      "reference": "src/collections/jaccard_similarity.md",
+      "card": "cards/dojo/jaccard_similarity.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/median_tracker",
+      "source": "src/collections/median_tracker.rs",
+      "reference": "src/collections/median_tracker.md",
+      "card": "cards/dojo/median_tracker.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 5
+    },
+    {
+      "id": "collections/memoizer",
+      "source": "src/collections/memoizer.rs",
+      "reference": "src/collections/memoizer.md",
+      "card": "cards/dojo/memoizer.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/merge_hashmaps",
+      "source": "src/collections/merge_hashmaps.rs",
+      "reference": "src/collections/merge_hashmaps.md",
+      "card": "cards/dojo/merge_hashmaps.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/merge_sorted_vectors",
+      "source": "src/collections/merge_sorted_vectors.rs",
+      "reference": "src/collections/merge_sorted_vectors.md",
+      "card": "cards/dojo/merge_sorted_vectors.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 6
+    },
+    {
+      "id": "collections/palindrome_checker",
+      "source": "src/collections/palindrome_checker.rs",
+      "reference": "src/collections/palindrome_checker.md",
+      "card": "cards/dojo/palindrome_checker.md",
+      "audit": "Defined previously hidden normalization requirements; repaired malformed reference.",
+      "history": "preserved",
+      "previous_review_count": 4
+    },
+    {
+      "id": "collections/partition_set",
+      "source": "src/collections/partition_set.rs",
+      "reference": "src/collections/partition_set.md",
+      "card": "cards/dojo/partition_set.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/partition_vector",
+      "source": "src/collections/partition_vector.rs",
+      "reference": "src/collections/partition_vector.md",
+      "card": "cards/dojo/partition_vector.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/reverse_chunks",
+      "source": "src/collections/reverse_chunks.rs",
+      "reference": "src/collections/reverse_chunks.md",
+      "card": "cards/dojo/reverse_chunks.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/rotate_vector",
+      "source": "src/collections/rotate_vector.rs",
+      "reference": "src/collections/rotate_vector.md",
+      "card": "cards/dojo/rotate_vector.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/simple_lru_cache",
+      "source": "src/collections/simple_lru_cache.rs",
+      "reference": "src/collections/simple_lru_cache.md",
+      "card": "cards/dojo/simple_lru_cache.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/sliding_window_tracker",
+      "source": "src/collections/sliding_window_tracker.rs",
+      "reference": "src/collections/sliding_window_tracker.md",
+      "card": "cards/dojo/sliding_window_tracker.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/sliding_windows",
+      "source": "src/collections/sliding_windows.rs",
+      "reference": "src/collections/sliding_windows.md",
+      "card": "cards/dojo/sliding_windows.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/spell_check",
+      "source": "src/collections/spell_check.rs",
+      "reference": "src/collections/spell_check.md",
+      "card": "cards/dojo/spell_check.md",
+      "audit": "Replaced implementation-dependent word rules with exact tokenization.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/take_batch",
+      "source": "src/collections/take_batch.rs",
+      "reference": "src/collections/take_batch.md",
+      "card": "cards/dojo/take_batch.md",
+      "audit": "Added allocation reuse and ownership transfer gap.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "collections/word_index",
+      "source": "src/collections/word_index.rs",
+      "reference": "src/collections/word_index.md",
+      "card": "cards/dojo/word_index.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "collections/zip_vectors",
+      "source": "src/collections/zip_vectors.rs",
+      "reference": "src/collections/zip_vectors.md",
+      "card": "cards/dojo/zip_vectors.md",
+      "audit": "Retained learning objective; clarified observable boundaries, ordering, or complexity.",
+      "history": "preserved",
+      "previous_review_count": 2
+    },
+    {
+      "id": "concurrency/bank_transfer_simulation",
+      "source": "src/concurrency/bank_transfer_simulation.rs",
+      "reference": "src/concurrency/bank_transfer_simulation.md",
+      "card": "cards/dojo/bank_transfer_simulation.md",
+      "audit": "Replaced nondeterministic simulation with reusable atomic transfer contract and meaningful lock-ordering tests.",
+      "history": "reset",
+      "previous_review_count": 5
+    },
+    {
+      "id": "concurrency/bounded_queue",
+      "source": "src/concurrency/bounded_queue.rs",
+      "reference": "src/concurrency/bounded_queue.md",
+      "card": "cards/dojo/bounded_queue.md",
+      "audit": "Preserved concurrency objective; made lifecycle, boundary and arithmetic requirements explicit.",
+      "history": "preserved",
+      "previous_review_count": 4
+    },
+    {
+      "id": "concurrency/broadcast_system",
+      "source": "src/concurrency/broadcast_system.rs",
+      "reference": "src/concurrency/broadcast_system.md",
+      "card": "cards/dojo/broadcast_system.md",
+      "audit": "Preserved concurrency objective; made lifecycle, boundary and arithmetic requirements explicit.",
+      "history": "preserved",
+      "previous_review_count": 3
+    },
+    {
+      "id": "concurrency/parallel_map",
+      "source": "src/concurrency/parallel_map.rs",
+      "reference": "src/concurrency/parallel_map.md",
+      "card": "cards/dojo/parallel_map.md",
+      "audit": "Removed fake pool; borrowed scoped work, actual overlap, deterministic ordering and panic cleanup are now required.",
+      "history": "reset",
+      "previous_review_count": 3
+    },
+    {
+      "id": "concurrency/parallel_reduce",
+      "source": "src/concurrency/parallel_reduce.rs",
+      "reference": "src/concurrency/parallel_reduce.md",
+      "card": "cards/dojo/parallel_reduce.md",
+      "audit": "Removed fake pool, unnecessary Clone/Copy/static bounds, and invalid subtraction-as-associativity test.",
+      "history": "reset",
+      "previous_review_count": 4
+    },
+    {
+      "id": "concurrency/processing_pipeline",
+      "source": "src/concurrency/processing_pipeline.rs",
+      "reference": "src/concurrency/processing_pipeline.md",
+      "card": "cards/dojo/processing_pipeline.md",
+      "audit": "Preserved concurrency objective; made lifecycle, boundary and arithmetic requirements explicit.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "concurrency/producer_consumer_pattern",
+      "source": "src/concurrency/producer_consumer_pattern.rs",
+      "reference": "src/concurrency/producer_consumer_pattern.md",
+      "card": "cards/dojo/producer_consumer_pattern.md",
+      "audit": "Preserved concurrency objective; made lifecycle, boundary and arithmetic requirements explicit.",
+      "history": "preserved",
+      "previous_review_count": 1
+    },
+    {
+      "id": "concurrency/send_wrapper",
+      "source": "src/concurrency/send_wrapper.rs",
+      "reference": "src/concurrency/send_wrapper.md",
+      "card": "cards/dojo/send_wrapper.md",
+      "audit": "Corrected false claim that a mutex makes non-Send data Send; tests now exercise Send but non-Sync payload.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "concurrency/thread_identification",
+      "source": "src/concurrency/thread_identification.rs",
+      "reference": "src/concurrency/thread_identification.md",
+      "card": "cards/dojo/thread_identification.md",
+      "audit": "Preserved concurrency objective; made lifecycle, boundary and arithmetic requirements explicit.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "concurrency/thread_local_storage",
+      "source": "src/concurrency/thread_local_storage.rs",
+      "reference": "src/concurrency/thread_local_storage.md",
+      "card": "cards/dojo/thread_local_storage.md",
+      "audit": "Preserved concurrency objective; made lifecycle, boundary and arithmetic requirements explicit.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "concurrency/thread_pool_implementation",
+      "source": "src/concurrency/thread_pool_implementation.rs",
+      "reference": "src/concurrency/thread_pool_implementation.md",
+      "card": "cards/dojo/thread_pool_implementation.md",
+      "audit": "Replaced custom Task/peek handle with actual reusable pool, result channel, panic isolation and deterministic shutdown tests.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "concurrency/thread_safe_cache",
+      "source": "src/concurrency/thread_safe_cache.rs",
+      "reference": "src/concurrency/thread_safe_cache.md",
+      "card": "cards/dojo/thread_safe_cache.md",
+      "audit": "Merged duplicated cache exercises and added shared handle plus exactly-once concurrent initialization.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "concurrency/thread_safe_counter",
+      "source": "src/concurrency/thread_safe_counter.rs",
+      "reference": "src/concurrency/thread_safe_counter.md",
+      "card": "cards/dojo/thread_safe_counter.md",
+      "audit": "Preserved concurrency objective; made lifecycle, boundary and arithmetic requirements explicit.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "concurrency/threaded_factorial",
+      "source": "src/concurrency/threaded_factorial.rs",
+      "reference": "src/concurrency/threaded_factorial.md",
+      "card": "cards/dojo/threaded_factorial.md",
+      "audit": "Preserved concurrency objective; made lifecycle, boundary and arithmetic requirements explicit.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "concurrency/timed_message_collector",
+      "source": "src/concurrency/timed_message_collector.rs",
+      "reference": "src/concurrency/timed_message_collector.md",
+      "card": "cards/dojo/timed_message_collector.md",
+      "audit": "Replaced sleep-driven producer simulation with caller-owned channel and fixed deadline.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "concurrency/work_distribution_system",
+      "source": "src/concurrency/work_distribution_system.rs",
+      "reference": "src/concurrency/work_distribution_system.md",
+      "card": "cards/dojo/work_distribution_system.md",
+      "audit": "Preserved concurrency objective; made lifecycle, boundary and arithmetic requirements explicit.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "file_io/atomic_operations",
+      "source": "src/file_io/atomic_operations.rs",
+      "reference": "src/file_io/atomic_operations.md",
+      "card": "cards/dojo/atomic_operations.md",
+      "audit": "Isolate filesystem tests; preserve permissions and clean up a same-directory atomic replacement.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "file_io/binary_handler",
+      "source": "src/file_io/binary_handler.rs",
+      "reference": "src/file_io/binary_handler.md",
+      "card": "cards/dojo/binary_handler.md",
+      "audit": "Check exact bytes across buffer boundaries, isolated fixtures and bounded streaming.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "file_io/csv_validator",
+      "source": "src/file_io/csv_validator.rs",
+      "reference": "src/file_io/csv_validator.md",
+      "card": "cards/dojo/csv_validator.md",
+      "audit": "Replace contradictory column tests with a real streaming CSV schema, quoting and record-level diagnostics.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "file_io/directory_sync",
+      "source": "src/file_io/directory_sync.rs",
+      "reference": "src/file_io/directory_sync.md",
+      "card": "cards/dojo/directory_sync.md",
+      "audit": "Replace timing-dependent shallow syncing with recursive content-based reconciliation.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "file_io/metadata_analyzer",
+      "source": "src/file_io/metadata_analyzer.rs",
+      "reference": "src/file_io/metadata_analyzer.md",
+      "card": "cards/dojo/metadata_analyzer.md",
+      "audit": "Specify symlinks and deterministic ties; isolate tests.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "file_io/text_processor",
+      "source": "src/file_io/text_processor.rs",
+      "reference": "src/file_io/text_processor.md",
+      "card": "cards/dojo/text_processor.md",
+      "audit": "Isolated fixtures and precise CRLF/blank/Unicode streaming coverage.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/chunk_averages",
+      "source": "src/iterators/chunk_averages.rs",
+      "reference": "src/iterators/chunk_averages.md",
+      "card": "cards/dojo/chunk_averages.md",
+      "audit": "Clarified edge cases, ordering or borrowing without changing the core retrieval task.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/custom_iterator",
+      "source": "src/iterators/custom_iterator.rs",
+      "reference": "src/iterators/custom_iterator.md",
+      "card": "cards/dojo/custom_iterator.md",
+      "audit": "Split unrelated iterator types into coherent exercises; added overflow and exhaustion contract.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/dot_product",
+      "source": "src/iterators/dot_product.rs",
+      "reference": "src/iterators/dot_product.md",
+      "card": "cards/dojo/dot_product.md",
+      "audit": "Clarified edge cases, ordering or borrowing without changing the core retrieval task.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/elements_above_average",
+      "source": "src/iterators/elements_above_average.rs",
+      "reference": "src/iterators/elements_above_average.md",
+      "card": "cards/dojo/elements_above_average.md",
+      "audit": "Clarified edge cases, ordering or borrowing without changing the core retrieval task.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/enumerate_long_words",
+      "source": "src/iterators/enumerate_long_words.rs",
+      "reference": "src/iterators/enumerate_long_words.md",
+      "card": "cards/dojo/enumerate_long_words.md",
+      "audit": "Merged string filtering and indexing; original indices and Unicode lengths replace implicit post-skip indices.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/first_n_primes",
+      "source": "src/iterators/first_n_primes.rs",
+      "reference": "src/iterators/first_n_primes.md",
+      "card": "cards/dojo/first_n_primes.md",
+      "audit": "Clarified edge cases, ordering or borrowing without changing the core retrieval task.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/format_adults",
+      "source": "src/iterators/format_adults.rs",
+      "reference": "src/iterators/format_adults.md",
+      "card": "cards/dojo/format_adults.md",
+      "audit": "Clarified edge cases, ordering or borrowing without changing the core retrieval task.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/parse_measurements",
+      "source": "src/iterators/parse_measurements.rs",
+      "reference": "src/iterators/parse_measurements.md",
+      "card": "cards/dojo/parse_measurements.md",
+      "audit": "Added fallible iterator collection and original error-location tracking.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/sample_stream",
+      "source": "src/iterators/sample_stream.rs",
+      "reference": "src/iterators/sample_stream.md",
+      "card": "cards/dojo/sample_stream.md",
+      "audit": "Extracted meaningful lazy iterator-adapter exercise from the multi-type custom_iterator card.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/sliding_window_sums",
+      "source": "src/iterators/sliding_window_sums.rs",
+      "reference": "src/iterators/sliding_window_sums.md",
+      "card": "cards/dojo/sliding_window_sums.md",
+      "audit": "Raised difficulty with caller-selected width, borrowed input, wide arithmetic and linear rolling aggregation.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/sorted_intersection",
+      "source": "src/iterators/sorted_intersection.rs",
+      "reference": "src/iterators/sorted_intersection.md",
+      "card": "cards/dojo/sorted_intersection.md",
+      "audit": "Clarified edge cases, ordering or borrowing without changing the core retrieval task.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/sum_squares_evens",
+      "source": "src/iterators/sum_squares_evens.rs",
+      "reference": "src/iterators/sum_squares_evens.md",
+      "card": "cards/dojo/sum_squares_evens.md",
+      "audit": "Removed answer leakage from supplied loop; wide accumulator makes numeric reasoning explicit.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/top_k_frequent_words",
+      "source": "src/iterators/top_k_frequent_words.rs",
+      "reference": "src/iterators/top_k_frequent_words.md",
+      "card": "cards/dojo/top_k_frequent_words.md",
+      "audit": "Clarified edge cases, ordering or borrowing without changing the core retrieval task.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "lifetimes/after_char",
+      "source": "src/lifetimes/after_char.rs",
+      "reference": "src/lifetimes/after_char.md",
+      "card": "cards/dojo/after_char.md",
+      "audit": "Clarified edge cases, ordering or borrowing without changing the core retrieval task.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "lifetimes/config_manager",
+      "source": "src/lifetimes/config_manager.rs",
+      "reference": "src/lifetimes/config_manager.md",
+      "card": "cards/dojo/config_manager.md",
+      "audit": "Turned already-solved scaffold into implementation exercise with explicit override clearing.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "lifetimes/find_longest_string",
+      "source": "src/lifetimes/find_longest_string.rs",
+      "reference": "src/lifetimes/find_longest_string.md",
+      "card": "cards/dojo/find_longest_string.md",
+      "audit": "Fixed unnecessarily coupled lifetimes and made independence of the reference container testable.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "lifetimes/lifetime_structs",
+      "source": "src/lifetimes/lifetime_structs.rs",
+      "reference": "src/lifetimes/lifetime_structs.md",
+      "card": "cards/dojo/lifetime_structs.md",
+      "audit": "Replaced five unrelated type drills with one zero-copy parser; fixed mistaken self-referential terminology.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "lifetimes/split_first_word",
+      "source": "src/lifetimes/split_first_word.rs",
+      "reference": "src/lifetimes/split_first_word.md",
+      "card": "cards/dojo/split_first_word.md",
+      "audit": "Clarified edge cases, ordering or borrowing without changing the core retrieval task.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "lifetimes/text_holder",
+      "source": "src/lifetimes/text_holder.rs",
+      "reference": "src/lifetimes/text_holder.md",
+      "card": "cards/dojo/text_holder.md",
+      "audit": "Replaced provided byte-slicing answer with genuine Unicode-safe borrowed-prefix implementation.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/buffer_pool",
+      "source": "src/smart_pointers/buffer_pool.rs",
+      "reference": "src/smart_pointers/buffer_pool.md",
+      "card": "cards/dojo/buffer_pool.md",
+      "audit": "Replaced impossible weak-only reclamation with observable allocation reuse and Drop lifecycle.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/cell_counter",
+      "source": "src/smart_pointers/cell_counter.rs",
+      "reference": "src/smart_pointers/cell_counter.md",
+      "card": "cards/dojo/cell_counter.md",
+      "audit": "Retained Cell drill because copy access through shared references is the core skill.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/graph_structure",
+      "source": "src/smart_pointers/graph_structure.rs",
+      "reference": "src/smart_pointers/graph_structure.md",
+      "card": "cards/dojo/graph_structure.md",
+      "audit": "Specified retained external handles and actual edge removal; supplied missing reference and leak test.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/mock_service",
+      "source": "src/smart_pointers/mock_service.rs",
+      "reference": "src/smart_pointers/mock_service.md",
+      "card": "cards/dojo/mock_service.md",
+      "audit": "Defined observable log/response format and fixed method-name substring false positives.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/publisher_subscriber",
+      "source": "src/smart_pointers/publisher_subscriber.rs",
+      "reference": "src/smart_pointers/publisher_subscriber.md",
+      "card": "cards/dojo/publisher_subscriber.md",
+      "audit": "Added missing reference and explicit callback/registration ownership contract.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/shared_list",
+      "source": "src/smart_pointers/shared_list.rs",
+      "reference": "src/smart_pointers/shared_list.md",
+      "card": "cards/dojo/shared_list.md",
+      "audit": "Retained coherent shared ownership/mutation exercise; clarified callback and aliasing contract.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/tree_node_complex",
+      "source": "src/smart_pointers/tree_node_complex.rs",
+      "reference": "src/smart_pointers/tree_node_complex.md",
+      "card": "cards/dojo/tree_node_complex.md",
+      "audit": "Fixed impossible self-handle lookup signature; added actual cycle rejection and reparenting semantics.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/try_append",
+      "source": "src/smart_pointers/try_append.rs",
+      "reference": "src/smart_pointers/try_append.md",
+      "card": "cards/dojo/try_append.md",
+      "audit": "Added recoverable runtime borrowing with ownership-preserving errors.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "string_manipulation/build_query_string",
+      "source": "src/string_manipulation/build_query_string.rs",
+      "reference": "src/string_manipulation/build_query_string.md",
+      "card": "cards/dojo/build_query_string.md",
+      "audit": "Retain composed map/filter/order exercise; explicitly supply only the separately tested encoder.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "string_manipulation/pattern_matcher",
+      "source": "src/string_manipulation/pattern_matcher.rs",
+      "reference": "src/string_manipulation/pattern_matcher.md",
+      "card": "cards/dojo/pattern_matcher.md",
+      "audit": "Replace underspecified pseudo-URL parsing with an explicit token grammar and exact tests.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "string_manipulation/string_formatter",
+      "source": "src/string_manipulation/string_formatter.rs",
+      "reference": "src/string_manipulation/string_formatter.md",
+      "card": "cards/dojo/string_formatter.md",
+      "audit": "Specify exact formatting and replace permissive layout check.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "string_manipulation/text_parser",
+      "source": "src/string_manipulation/text_parser.rs",
+      "reference": "src/string_manipulation/text_parser.md",
+      "card": "cards/dojo/text_parser.md",
+      "audit": "Define duplicate/equals/comment/line-number behavior and test exact results.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "string_manipulation/unicode_processor",
+      "source": "src/string_manipulation/unicode_processor.rs",
+      "reference": "src/string_manipulation/unicode_processor.md",
+      "card": "cards/dojo/unicode_processor.md",
+      "audit": "Make Unicode normalization implementable with the proper package and explicit lossy policy.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "string_manipulation/url_encode",
+      "source": "src/string_manipulation/url_encode.rs",
+      "reference": "src/string_manipulation/url_encode.md",
+      "card": "cards/dojo/url_encode.md",
+      "audit": "Retain focused byte/UTF-8 encoding exercise with complete boundary tests.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "string_manipulation/word_counter",
+      "source": "src/string_manipulation/word_counter.rs",
+      "reference": "src/string_manipulation/word_counter.md",
+      "card": "cards/dojo/word_counter.md",
+      "audit": "Fix incorrect multiline count; specify Unicode lengths, deterministic ties and whitespace.",
+      "history": "preserved",
+      "previous_review_count": 0
+    },
+    {
+      "id": "tokio/async_closure_usage",
+      "source": "src/tokio/async_closure_usage.rs",
+      "reference": "src/tokio/async_closure_usage.md",
+      "card": "cards/dojo/async_closure_usage.md",
+      "audit": "Raised async sequencing to generic fallible processing with borrowed captures and observable short-circuiting.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "tokio/blocking_bridge",
+      "source": "src/tokio/blocking_bridge.rs",
+      "reference": "src/tokio/blocking_bridge.md",
+      "card": "cards/dojo/blocking_bridge.md",
+      "audit": "Added the blocking/async boundary; small exercise retained because blocking-runtime misuse is consequential.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "tokio/bounded_map",
+      "source": "src/tokio/bounded_map.rs",
+      "reference": "src/tokio/bounded_map.md",
+      "card": "cards/dojo/bounded_map.md",
+      "audit": "Added bounded asynchronous concurrency with borrowed/non-Send futures and cancellation cleanup.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "tokio/cancellable_task",
+      "source": "src/tokio/cancellable_task.rs",
+      "reference": "src/tokio/cancellable_task.md",
+      "card": "cards/dojo/cancellable_task.md",
+      "audit": "Replaced timer race with actual externally controlled worker, channel closure, drain and output failure.",
+      "history": "reset",
+      "previous_review_count": 0
+    },
+    {
+      "id": "tokio/deadline_retry",
+      "source": "src/tokio/deadline_retry.rs",
+      "reference": "src/tokio/deadline_retry.md",
+      "card": "cards/dojo/deadline_retry.md",
+      "audit": "Added retry/deadline gap with one budget, precise errors and deterministic clock tests.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "tokio/latest_config",
+      "source": "src/tokio/latest_config.rs",
+      "reference": "src/tokio/latest_config.md",
+      "card": "cards/dojo/latest_config.md",
+      "audit": "Added watch-channel snapshots, coalescing and channel-close semantics.",
+      "history": "new",
+      "previous_review_count": 0
+    },
+    {
+      "id": "tokio/spawn_and_sum_tasks",
+      "source": "src/tokio/spawn_and_sum_tasks.rs",
+      "reference": "src/tokio/spawn_and_sum_tasks.md",
+      "card": "cards/dojo/spawn_and_sum_tasks.md",
+      "audit": "Defined actual jobs, exact accumulation, panic propagation and cancellation cleanup instead of positive-result assertions.",
+      "history": "reset",
+      "previous_review_count": 0
+    }
+  ],
+  "retired": [
+    {
+      "id": "concurrency/concurrent_counter",
+      "reason": "Merged duplicate counter drill into thread_safe_counter.",
+      "card": "cards/dojo/concurrent_counter.md",
+      "previous_review_count": 2
+    },
+    {
+      "id": "concurrency/dining_philosophers",
+      "reason": "Lock-ordering practice moved to realistic bank transfers; original tests only required one philosopher to succeed.",
+      "card": "cards/dojo/dining_philosophers.md",
+      "previous_review_count": 4
+    },
+    {
+      "id": "concurrency/hierarchical_locking",
+      "reason": "Retired ambiguous lock snapshots and misleading deadlock detector; bank transfers cover ordered simultaneous locking and timed_message_collector covers deadlines.",
+      "card": null,
+      "previous_review_count": 0
+    },
+    {
+      "id": "concurrency/parallel_sum",
+      "reason": "Merged partitioned aggregation into parallel_reduce; removed silent zero-worker data loss.",
+      "card": "cards/dojo/parallel_sum.md",
+      "previous_review_count": 3
+    },
+    {
+      "id": "concurrency/parallel_vector_processing",
+      "reason": "Merged specialized doubling into generic borrowed parallel_map.",
+      "card": "cards/dojo/parallel_vector_processing.md",
+      "previous_review_count": 2
+    },
+    {
+      "id": "concurrency/timeout_resource_manager",
+      "reason": "Retired fake acquisition that returned only a cloned string; timed channel collection and Tokio semaphore work cover bounded waits with real resource lifetimes.",
+      "card": "cards/dojo/timeout_resource_manager.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/divisible_by_three",
+      "reason": "Fixed five-value filter drill is covered by bounded iterator composition in sample_stream.",
+      "card": "cards/dojo/divisible_by_three.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/filter_long_strings",
+      "reason": "Merged Unicode-aware filtering into enumerate_long_words.",
+      "card": "cards/dojo/filter_long_strings.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/positive_to_strings",
+      "reason": "Replaced with parse_measurements: meaningful parsing, error positions and aggregation.",
+      "card": "cards/dojo/positive_to_strings.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "iterators/sum_evens",
+      "reason": "Merged elementary filtering and aggregation into sum_squares_evens and parse_measurements.",
+      "card": "cards/dojo/sum_evens.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "lifetimes/longer_string",
+      "reason": "Redundant two-input comparison merged into borrowed longest-string selection.",
+      "card": "cards/dojo/longer_string.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "lifetimes/repeat_longer_owned",
+      "reason": "Repeated comparison/formatting has little additional lifetime practice; owned/borrowed output remains covered by text_holder and parser.",
+      "card": "cards/dojo/repeat_longer_owned.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/borrow_checking_demo",
+      "reason": "Replaced unspecified diagnostic strings and panic demonstration with try_append preserving ownership on borrow failure.",
+      "card": "cards/dojo/borrow_checking_demo.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/memory_pool",
+      "reason": "Replaced ineffective weak tracking/reuse claims with buffer_pool and a real returning RAII lease.",
+      "card": "cards/dojo/memory_pool.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/mutable_cache",
+      "reason": "Merged duplicate single-thread cache into collections/memoizer.",
+      "card": "cards/dojo/mutable_cache.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/refcell_counter",
+      "reason": "Merged scalar counter into cell_counter; RefCell practice remains in shared_list, memoizer and try_append.",
+      "card": "cards/dojo/refcell_counter.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "smart_pointers/thread_safe_cache",
+      "reason": "Merged duplicate shared cache into concurrency/thread_safe_cache with explicit concurrent miss semantics.",
+      "card": "cards/dojo/thread_safe_cache_smart_pointers.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "tokio/async_calculation",
+      "reason": "Merged elementary delay/await loops into fallible async_closure_usage and deadline_retry; removed vague outputs and wall-clock speed tests.",
+      "card": "cards/dojo/async_calculation.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "tokio/async_greeting",
+      "reason": "Merged elementary delay/await loops into fallible async_closure_usage and deadline_retry; removed vague outputs and wall-clock speed tests.",
+      "card": "cards/dojo/async_greeting.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "tokio/async_iterator_processing",
+      "reason": "Merged elementary delay/await loops into fallible async_closure_usage and deadline_retry; removed vague outputs and wall-clock speed tests.",
+      "card": "cards/dojo/async_iterator_processing.md",
+      "previous_review_count": 0
+    },
+    {
+      "id": "tokio/sequential_async_operations",
+      "reason": "Merged elementary delay/await loops into fallible async_closure_usage and deadline_retry; removed vague outputs and wall-clock speed tests.",
+      "card": "cards/dojo/sequential_async_operations.md",
+      "previous_review_count": 0
+    }
+  ],
+  "retired_unmapped_cards": [
+    {
+      "card": "cards/dojo/interior_mutability.md",
+      "reason": "Legacy combined pointer without a corresponding exercise; replaced by specific exercise cards.",
+      "previous_review_count": 0
+    },
+    {
+      "card": "cards/dojo/smart_pointer_combinations.md",
+      "reason": "Legacy combined pointer without a corresponding exercise; replaced by specific exercise cards.",
+      "previous_review_count": 0
+    }
+  ]
+}

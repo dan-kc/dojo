@@ -1,4 +1,6 @@
-// Run with: cargo test analyze_duplicates
+// cargo test --lib collections::analyze_duplicates::
+
+//! Count every occurrence across all input vectors. Return the set of values with total count greater than one, and counts for every distinct value. Empty input produces two empty collections.
 
 /// Implement set-based duplicate detection with detailed reporting.
 /// Return both the duplicates and their frequencies across inputs.

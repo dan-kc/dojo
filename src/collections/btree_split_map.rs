@@ -1,4 +1,6 @@
-// cargo test btree_split_map
+// cargo test --lib collections::btree_split_map::
+
+//! Consume the map, returning keys strictly below the split and keys at or above it. Preserve values without cloning them; the split key need not exist.
 
 /// Split a BTreeMap at a given key, returning two maps: one with keys < split_key,
 /// one with keys >= split_key. Original map should be consumed.

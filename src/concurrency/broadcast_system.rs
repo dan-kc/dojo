@@ -1,4 +1,6 @@
-// cargo test broadcast_system
+// cargo test --lib concurrency::broadcast_system::
+
+//! Start a relay thread and a receiver thread per subscriber. Deliver one owned copy of the message to each subscriber, join every thread, and return one message per receiver. Zero receivers returns empty output.
 
 /// Create a broadcast system where one sender sends messages to multiple
 /// receivers. Since mpsc doesn't support multiple consumers directly,

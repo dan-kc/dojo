@@ -1,4 +1,6 @@
-**Solution:**
+# concurrency/bounded_queue
+
+Reference implementation. Read after attempting the exercise.
 
 ```rust
 struct BoundedQueue<T> {
@@ -12,6 +14,7 @@ struct BoundedQueue<T> {
 
 impl<T> BoundedQueue<T> {
     fn new(capacity: usize) -> Self {
+        assert!(capacity > 0, "capacity must be positive");
         BoundedQueue {
             data: std::sync::Arc::new((
                 std::sync::Mutex::new(std::collections::VecDeque::new()),
@@ -61,14 +64,3 @@ impl<T> BoundedQueue<T> {
     }
 }
 ```
-
-**Explanation:**
-
-This solution implements a classic bounded blocking queue using condition variables. Key concepts:
-
-1. **Condition Variables**: `Condvar` allows threads to wait for specific conditions (not_empty, not_full)
-2. **Wait Loop**: Uses `while` instead of `if` to handle spurious wakeups
-3. **Notification**: `notify_one()` wakes up one waiting thread when conditions change
-4. **Atomic Operations**: All queue operations happen while holding the mutex
-
-This pattern is fundamental for producer-consumer scenarios with backpressure. The bounded capacity prevents unbounded memory growth, while condition variables ensure efficient blocking without busy-waiting. This is similar to Java's BlockingQueue or Go's buffered channels.

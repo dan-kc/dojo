@@ -1,71 +1,55 @@
-# File Metadata and Directory Operations Solution
+# file_io/metadata_analyzer
 
-## Solution
+Reference implementation. Read after attempting the exercise.
 
 ```rust
+#[derive(Debug, Clone, PartialEq)]
+pub struct FileStats {
+    pub total_files: usize,
+    pub total_dirs: usize,
+    pub total_size: u64,
+    pub largest_file: Option<(std::path::PathBuf, u64)>,
+    pub extensions: std::collections::HashMap<String, usize>,
+}
 pub fn analyze_directory(dir_path: &std::path::Path) -> std::io::Result<FileStats> {
-    use std::collections::HashMap;
-    use std::fs;
-
+    fn visit(dir: &std::path::Path, s: &mut FileStats) -> std::io::Result<()> {
+        for e in std::fs::read_dir(dir)? {
+            let e = e?;
+            let kind = e.file_type()?;
+            let path = e.path();
+            if kind.is_dir() {
+                s.total_dirs += 1;
+                visit(&path, s)?;
+            } else if kind.is_file() {
+                let size = e.metadata()?.len();
+                s.total_files += 1;
+                s.total_size += size;
+                *s.extensions
+                    .entry(
+                        path.extension()
+                            .and_then(|x| x.to_str())
+                            .unwrap_or("")
+                            .to_owned(),
+                    )
+                    .or_default() += 1;
+                if s.largest_file
+                    .as_ref()
+                    .is_none_or(|(p, n)| size > *n || size == *n && path < *p)
+                {
+                    s.largest_file = Some((path, size));
+                }
+            }
+        }
+        Ok(())
+    }
     let mut stats = FileStats {
         total_files: 0,
         total_dirs: 0,
         total_size: 0,
         largest_file: None,
-        extensions: HashMap::new(),
+        extensions: std::collections::HashMap::new(),
     };
-
-    // Use a recursive helper function to traverse the directory tree
-    analyze_directory_recursive(dir_path, &mut stats)?;
+    visit(dir_path, &mut stats)?;
     Ok(stats)
 }
-
-fn analyze_directory_recursive(dir_path: &std::path::Path, stats: &mut FileStats) -> std::io::Result<()> {
-    use std::fs;
-
-    // Read directory entries
-    for entry in fs::read_dir(dir_path)? {
-        let entry = entry?;
-        let path = entry.path();
-        let metadata = entry.metadata()?;
-
-        if metadata.is_dir() {
-            stats.total_dirs += 1;
-            // Recursively analyze subdirectories
-            analyze_directory_recursive(&path, stats)?;
-        } else if metadata.is_file() {
-            stats.total_files += 1;
-            let file_size = metadata.len();
-            stats.total_size += file_size;
-
-            // Track largest file
-            if let Some((_, current_largest)) = &stats.largest_file {
-                if file_size > *current_largest {
-                    stats.largest_file = Some((path.clone(), file_size));
-                }
-            } else {
-                stats.largest_file = Some((path.clone(), file_size));
-            }
-
-            // Count file extensions
-            let extension = path.extension()
-                .and_then(|ext| ext.to_str())
-                .unwrap_or("")
-                .to_string();
-            
-            *stats.extensions.entry(extension).or_insert(0) += 1;
-        }
-    }
-
-    Ok(())
-}
 ```
-
-## Key Concepts Explained
-
-- **Recursive Directory Traversal**: Using a helper function for clean recursive processing
-- **Metadata Access**: `entry.metadata()` provides file size, type, and other filesystem information
-- **HashMap Operations**: Using `entry().or_insert()` for efficient counting with default values
-- **Option Handling**: Gracefully handling files without extensions using `unwrap_or("")`
-- **Path Manipulation**: Using `path.extension()` to extract file extensions safely
-- **Mutable Borrowing**: Passing mutable references to accumulate state across recursive calls

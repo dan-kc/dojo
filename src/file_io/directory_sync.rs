@@ -1,26 +1,18 @@
-// Exercise: Advanced File Operations
-// Task: Implement a file synchronization function that copies files from source to
-// destination, but only if they're newer or don't exist. Also handle file deletion.
-//
-// Hints:
-// - Compare modification times with metadata().modified()
-// - Use fs::copy() for file copying
-// - Track which files were synced for the return value
-// - Consider using SystemTime for time comparisons
-//
-// Sync rules:
-// - Copy if file doesn't exist in destination
-// - Copy if source file is newer than destination
-// - Delete from destination if delete_orphans is true and file doesn't exist in source
-// - Return the number of files copied and deleted as (copied, deleted)
-// Run tests with: cargo test --bin practice_directory_sync
+// cargo test --lib file_io::directory_sync::
+
+//! Recursively synchronize regular files from source to destination, copying missing files or
+//! files whose contents differ. Create required directories. With delete_orphans, delete destination
+//! regular files absent from source; empty directories may remain. Return (copied files, deleted files).
+//! Do not follow symlinks. Roots are disjoint, source exists, and neither tree contains symlinks or
+//! file/directory type conflicts (caller preconditions). Propagate I/O errors. Modification timestamps
+//! are insufficient to decide equality. Reading one whole file at a time is acceptable.
 
 pub fn sync_directories(
     source: &std::path::Path,
     destination: &std::path::Path,
     delete_orphans: bool,
 ) -> std::io::Result<(usize, usize)> {
-    todo!("Implement directory synchronization with modification time checking")
+    todo!()
 }
 
 #[cfg(test)]
@@ -39,7 +31,8 @@ mod tests {
 
     #[test]
     fn test_sync_directories() {
-        let temp_dir = std::env::temp_dir();
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path();
         let source_dir = temp_dir.join("sync_source");
         let dest_dir = temp_dir.join("sync_dest");
 
@@ -56,7 +49,7 @@ mod tests {
         create_test_file(&dest_dir.join("orphan.txt"), b"Will be deleted").unwrap();
 
         // Make source file1.txt newer by touching it
-        std::thread::sleep(std::time::Duration::from_millis(10));
+
         create_test_file(&source_dir.join("file1.txt"), b"Source 1 New").unwrap();
 
         // Sync without deleting orphans
@@ -82,7 +75,8 @@ mod tests {
 
     #[test]
     fn test_sync_empty_directories() {
-        let temp_dir = std::env::temp_dir();
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path();
         let source_dir = temp_dir.join("empty_source");
         let dest_dir = temp_dir.join("empty_dest");
 
@@ -100,7 +94,8 @@ mod tests {
 
     #[test]
     fn test_sync_with_subdirectories() {
-        let temp_dir = std::env::temp_dir();
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path();
         let source_dir = temp_dir.join("nested_source");
         let dest_dir = temp_dir.join("nested_dest");
 
@@ -125,7 +120,8 @@ mod tests {
 
     #[test]
     fn test_sync_delete_orphans_with_subdirs() {
-        let temp_dir = std::env::temp_dir();
+        let sandbox = tempfile::tempdir().unwrap();
+        let temp_dir = sandbox.path();
         let source_dir = temp_dir.join("orphan_source");
         let dest_dir = temp_dir.join("orphan_dest");
 
@@ -154,8 +150,9 @@ mod tests {
 
     #[test]
     fn test_sync_non_existent_source() {
-        let source = std::env::temp_dir().join("non_existent_src");
-        let dest = std::env::temp_dir().join("test_dest");
+        let sandbox = tempfile::tempdir().unwrap();
+        let source = sandbox.path().join("non_existent_src");
+        let dest = sandbox.path().join("test_dest");
 
         fs::create_dir_all(&dest).unwrap();
 

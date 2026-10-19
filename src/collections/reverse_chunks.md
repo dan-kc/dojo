@@ -1,6 +1,6 @@
-# Chunked Reversal Solution
+# collections/reverse_chunks
 
-## Implementation
+Reference implementation. Read after attempting the exercise.
 
 ```rust
 pub fn reverse_chunks<T>(mut vec: Vec<T>, chunk_size: usize) -> Vec<T> {

@@ -1,7 +1,8 @@
-// cargo test find_connected_components
+// cargo test --lib collections::find_connected_components::
+
+//! Treat edges as undirected. Nodes are exactly those appearing in the edges; self-loops represent isolated nodes. Ignore duplicate edges. Return each component once; component order is unspecified. Empty edges produce no components.
 
 /// Find connected components in a graph represented as edges.
-/// Use HashSet to track visited nodes and implement depth-first search.
 pub fn find_connected_components(
     #[allow(unused_variables)] edges: Vec<(i32, i32)>,
 ) -> Vec<std::collections::HashSet<i32>> {

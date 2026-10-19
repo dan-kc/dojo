@@ -1,4 +1,6 @@
-// cargo test jaccard_similarity
+// cargo test --lib collections::jaccard_similarity::
+
+//! Return intersection cardinality divided by union cardinality. Define two empty sets as similarity 1.0, and exactly one empty set as 0.0. Do not allocate a union collection solely to count it.
 
 /// Implement Jaccard similarity coefficient between two sets.
 /// Jaccard similarity = |A ∩ B| / |A ∪ B|

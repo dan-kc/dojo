@@ -1,4 +1,6 @@
-**Solution:**
+# concurrency/thread_identification
+
+Reference implementation. Read after attempting the exercise.
 
 ```rust
 fn thread_identification(count: usize) -> Vec<(String, String)> {
@@ -15,21 +17,10 @@ fn thread_identification(count: usize) -> Vec<(String, String)> {
                 .expect("Failed to spawn thread")
         })
         .collect();
-    
+
     handles
         .into_iter()
         .map(|handle| handle.join().unwrap())
         .collect()
 }
 ```
-
-**Explanation:**
-
-This solution demonstrates thread metadata management in Rust. Key concepts:
-
-1. **Thread Builder**: Using `thread::Builder` allows setting thread properties like name before spawning
-2. **Thread Current**: `thread::current()` provides access to the currently executing thread's metadata
-3. **Thread ID**: Each thread has a unique ID accessible via `thread::id()`, formatted using Debug trait
-4. **Named Threads**: Named threads are easier to debug and monitor in production systems
-
-Thread naming is particularly useful for debugging multi-threaded applications, as thread names appear in debugger output and panic messages. The thread ID is guaranteed to be unique for the lifetime of the thread.

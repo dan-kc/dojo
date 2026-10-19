@@ -1,12 +1,10 @@
-// cargo test chunk_vector
+// cargo test --lib collections::chunk_vector::
 
-/// Split a vector into chunks of specified size, handling remainder chunk.
-/// Return a Vec of Vecs, where the last chunk may be smaller.
-#[allow(unused_variables, dead_code)]
-pub fn chunk_vector<T>(vec: Vec<T>, chunk_size: usize) -> Vec<Vec<T>>
-where
-    T: Clone,
-{
+//! Consume the vector into consecutive chunks of chunk_size items, retaining a shorter final chunk.
+//! Move elements without requiring Clone. Zero chunk_size must panic, even for empty input.
+//! Do not repeatedly remove from the front of a Vec; total work should be O(n).
+
+pub fn chunk_vector<T>(vec: Vec<T>, chunk_size: usize) -> Vec<Vec<T>> {
     todo!()
 }
 
@@ -48,5 +46,21 @@ mod tests {
         let vec = vec![1, 2, 3];
         let chunks = chunk_vector(vec.clone(), 5);
         assert_eq!(chunks, vec![vec]);
+    }
+}
+
+#[cfg(test)]
+mod ownership_tests {
+    use super::*;
+    #[test]
+    fn moves_nonclone_values() {
+        struct Item(u8);
+        let chunks = chunk_vector(vec![Item(1), Item(2), Item(3)], 2);
+        assert_eq!(chunks[1][0].0, 3);
+    }
+    #[test]
+    #[should_panic]
+    fn rejects_zero() {
+        chunk_vector(Vec::<u8>::new(), 0);
     }
 }

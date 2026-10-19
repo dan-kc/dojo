@@ -1,4 +1,6 @@
-// cargo test btree_range_query
+// cargo test --lib collections::btree_range_query::
+
+//! Return entries with start <= key <= end in ascending key order. A reversed range is empty. Avoid scanning keys outside the range.
 
 /// Implement range queries on a BTreeMap to find all entries within a key range.
 /// Return both keys and values within the specified range (inclusive).
@@ -47,5 +49,16 @@ mod tests {
         let empty_map: BTreeMap<i32, &str> = BTreeMap::new();
         let empty_range = range_query(&empty_map, &1, &10);
         assert!(empty_range.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod boundary_tests {
+    use super::*;
+    #[test]
+    fn endpoints_and_reversed() {
+        let m = [(1, 10), (2, 20)].into_iter().collect();
+        assert_eq!(range_query(&m, &1, &1), vec![(1, 10)]);
+        assert!(range_query(&m, &2, &1).is_empty());
     }
 }

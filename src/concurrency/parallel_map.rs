@@ -1,135 +1,72 @@
-// cargo test parallel_map
+// cargo test --lib concurrency::parallel_map::
 
-/// Basic ThreadPool stub for parallel_map implementation
-pub struct ThreadPool {
-    worker_count: usize,
-}
+//! Transform each item exactly once, using at most workers scoped worker threads.
+//! Return results in input order and join every worker before returning. Borrowed inputs and closures are allowed;
+//! neither items nor results need Clone. Empty input returns empty output. A worker panic must propagate
+//! after all workers are joined. Use actual threads; no simulated pool or sequential fallback for nonempty multiworker work.
 
-impl ThreadPool {
-    pub fn new(size: usize) -> Self {
-        Self { worker_count: size }
-    }
-}
-
-/// Implement parallel map operation using threads.
-/// Apply the given function to each element in parallel.
-pub fn parallel_map<T, F, R>(pool: &ThreadPool, items: Vec<T>, func: F) -> Vec<R>
-where
-    T: Send + 'static,
-    F: Fn(T) -> R + Send + Sync + 'static,
-    R: Send + 'static,
-{
+pub fn parallel_map<T: Send, R: Send, F: Fn(T) -> R + Sync>(
+    items: Vec<T>,
+    workers: std::num::NonZeroUsize,
+    f: F,
+) -> Vec<R> {
     todo!()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::thread;
-    use std::time::{Duration, Instant};
-
+    use std::num::NonZeroUsize;
+    use std::sync::{mpsc, Mutex};
+    use std::time::Duration;
     #[test]
-    fn test_parallel_map_basic() {
-        let pool = ThreadPool::new(4);
-        let input = vec![1, 2, 3, 4, 5];
-
-        let results = parallel_map(&pool, input, |x| x * 2);
-
-        let mut sorted_results = results;
-        sorted_results.sort();
-        assert_eq!(sorted_results, vec![2, 4, 6, 8, 10]);
-    }
-
-    #[test]
-    fn test_parallel_map_strings() {
-        let pool = ThreadPool::new(3);
-        let input = vec!["hello", "world", "rust", "parallel"];
-
-        let results = parallel_map(&pool, input, |s| s.to_uppercase());
-
-        let mut sorted_results = results;
-        sorted_results.sort();
-        assert_eq!(sorted_results, vec!["HELLO", "PARALLEL", "RUST", "WORLD"]);
-    }
-
-    #[test]
-    fn test_parallel_map_complex() {
-        let pool = ThreadPool::new(4);
-        let input: Vec<i32> = (1..=10).collect();
-
-        let results = parallel_map(&pool, input, |x| {
-            // Simulate complex computation
-            thread::sleep(Duration::from_millis(10));
-            x * x + 2 * x + 1
+    fn order_and_borrowing() {
+        let suffix = "!".to_owned();
+        let words = ["one".to_owned(), "two".to_owned()];
+        let out = parallel_map(words.iter().collect(), NonZeroUsize::new(2).unwrap(), |s| {
+            format!("{s}{suffix}")
         });
-
-        assert_eq!(results.len(), 10);
-        let mut sorted_results = results;
-        sorted_results.sort();
-
-        let expected: Vec<i32> = (1..=10).map(|x| x * x + 2 * x + 1).collect();
-        assert_eq!(sorted_results, expected);
+        assert_eq!(out, ["one!", "two!"]);
     }
-
     #[test]
-    fn test_correct_sort() {
-        // Test that parallel execution is actually faster
-        let large_input: Vec<i32> = (1..=1000).collect();
-
-        // Sequential execution
-        let start = Instant::now();
-        let sequential_result: Vec<i32> = large_input
-            .iter()
-            .map(|&x| {
-                thread::sleep(Duration::from_millis(1));
-                x * x
-            })
-            .collect();
-        let sequential_time = start.elapsed();
-
-        // Parallel execution
-        let pool = ThreadPool::new(4);
-        let start = Instant::now();
-        let parallel_result = parallel_map(&pool, large_input.clone(), |x| {
-            thread::sleep(Duration::from_millis(1));
-            x * x
+    fn nonclone_and_empty() {
+        struct Item(u8);
+        let out = parallel_map(vec![Item(3)], NonZeroUsize::new(4).unwrap(), |x| x.0);
+        assert_eq!(out, [3]);
+        assert!(parallel_map(Vec::<u8>::new(), NonZeroUsize::new(2).unwrap(), |x| x).is_empty());
+    }
+    #[test]
+    fn work_overlaps_and_is_bounded() {
+        let (a_tx, a_rx) = mpsc::channel();
+        let (a_done, b_rx) = mpsc::channel();
+        let a_rx = Mutex::new(a_rx);
+        let b_rx = Mutex::new(b_rx);
+        let ids = Mutex::new(std::collections::HashSet::new());
+        let output = parallel_map(vec![0, 1], NonZeroUsize::new(2).unwrap(), |i| {
+            ids.lock().unwrap().insert(std::thread::current().id());
+            if i == 0 {
+                a_tx.send(()).unwrap();
+                b_rx.lock()
+                    .unwrap()
+                    .recv_timeout(Duration::from_secs(3))
+                    .unwrap();
+            } else {
+                a_rx.lock()
+                    .unwrap()
+                    .recv_timeout(Duration::from_secs(3))
+                    .unwrap();
+                a_done.send(()).unwrap();
+            }
+            i
         });
-        let parallel_time = start.elapsed();
-
-        let mut sorted_parallel = parallel_result;
-        sorted_parallel.sort();
-        assert_eq!(sequential_result, sorted_parallel);
+        assert_eq!(output, [0, 1]);
+        assert_eq!(ids.lock().unwrap().len(), 2);
     }
-
     #[test]
-    fn test_empty_input() {
-        let pool = ThreadPool::new(2);
-        let empty: Vec<i32> = vec![];
-
-        let results = parallel_map(&pool, empty, |x| x * 2);
-        assert!(results.is_empty());
-    }
-
-    #[test]
-    fn test_single_element() {
-        let pool = ThreadPool::new(4);
-        let input = vec![42];
-
-        let results = parallel_map(&pool, input, |x| x + 10);
-        assert_eq!(results, vec![52]);
-    }
-
-    #[test]
-    fn test_closure_capturing() {
-        let pool = ThreadPool::new(2);
-        let multiplier = 5;
-        let offset = 10;
-
-        let input = vec![1, 2, 3, 4];
-        let results = parallel_map(&pool, input, move |x| x * multiplier + offset);
-
-        let mut sorted_results = results;
-        sorted_results.sort();
-        assert_eq!(sorted_results, vec![15, 20, 25, 30]);
+    #[should_panic]
+    fn propagates_panic() {
+        parallel_map(vec![1, 2], NonZeroUsize::new(2).unwrap(), |_| -> () {
+            panic!("failed")
+        });
     }
 }

@@ -1,6 +1,6 @@
-# HashSet Duplicate Analysis Solution
+# collections/analyze_duplicates
 
-## Implementation
+Reference implementation. Read after attempting the exercise.
 
 ```rust
 pub fn analyze_duplicates<T>(
@@ -27,27 +27,3 @@ where
     (set, count)
 }
 ```
-
-## Explanation
-
-This solution analyzes duplicates across multiple collections:
-
-1. **Frequency tracking**: Counts total occurrences of each element
-2. **Duplicate identification**: Elements appearing more than once are duplicates
-3. **Simultaneous processing**: Builds both result structures in single pass
-4. **Comprehensive analysis**: Provides both duplicate set and frequency map
-
-## Key Learning Points
-
-- **Multi-collection analysis**: Processing elements from multiple sources
-- **Frequency counting**: Using HashMap for occurrence tracking
-- **Duplicate detection**: Identifying elements with count > 1
-- **Combined results**: Returning both duplicates and their frequencies
-
-## Rust Concepts Demonstrated
-
-- HashMap for frequency counting
-- HashSet for duplicate collection
-- Entry API for counting patterns
-- Multi-collection processing
-- Simultaneous data structure building

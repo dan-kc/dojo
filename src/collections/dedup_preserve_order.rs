@@ -1,7 +1,8 @@
-// cargo test dedup_preserve_order
+// cargo test --lib collections::dedup_preserve_order::
+
+//! Preserve the first occurrence of each equal value in input order. Aim for expected O(n) time. Empty input returns empty output.
 
 /// Implement an efficient deduplication that preserves order of first occurrence.
-/// Use Vec operations to achieve O(n) complexity where possible.
 #[allow(unused_variables)]
 pub fn dedup_preserve_order<T>(vec: Vec<T>) -> Vec<T>
 where
